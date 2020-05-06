@@ -38,7 +38,7 @@
                 "afterDialogValidate": "function afterDialogValidate as v (e as p)\n\n'To edit this action, place insertion point anywhere in the command, then click the 'Action Scripting' button'.\ndim flagUseTransactions as l \nflagUseTransactions = .f.\ndim rtc as p\ndim tmpl as p\ntmpl = e.tmpl\n\ndim serverSideEvents as p\n\n\n\ndim geography as p \nwith geography\nDIM geocodeFieldDefinition as C\nDIM locationFieldDefinition as C\n\nend with \n\ndim opx as p\nopx.serverSideEvents = serverSideEvents\nopx.geography = geography\nopx.afterSaveAction = \"Edit record just submitted\"\nopx.listControlsToRefresh = \"\"\n\n\n\n\na5DialogHelper_SaveData(tmpl, e, rtc,flagUseTransactions, opx)\n\ndim jsShowErrors as c = \"\"\ndim jsEnterNewRecord as c = \"\"\ndim jsToFireAfterSaveEvent as c = \"\"\ndim jsShowUpdateCommands as c = \"\"\n\ndim jsConfirmationMessage as c = \"\"\n\n\n\nif rtc.fatalError = .t. then \n\t'must set this flag to prevent the Dialog from clearing the error messages.\n\te.showGlobalError = .t.\n\tdim errorText as c \n\terrorText = rtc.errorText\n\t'errorText = stritran(errorText,crlf(),\"<br>\")\n\t\n\tjsShowErrors = \"{dialog.object}.showGlobalErrors('<Default>','\" + js_escape(errorText) + \"'); \" + crlf()\n\t\n\trtc.javascript.refreshAllControls = \"\"\n\trtc.javascript.setPrimaryKeyinStateObject = \"\"\n\trtc.javascript.prepareDialog = \"\"\n\tjsToFireAfterSaveEvent = \"\"\n\tjsEnterNewRecord = \"\"\n\t\n\t\nend if \n\n\nif rtc.flagRecordWasSaved then \n\t\nelse\n\tjsEnterNewRecord = \"\"\nend if \n\n\n\n\n\n\n\ndim rtc.javascript.refreshAllControls as c = default \"\"\ndim rtc.javascript.prepareDialog as c = default \"\"\n'This flag must be set to .t., else the Javascript that sets the primaryKey in the state object will be overwritten.\ne.rtc.flagUpdatePrimaryKeysInStateObject = .t.\ndim rtc.javascript.setPrimaryKeyinStateObject as c = default \"\"\ndim e.javascript as c = default \"\"\n\ndim rtc.javascript.refreshDependentListControls as c = default \"\"\t\n\nif rtc.flagRecordWasSaved then\n\tjsToFireAfterSaveEvent = jsToFireAfterSaveEvent + <<%longtxt%\n\t\t(function() {; if({dialog.object}._functions._setInkControlsBackground) {{dialog.object}._functions._setInkControlsBackground(); ; };\n })();\n\t%longtxt%\nend if \n\n\n \n\ne.javascript = \trtc.javascript.refreshDependentListControls + \";\" + crlf()+\\\n\t\t\t\te.javascript + \";\" + crlf()  +\\\n\t\t\t\tjsShowUpdateCommands + crlf() +\\\n\t\t\t\tjsShowErrors + crlf()+\\\n                rtc.javascript.refreshAllControls + crlf() +\\\n\t\t\t\trtc.javascript.setPrimaryKeyinStateObject + crlf()+\\\n\t\t\t\trtc.javascript.prepareDialog + crlf() +\\\n\t\t\t\tjsToFireAfterSaveEvent + crlf()+\\\n\t\t\t\tjsEnterNewRecord + crlf()+\\\n\t\t\t\tjsConfirmationMessage\n\n'set the e.javascriptsystem variable so that in case the user sets e.javascript in their own code, that this value does not get lost\ne.javascriptSystem = e.javascript\t\ne.javascript = \"\"\t\t\t\n\ne.setPrimaryKeyinStateObject = rtc.javascript.setPrimaryKeyinStateObject\t\t\t\t\n\t\t\t\t\n\n\n\n\n\n'e.dataSubmitted  - contains all values that were submitted by the component. \n'e.oldDataSubmitted - contains the original values in the controls. \n'NOTE: All values in e.dataSubmitted and e.oldDataSubmitted are character type. Use the convert_type() function to convert data to a different type.\n\n'TIP: If you need to write code that performs actions on a SQL database you can use the 'Xbasic SQL Actions Code Generator' by right clicking and selecting the 'Genies...' menu option\n\n'The list of dirty submitted fields is in: e.dirtyColumns. This is a CRLF delimited string of dirty fields (i.e. fields\n'edited by the user). For example:\n'FIRSTNAME\n'QTY_A5INSTANCE3\n\n'========================================================================================================\n'IMPORTANT: If your event handler modifies a value in the e.dataSubmitted object (and that field has NOT\n'been edited by the user), you MUST explicitly add the field to the e.dirtyColumns value yourself.\n'For example, assume that you want to set the Company field to 'Alpha' and the 'Qty' field in row 1 of a repeating section\n'regardless of whether the user edited the value or not:\n'e.dataSubmitted.COMPANY = \"alpha\"\n'e.dataSubmitted.QTY_A5INSTANCE2 = \"2\"\n'e.dirtyColumns = e.dirtyColumns + crlf()+ \"COMPANY\" + crlf() + \"QTY_A5INSTANCE2\"\n'========================================================================================================\n\n\n'--------------------Repeating Sections ----------------------------------------\n'If your dialog contains repeating sections, data in the repeating sections will be in an array.\n'For example, say that your dialog has a repeating section that includes a field called QTY:\n'e.dataSubmitted.qty[1] - contains data from first repeating section row\n'e.dataSubmitted.qty[2] - contains data from second repeating section row, etc\n'e.dataSubmitted.favoriteColors[2][3] - contains data from the second row - 'favoriteColors' is a multi-select control - returns the 3rd choice the user made\n'e.dataSubmitted.qty.size() - number of entries in the array.\n\n'In addition, the e object will contain information about the repeating sections\n'e.repeatingSectionNames - a comma delimited list of the name (container ID) or each repeating section\n'e.repeatingSectionInfo - a property array with one entry for each repeating section.\n'The e.repeatingSectionInfo[] array will have these properties for each entry:\n' - .activeRow - the row in the repeating section that had focus when the Dialog was submitted\n' - .deletedRows - a CRLF delimited list of rows that were deleted. e.g. 1 and 3\n' - .rowCount - a count of the number of non-deleted rows\n' - .totalRowCount - a count of all rows in the repeating section including rows that were deleted\n' - .fieldsInRepeating section - a CRLF delimited list of fields in the repeating section\n' - .dirtyRowsInSection - a CRLF delimited list of rows in the repeating section that were edited. (A row that was edited, then deleted will still appear in this list).\n' - .dirtyFieldsInSection - a CRLF delimited list of fields in the repeating section that were edited. for example: PARTNO_A5INSTANCE3 is the 'PARTNO' field in row 3.\n\n'-------------------------------------------------------------------------------------------\n\n'Request - The Request object. Includes Request.Variables, which should be used instead of the older e.rv construct\n'Session - The Session object. Should be used instead of the older e.session construct\n\n'Also inside e:\n'e.tmpl = Component definition\n'e.rtc = Runtime calculations - you can use this to store data to be passed to other server side events (Note: the 'rtc' object cannot be used to persist state information - i.e. you can't set a value in rtc and then read that value in a subsequent callback. To persist state info see e._state).\n'e.arguments = SQL::Arguments object with values for each of the arguments defined in this component.  To read a value from arguments: e.arguments.find(\"argumentName\").data\n\n\n'You can set these properties:\n'e.url - if you want to redirect to another page, set this property\n'e.javascript - if you want to send some javascript back to the browser, set this property.\n\n'TIP: If you want to set the form back to a 'clean' state (which will cause the Submit/Reset buttons to go back to disabled) you should send the following \n'Javascript back to the browser:\n'e.javascript = \"{dialog.object}.resetForm(false); //false suppresses the confirmation mesage\"\n\n'You can set 'state' variables in this event. The value of any state variables will be available in all subsequent ajax callbacks.\n'To set a state variable:\n'e._state.myvar1 = \"value1\"\n'e._state.myvar2 = \"value2\"\n\n'To read the value of a 'state' variable that was previously set:\n'e._state.myvar1\n\n'-------------------Closing the Window in Which the UX Component is Hosted -------------------------\n'In certain cases the UX component will have been opened in a pop-up Ajax window and you will want code in this event handler to close the pop-up window.\n'Here is how you can do this:\n'a) In the action that opens the UX in a window, set the Window title to something like this: MyWindowTitle<span id=\"mywindowid\"></span>\n'b) In this event handler set e.javascript to: \n'\tvar ele = $('mywindowid');\n'\t{dialog.object}.closeContainerWindow(ele);\n\n'NOTE: If you have used Server-side Action Scripting in this event to save the submitted data to a table, then you might want to reference\n'the rtc.flagRecordWasSaved variable (which is set by the Action Script) to decide if the window should be closed or not. In addition, since the\n'Server-side Action will have already set the value of the e.javascript variable, you will want to append your code to e.javascript, as follows:\n'e.javascript = e.javascript + crlf() + var ele = $('mywindowid'); + crlf() + {dialog.object}.closeContainerWindow(ele);\n\n\nend function"
             }
         },
-        "XbasicFunctionDeclarations": "function HourRateLookup as c (e as p)\ndim dateofservice as D\ndim lrsreferralID as N\n\n' dateofservice = e.datasubmitted.dateofservice\ndateofservice = e.datasubmitted.date\nlrsreferralID = e.datasubmitted.referralnumber\n\ndim cn as sql::connection\ncn.open(\"::Name::aconn\")\ntable = \"AlphaCACPanel\"\nmytable = \"Cases\"\nmyfilter = \"oldreferralid = \" + lrsreferralid\nmyexpression = \"panelnumber\"\n\nmypanel=sql_lookup(cn,mytable,myfilter,myexpression)\ne._set.panelcode.value=mypanel\nmypanel2 = convert_type(mypanel,\"C\")\nmypanel3 = \"id = \" + mypanel2\nmymonth = month(dateofservice)\n\nif (date_is_in_this_year(dateofservice)) then \n\t\tgoto ThisYear\t\t\n\tELSE \n\t\tgoto LastYear\nend if\n\t\nThisYear:\n  \nif (mymonth < 7) then\n\t\tresult_expression = \"RateCYFH\"\n\telse\t\t\n\t\tresult_expression = \"RateCYLH\"\nend if\n\t\ngoto FinishUp\t\n\t\nLastYear:\n\t\nif (mymonth < 7) then\n\t\tresult_expression = \"RateLYFH\"\n\telse\t\t\n\t\tresult_expression = \"RateLYLH\"\nend if\n\t\t\n\t\t\t\nFinishUp:\n\nhourlyrate=sql_lookup(cn,table,mypanel3,result_expression) \n\ne._set.rate.value=hourlyrate\n\nEnd Function\n\nFunction BillingCycleUpdate as N (e as p)\n\t\ndim dateofservice as D\ndim otherdate as D\ndim mydifference as N\n\n\ndateofservice = e.datasubmitted.date\notherdate = {05/4/1997}\nmydifference = dateofservice - otherdate\ne._set.cycle.value=Int(mydifference/28) + 12\n\t\nEnd Function\n\n\n\n\n\n",
+        "XbasicFunctionDeclarations": "function HourRateLookup as c (e as p)\ndim dateofservice as D\ndim lrsreferralID as N\n\ndateofservice = e.datasubmitted.date\nlrsreferralID = e.datasubmitted.referralnumber\n\ndim cn as sql::connection\ncn.open(\"::Name::aconn\")\ntable = \"AlphaCACPanel\"\nmytable = \"Cases\"\nmyfilter = \"oldreferralid = \" + lrsreferralid\nmyexpression = \"panelnumber\"\n\nmypanel=sql_lookup(cn,mytable,myfilter,myexpression)\ne._set.panelcode.value=mypanel\nmypanel2 = convert_type(mypanel,\"C\")\nmypanel3 = \"id = \" + mypanel2\nmymonth = month(dateofservice)\n\nif (date_is_in_this_year(dateofservice)) then \n\t\tgoto ThisYear\t\t\n\tELSE \n\t\tgoto LastYear\nend if\n\t\nThisYear:\n  \nif (mymonth < 7) then\n\t\tresult_expression = \"RateCYFH\"\n\telse\t\t\n\t\tresult_expression = \"RateCYLH\"\nend if\n\t\ngoto FinishUp\t\n\t\nLastYear:\n\t\nif (mymonth < 7) then\n\t\tresult_expression = \"RateLYFH\"\n\telse\t\t\n\t\tresult_expression = \"RateLYLH\"\nend if\n\t\t\n\t\t\t\nFinishUp:\n\nhourlyrate=sql_lookup(cn,table,mypanel3,result_expression) \n\ne._set.rate.value=hourlyrate\n\nEnd Function\n\nFunction BillingCycleUpdate as N (e as p)\n\t\ndim dateofservice as D\ndim otherdate as D\ndim mydifference as N\n\n\ndateofservice = e.datasubmitted.date\notherdate = {05/4/1997}\nmydifference = dateofservice - otherdate\ne._set.cycle.value=Int(mydifference/28) + 12\n\t\nEnd Function\n\n\n\n\n\n",
         "onTimerEventInterval": 60,
         "securityDeniedAction": "Redirect to login page",
         "clientSideEvents": {
@@ -190,14 +190,14 @@
                     "primaryKeyIsAutoIncrement": true,
                     "sequenceName": "",
                     "UpdateWhereClause": "{timeentrynumber}=timeentrynumber = :old_timeentrynumber\n{ReferralNumber}=(ReferralNumber = :old_ReferralNumber OR ReferralNumber IS NULL AND :old_ReferralNumber IS NULL)\n{AttyID2}=(AttyID2 = :old_AttyID2 OR AttyID2 IS NULL AND :old_AttyID2 IS NULL)\n{Description}=(Description = :old_Description OR Description IS NULL AND :old_Description IS NULL)\n{InCourt}=(InCourt = :old_InCourt OR InCourt IS NULL AND :old_InCourt IS NULL)\n{OutCourt}=(OutCourt = :old_OutCourt OR OutCourt IS NULL AND :old_OutCourt IS NULL)\n{Travel}=(Travel = :old_Travel OR Travel IS NULL AND :old_Travel IS NULL)\n{Expense}=(Expense = :old_Expense OR Expense IS NULL AND :old_Expense IS NULL)\n{TimeSheetNumber}=(TimeSheetNumber = :old_TimeSheetNumber OR TimeSheetNumber IS NULL AND :old_TimeSheetNumber IS NULL)\n{PanelCode}=(PanelCode = :old_PanelCode OR PanelCode IS NULL AND :old_PanelCode IS NULL)\n{StandByTime}=(StandByTime = :old_StandByTime OR StandByTime IS NULL AND :old_StandByTime IS NULL)\n{Rate}=(Rate = :old_Rate OR Rate IS NULL AND :old_Rate IS NULL)\n{Date}=([Date] = :old_Date OR [Date] IS NULL AND :old_Date IS NULL)\n{Cycle}=(Cycle = :old_Cycle OR Cycle IS NULL AND :old_Cycle IS NULL)\n{InvoiceNumber}=(InvoiceNumber = :old_InvoiceNumber OR InvoiceNumber IS NULL AND :old_InvoiceNumber IS NULL)\n{WebID}=(WebID = :old_WebID OR WebID IS NULL AND :old_WebID IS NULL)\n{Posted}=Posted = :old_Posted\n",
-                    "tableInfoCRC": 4294902814,
+                    "tableInfoCRC": 4294951365,
                     "flagOverwriteExistingPrimaryKeySettings": false,
                     "readonly": false,
-                    "filter": "",
-                    "order": "",
                     "fieldList": "timeentrynumber\nReferralNumber\nAttyID2\nDescription\nInCourt\nOutCourt\nTravel\nExpense\nTimeSheetNumber\nPanelCode\nStandByTime\nRate\nDate\nCycle\nInvoiceNumber\nWebID\nPosted\n",
                     "flagExistingPrimaryKeyIsValid": true,
-                    "badFields": ""
+                    "badFields": "",
+                    "filter": "",
+                    "order": ""
                 }
             ]
         },
@@ -205,8 +205,8 @@
         "info": {
             "createdBy": "terry",
             "dateCreated": "2020-3-8",
-            "dateLastEdited": "2020-4-23",
-            "revisionnumber": 144
+            "dateLastEdited": "2020-5-6",
+            "revisionnumber": 145
         },
         "flagShowCommentsInTree": true,
         "treeCommentOffset": "6",
@@ -274,16 +274,16 @@
                     "validationSettings": {
                         "general": {
                             "EnableRules": true,
-                            "invalid_data_type_message": "Date cannot be in the future",
-                            "require_value": true
+                            "require_value": true,
+                            "invalid_data_type_message": "Date cannot be in the future"
                         },
+                        "oldValue": "__a5_notAvailable__",
+                        "builder": "UX",
                         "data_value": {
                             "expression_type": "Custom expression",
                             "expression": "ctod(currentvalue) <=date()",
                             "error_msg": "Date cannot be in the future"
-                        },
-                        "builder": "UX",
-                        "oldValue": "__a5_notAvailable__"
+                        }
                     },
                     "validationSettingsDefined": true,
                     "labelClass": "<Default>",
@@ -1865,9 +1865,6 @@
                 "displayOD": "{Data=40159a7b_c002_4456_ab48_a0e4baa25ad0}",
                 "displayODtree": "{Data=40159a7b_c002_4456_ab48_a0e4baa25ad0}",
                 "crc": "4294902418",
-                "isCollapsed": false,
-                "parentIsCollapsed": false,
-                "containerStartIndex": 0,
                 "v": {
                     "controlType": "textbox",
                     "variableName": "PanelCode",
@@ -1876,13 +1873,15 @@
                     "watermark": {
                         "text": "<FieldLabel>"
                     },
+                    "precalc": {
+                        "javascriptAbstractSetupCode": ""
+                    },
                     "lookup": {
                         "Type": "Edit-Combo List",
                         "editCombo": {
                             "openLookupOnFocus": false
                         }
                     },
-                    "textboxSubTheme": "",
                     "textboxAutocorrect": true,
                     "textboxAutoCapitalize": true,
                     "label": "Case Assigned Panel Number",
@@ -1925,8 +1924,6 @@
                         },
                         "type": "Mask"
                     },
-                    "getFunction": "",
-                    "setFunction": "",
                     "onChange_ValidationOption": "Client-side only",
                     "dataBinding": {
                         "updateable": true,
@@ -1944,11 +1941,10 @@
                             "inkunits": 1
                         }
                     },
+                    "textboxSubTheme": "",
+                    "getFunction": "",
+                    "setFunction": "",
                     "datePicker": {
-                        "friendlyDisplay": {
-                            "enabled": false,
-                            "settingsJSON": ""
-                        },
                         "displayTimePicker": false,
                         "openMethod": "ClickIcon",
                         "dateFormat": "<Default>",
@@ -1966,6 +1962,10 @@
                         },
                         "timePickerOptionsDefined": false,
                         "display": false,
+                        "friendlyDisplay": {
+                            "enabled": false,
+                            "settingsJSON": ""
+                        },
                         "useComboBoxes": true,
                         "lowYear": 1950,
                         "highYear": 2050,
@@ -1974,6 +1974,10 @@
                         "highDate": "",
                         "disabledDays": "",
                         "disabledDates": ""
+                    },
+                    "displayAsSlider": false,
+                    "flags": {
+                        "clientSideDefinition": false
                     },
                     "specialtype": "None",
                     "specialtypeJSON": "",
@@ -2000,22 +2004,18 @@
                         "break": true,
                         "display": "{B=White,Light Blue}{Data=40159a7b_c002_4456_ab48_a0e4baa25ad0}{I:'$$control.edit'} [PanelCode] ¶"
                     },
-                    "displayAsSlider": false,
                     "listView": {
                         "class": ""
-                    },
-                    "precalc": {
-                        "javascriptAbstractSetupCode": ""
-                    },
-                    "flags": {
-                        "clientSideDefinition": false
                     }
                 },
                 "precalc": {
                     "ControlHTML": "<div class=\"A5CWLayout\" style=\"width: 2in\" >\n\t<!--LblS--><label id=\"{grid.componentname}.LBL.R{grid.rownumber}.PANELCODE\" for=\"{grid.componentname}.V.R{grid.rownumber}.PANELCODE\" title=\"\" class=\"[class.dialogFieldLabel]\" style=\"font-size: 14px; font-weight: bold; display: block; \">Case Assigned Panel Number</label>\n<!--LblE-->\n\t<!--FldS--><input\ttype=\"text\" id=\"{grid.componentname}.V.R{grid.rownumber}.PANELCODE\" title=\"\"     class=\"[theme:edit.base.className|class.dialogInput] \" style=\"background-color: #eceff1; width: 100%; box-sizing: border-box; -moz-box-sizing: border-box; -ms-box-sizing: border-box; -webkit-box-sizing: border-box;\"    name=\"V.R{grid.rownumber}.PANELCODE\"    value=\"\"   disabled=\"disabled\"   />\n<!--FldE-->\n</div><!--breakbegin--><br  style=\"clear:both; \" /><!--breakend-->",
                     "DesignViewHTML": "",
                     "columnInfo": "'PANELCODE': {info: {controlType: 'textbox',controlSubType: 'Edit-Combo List'}, hiddenVal: false, type: 'input,label', isCalc: false, hlp: '', isArray: false, dataType: 'C'  }\n"
-                }
+                },
+                "isCollapsed": false,
+                "parentIsCollapsed": false,
+                "containerStartIndex": 0
             },
             {
                 "controlType": "dialog_formcontrol",
@@ -2153,9 +2153,6 @@
                 "displayOD": "{Data=c4f743fc_c2be_432a_9706_2a23076cba34}",
                 "displayODtree": "{Data=c4f743fc_c2be_432a_9706_2a23076cba34}",
                 "crc": "4294926380",
-                "isCollapsed": false,
-                "parentIsCollapsed": false,
-                "containerStartIndex": 0,
                 "v": {
                     "controlType": "textbox",
                     "variableName": "Cycle",
@@ -2164,12 +2161,14 @@
                     "watermark": {
                         "text": "<FieldLabel>"
                     },
+                    "precalc": {
+                        "javascriptAbstractSetupCode": ""
+                    },
                     "lookup": {
                         "editCombo": {
                             "openLookupOnFocus": false
                         }
                     },
-                    "textboxSubTheme": "",
                     "textboxAutocorrect": true,
                     "textboxAutoCapitalize": true,
                     "label": "Cycle",
@@ -2212,8 +2211,6 @@
                         },
                         "type": "Mask"
                     },
-                    "getFunction": "",
-                    "setFunction": "",
                     "onChange_ValidationOption": "Client-side only",
                     "dataBinding": {
                         "updateable": true,
@@ -2231,29 +2228,35 @@
                             "inkunits": 1
                         }
                     },
+                    "textboxSubTheme": "",
+                    "getFunction": "",
+                    "setFunction": "",
                     "datePicker": {
+                        "displayTimePicker": false,
+                        "openMethod": "ClickIcon",
+                        "dateFormat": "<Default>",
+                        "iconNumber": 2,
+                        "timePickerOptionsDefined": false,
+                        "display": false,
                         "friendlyDisplay": {
                             "enabled": false,
                             "settingsJSON": ""
                         },
-                        "display": false,
-                        "displayTimePicker": false,
-                        "timePickerOptionsDefined": false,
-                        "openMethod": "ClickIcon",
                         "useComboBoxes": true,
-                        "dateFormat": "<Default>",
                         "lowYear": 1950,
                         "highYear": 2050,
                         "switchYear": 30,
-                        "iconNumber": 2,
                         "lowDate": "",
                         "highDate": "",
                         "disabledDays": "",
                         "disabledDates": ""
                     },
+                    "displayAsSlider": false,
+                    "flags": {
+                        "clientSideDefinition": false
+                    },
                     "specialtype": "None",
                     "specialtypeJSON": "",
-                    "displayAsSlider": false,
                     "info": {
                         "level": 0,
                         "isContainerStart": false,
@@ -2279,19 +2282,16 @@
                     },
                     "listView": {
                         "class": ""
-                    },
-                    "precalc": {
-                        "javascriptAbstractSetupCode": ""
-                    },
-                    "flags": {
-                        "clientSideDefinition": false
                     }
                 },
                 "precalc": {
                     "ControlHTML": "<div class=\"A5CWLayout\" style=\"width: 2in\" >\n\t<!--LblS--><label id=\"{grid.componentname}.LBL.R{grid.rownumber}.CYCLE\" for=\"{grid.componentname}.V.R{grid.rownumber}.CYCLE\" title=\"\" class=\"[class.dialogFieldLabel]\" style=\"font-size: 14px; font-weight: bold; display: block; \">Cycle</label>\n<!--LblE-->\n\t<!--FldS--><input\ttype=\"text\" id=\"{grid.componentname}.V.R{grid.rownumber}.CYCLE\" title=\"\"     class=\"[theme:edit.base.className|class.dialogInput] \" style=\"background-color: #eceff1; width: 100%; box-sizing: border-box; -moz-box-sizing: border-box; -ms-box-sizing: border-box; -webkit-box-sizing: border-box;\"    name=\"V.R{grid.rownumber}.CYCLE\"    value=\"\"   disabled=\"disabled\"   />\n<!--FldE-->\n</div><!--breakbegin--><br  style=\"clear:both; \" /><!--breakend-->",
                     "DesignViewHTML": "",
                     "columnInfo": "'CYCLE': {info: {controlType: 'textbox'}, hiddenVal: false, type: 'input,label', isCalc: false, hlp: '', isArray: false, dataType: 'N'  }\n"
-                }
+                },
+                "isCollapsed": false,
+                "parentIsCollapsed": false,
+                "containerStartIndex": 0
             },
             {
                 "controlType": "dialog_formcontrol",
@@ -2597,13 +2597,6 @@
                 "displayOD": "{B=White,Light Blue}{Data=eb6aa084_fd4a_4686_afe3_2748d09e5a70}{I:'$$control.button'} [Button]",
                 "displayODtree": "{B=White,Light Blue}{Data=eb6aa084_fd4a_4686_afe3_2748d09e5a70}{I:'$$control.button'} [Button: Submit]",
                 "crc": "4294955656",
-                "precalc": {
-                    "ControlHTML": "<div class=\"A5CWLayout\" style=\"width: \" >\n\t<button type=\"button\" id=\"{dialog.componentName}.V.R{dialog.rownumber}.BUTTON_SUBMIT\"    ></button>\n</div>",
-                    "DesignViewHTML": ""
-                },
-                "isCollapsed": false,
-                "parentIsCollapsed": false,
-                "containerStartIndex": 0,
                 "v": {
                     "buttonText": "Submit",
                     "Class": "<Default>",
@@ -2657,6 +2650,9 @@
                         "javascriptAdvancedButton_control": "{dialog.object}._buttons['BUTTON_SUBMIT'] = new A5.Button({\n\tlayout: 'icon text',\n\tstyle: 'box-sizing: border-box; -moz-box-sizing: border-box; -ms-box-sizing: border-box; -webkit-box-sizing: border-box;',\n\ttip: 'Submit the form.',\n\thtml: 'Submit',\n\ticon: '{images.GridRow.SaveRecord}',\n\tdisabledIcon: '{images.GridRow.SaveRecord.disabled}',\n\tonClick: function() { \n\n},\n\ttheme: '{grid.style}'\n});",
                         "javascriptAdvancedButton_bind": "{dialog.object}._buttons['BUTTON_SUBMIT'].bind('{DIALOG.COMPONENTNAME}.V.R{DIALOG.ROWNUMBER}.BUTTON_SUBMIT');"
                     },
+                    "javascript": {
+                        "onclick": ""
+                    },
                     "info": {
                         "level": 0,
                         "isContainerStart": false,
@@ -2679,11 +2675,15 @@
                         "parentPanelCardId": "",
                         "break": false,
                         "display": "{B=White,Light Blue}{Data=eb6aa084_fd4a_4686_afe3_2748d09e5a70}{I:'$$control.button'} [Button: Submit]"
-                    },
-                    "javascript": {
-                        "onclick": ""
                     }
-                }
+                },
+                "precalc": {
+                    "ControlHTML": "<div class=\"A5CWLayout\" style=\"width: \" >\n\t<button type=\"button\" id=\"{dialog.componentName}.V.R{dialog.rownumber}.BUTTON_SUBMIT\"    ></button>\n</div>",
+                    "DesignViewHTML": ""
+                },
+                "isCollapsed": false,
+                "parentIsCollapsed": false,
+                "containerStartIndex": 0
             },
             {
                 "controlType": "layout_directive_button",
@@ -2838,16 +2838,6 @@
                 "displayOD": "{B=White,Light Blue}{Data=608d53d8_e0f1_4e8a_9308_020f6a18667a}{I:'$$control.button'} [Button]",
                 "displayODtree": "{B=White,Light Blue}{Data=608d53d8_e0f1_4e8a_9308_020f6a18667a}{I:'$$control.button'} [Button: New Record]",
                 "crc": "4294932268",
-                "indentTree": 0,
-                "precalc": {
-                    "ControlHTML": "<div class=\"A5CWLayout\" style=\"width: \" >\n\t<button type=\"button\" id=\"{dialog.componentName}.V.R{dialog.rownumber}.BUTTON_NEWRECORD\"    ></button>\n</div><!--breakbegin--><br  style=\"clear:both; \" /><!--breakend-->",
-                    "DesignViewHTML": ""
-                },
-                "isCollapsed": false,
-                "parentIsCollapsed": false,
-                "inPanelCard": false,
-                "inTreeControl": false,
-                "containerStartIndex": 0,
                 "v": {
                     "buttonText": "New Record",
                     "Class": "<Default>",
@@ -2900,6 +2890,9 @@
                         "javascriptAdvancedButton_control": "{dialog.object}._buttons['BUTTON_NEWRECORD'] = new A5.Button({\n\tlayout: 'icon text',\n\tstyle: 'box-sizing: border-box; -moz-box-sizing: border-box; -ms-box-sizing: border-box; -webkit-box-sizing: border-box;',\n\ttip: 'Start entering a new record.',\n\thtml: 'New Record',\n\ticon: '{images.dv.newRecord}',\n\tdisabledIcon: '{images.dv.newRecord}',\n\tonClick: function() { \n\n},\n\ttheme: '{grid.style}'\n});",
                         "javascriptAdvancedButton_bind": "{dialog.object}._buttons['BUTTON_NEWRECORD'].bind('{DIALOG.COMPONENTNAME}.V.R{DIALOG.ROWNUMBER}.BUTTON_NEWRECORD');"
                     },
+                    "javascript": {
+                        "onclick": ""
+                    },
                     "info": {
                         "level": 0,
                         "isContainerStart": false,
@@ -2922,11 +2915,18 @@
                         "parentPanelCardId": "",
                         "break": true,
                         "display": "{B=White,Light Blue}{Data=608d53d8_e0f1_4e8a_9308_020f6a18667a}{I:'$$control.button'} [Button: New Record] ¶"
-                    },
-                    "javascript": {
-                        "onclick": ""
                     }
-                }
+                },
+                "indentTree": 0,
+                "precalc": {
+                    "ControlHTML": "<div class=\"A5CWLayout\" style=\"width: \" >\n\t<button type=\"button\" id=\"{dialog.componentName}.V.R{dialog.rownumber}.BUTTON_NEWRECORD\"    ></button>\n</div><!--breakbegin--><br  style=\"clear:both; \" /><!--breakend-->",
+                    "DesignViewHTML": ""
+                },
+                "isCollapsed": false,
+                "parentIsCollapsed": false,
+                "inPanelCard": false,
+                "inTreeControl": false,
+                "containerStartIndex": 0
             },
             {
                 "controlType": "dialog_formcontrol",
@@ -3406,7 +3406,7 @@
         "autoSetPreRenderOnForAllUX": true,
         "selected": "ae1a9630_c077_4021_9f01_cb4a0fb806c3\n",
         "designPaneIndex": 1,
-        "masterPaneC": "controls",
+        "masterPaneC": "XbasicFunctions",
         "serverSideEventIndex": 1,
         "clientSideEventIndex": 1,
         "clientSideEventIndexC": "1",
@@ -3424,7 +3424,7 @@
         "alphaFiveBuildNumber": "12",
         "openedFromTemplate": false,
         "builtWithVersionNumer": 1,
-        "_buildCount": "143",
+        "_buildCount": "144",
         "securityEnabled": false,
         "showHideIsUsed": false,
         "precalc": {
@@ -3602,7 +3602,7 @@
         "sassProcessor": true,
         "debugMode": false,
         "__jsLibraries": "<script type=\"text/javascript\" src=\"javascript/a5.js\"></script>\n<script type=\"text/javascript\" src=\"javascript/a5_url.js\"></script>\n",
-        "A5SaveTimeStamp": "20200423141708410",
+        "A5SaveTimeStamp": "20200506102706864",
         "a_actionJavascript": [
             {
                 "actionGuid": "2fe33859-ff21-49fc-8b12-ab8f1e3df570",
@@ -3659,6 +3659,20 @@
         "_analyzecontainersjs": true,
         "__idinternalCurrentControl": "10d9835c_8c01_4071_bc3b_ea907d840fdf",
         "__nameCurrentControl": "ReferralNumber",
+        "serverSideActionsArray": [
+            {
+                "name": "Load Primary Keys",
+                "xbasic": "\nif eval_valid(\"e.tmpl.databinding.tabletype\") = .f. then \n\texit function \nend if \nif e.tmpl.databinding.tabletype <> \"SQL\" then \n\te.showGlobalError = .t.\n\tdim errorText as c \n\terrorText = \"The Data Binding table type for this Component appears to have been changed from SQL to DBF. The code in your server side action scripts needs to be re-generated. Please edit your server-side actions (in the onDialogInitialize, afterDialogValidate, etc. events) and then resave them to re-generate the code. \"\n\terrorText = stritran(errorText,crlf(),\"<br>\")\n\tjsErrorMessage = \"var ele = $('\"+e.tmpl.alias+\".GLOBALERRORS')\" +crlf()+\\\n\t\"if(ele) $svs(ele,'\"+js_escape(errorText)+\"'); \" + crlf()+\\\n\t\"if(ele) ele.style.display = '';\"\n\te.javascript = jsErrorMessage\n\texit function \nend if \n\n\ndim primaryKeyTemplate as c \nprimaryKeyTemplate = \"\"\n\n\n\nrtc.fatalError = .f.\ndim javascriptSetPrimaryKeys as c = \"\"\ndim tmpl as p\ntmpl = e.tmpl\ndim cn as sql::connection \ndim flag as l \ndim connstring as c \ndim args as sql::arguments \n\nconnstring = tmpl.databinding.connectionstring\nif variable_exists(\"session\") = .f. then \n\tflag = cn.open(connstring)\nelse\n\tflag = a5SQLConnectionOpen(cn,connstring,session)\nend if \nif flag = .f. then \n\trtc.fatalError = .t.\n\trtc.errorText = \"Could not connect to database. Error reported was: \" + cn.CallResult.text \nend if \n\nif rtc.fatalError = .f. then \n\t\n\tdim sqlNoLimit as c \n\tsqlNoLimit = \"SELECT timeentrynumber AS k FROM Time Time\"\n\t\n\tdim flagOracle as l = .f.\n\tif cn.CurrentSyntax = \"oracle\" then \n\t\tflagOracle = .t.\n\tend if \n\t\n\t\n\t\n\tif flagOracle then \n\t\tsqlNoLimit = stritran(sqlNoLimit,\"OracleLower(\",\"lower(\")\n\t\tsqlNoLimit = stritran(sqlNoLimit,\"OracleRtrim(\",\"rtrim(\")\n\telse\n\t\tsqlNoLimit = stritran(sqlNoLimit,\"OracleLower(\",\"\")\n\t\tsqlNoLimit = stritran(sqlNoLimit,\"OracleRtrim(\",\"\")\n\tend if \n\n\t\n\t\n\tif atc(\"session.\",sqlNoLimit) > 0 then \n\t\tif eval_valid(\"session\") then \n\t\t\tsqlNoLimit = replace_variables_in_string(sqlNoLimit,session,\"session\",.t.,.t.)\n\t\tend if  \n\tend if \n\t\n\t\n\t\n\tdim sql as c \n\tsql = \"SELECT FIRST 1000 timeentrynumber AS k FROM Time Time\"\n\t\n\tif flagOracle then \n\t\tsql = stritran(sql,\"OracleLower(\",\"lower(\")\n\t\tsql = stritran(sql,\"OracleRtrim(\",\"rtrim(\")\n\telse\n\t\tsql = stritran(sql,\"OracleLower(\",\"\")\n\t\tsql = stritran(sql,\"OracleRtrim(\",\"\")\n\tend if \n\n\t\n\t\n\tif atc(\"session.\",sql) > 0 then \n\t\tif eval_valid(\"session\") then \n\t\t\tsql = replace_variables_in_string(sql,session,\"session\",.t.,.t.)\n\t\tend if  \n\tend if \n\t\n\t\n\tcn.PortableSQLEnabled = .t.\n\tdim args as sql::arguments \n\tif eval_valid(\"e.arguments\") then \n\t\targs = e.arguments\n\tend if \n\t\n\tdim pc as p\n\t\n\tpc = a5_sql_getcount(cn,sqlNoLimit,args)\t\n\n\tif pc.error = .t. then \n\t\trtc.fatalError = .t.\n\t\trtc.errorText = \"Error getting count of records in query.\"\n\t\tcn.close()\n\tend if \n\t\n\t'if pc.count = -1 then could not get count of records in query\n\tif pc.count = -1 then \n\t\tcn.close()\n\tend if \n\trtc.recordsInQuery = pc.count \n\t\n\t\n\t\n\tif rtc.fatalError = .f. then \n\t\tflag = cn.Execute(sql,args)\n\t\tif flag = .f. then \n\t\t\trtc.fatalError = .t.\n\t\t\trtc.errorText = \"Could not execute query to get keys. Error reported was: \" + cn.CallResult.text \n\t\t\tcn.close()\n\t\tend if \n\tend if \nend if \n\ndim flagFatalError as l = .t.\nif rtc.fatalError = .f. then \n\tif pc.count > -1 then \n\t\tflagFatalError = .f.\n\tend if \nend if \n\nif flagFatalError = .f. then \n\tdim rs as sql::ResultSet\n\trs = cn.ResultSet\n\tdim txt_JSONKeys as c \n\tif primaryKeyTemplate = \"\" then \n\t\ttxt_JSONKeys = rs.ToJSONObjectSyntax()\n\telse\n\t\ttxt_JSONKeys = a5_mergeDataIntoTemplate(primaryKeyTemplate,rs)\n\tend if \n\ttxt_JSONKeys = \"[\" + crlf_to_comma(txt_JSONKeys) + \"]\"\n\t'make sure {k is lower case - some databases, such as Oracle will generate upper case names by default\n\ttxt_JSONKeys = stritran(txt_JSONKeys,\"{K\",\"{k\")\n\ttxt_JSONKeys = stritran(txt_JSONKeys,\"{\\\"K\",\"{\\\"k\")\n\t\n\t\n\t\tdim sliderCode as c = \"\"\n\tdim listViewCode as c = \"\"\n\t\n\tsliderCode = <<%txt%\n\n\t%txt%\n\n\t\n\tlistViewCode = <<%txt%\n\n\t%txt%\n\t\n\tjavascriptSetPrimaryKeys = \"{dialog.object}._primaryKeyList = \" + txt_JSONKeys  + \";\"\n\tjavascriptSetPrimaryKeys = javascriptSetPrimaryKeys + sliderCode + crlf()\n\tjavascriptSetPrimaryKeys = javascriptSetPrimaryKeys + \"{dialog.object}._navigationSliderSetMax('FullyQualified',{dialog.object}._primaryKeyList.length);\"\n\tjavascriptSetPrimaryKeys = javascriptSetPrimaryKeys + listViewCode + crlf()\n\tjavascriptSetPrimaryKeys = javascriptSetPrimaryKeys + \"if({dialog.object}._primaryKeyListNavigator) { var lObj = {dialog.object}._primaryKeyListNavigator; var data = {dialog.object}._primaryKeyList ; lObj.populate(data); if(data.length > 0) lObj.setValue(0,false); }\" + crlf()\n\t\n\t\n\tdim filter as c\n\tdim order as c \n\tdim maxNumberOfkeys as n \n\tfilter = \"\"\n\torder = \"\"\n\tmaxNumberOfKeys = \"1000\"\n\tdim pjs as p \n\tpjs.__keys_Filter = filter\n\tpjs.__keys_Order = order\n\t'pjs.__keys_FilterArguments = args.XML\n\tpjs.__keys_FilterArgumentsJSON = argumentsToJSON(args,.t.)\n\tpjs.__keys_MaxKeys = \"\" + maxNumberOfKeys\n\tdim jsState as c \n\tjsState = vartojson(pjs,.f.,.t.)\n\tjsState = tmpl.alias  + \"_DlgObj.setStateInfo(\" + jsState + \");\"\n\tjavascriptSetPrimaryKeys = javascriptSetPrimaryKeys + jsState\n\n\tif rtc.recordsInQuery > 0 then\n\t\t'--------------------------------------\n\t\t'get the javascript now to populate the controls for the first record - don't do another callback\n\t\tdim pp as p \n\t\tif txt_JSONKeys <> \"\" then\n\t\t\tpp = json_parse(txt_JSONKeys)\n\t\t\tdim keyFirst as c \n\t\t\tkeyFirst = pp[1].k\n\t\t\tdim ops as p\n\t\t\tops.primaryKey = keyFirst\n\t\t\tops.showDebugInfo = .f.\n\t\t\tdim js_getRecord as c \n\t\t\tdim eTemp as p\n\t\t\teTemp.tmpl = tmpl\n\t\t\t\n\t\t\t\n\t\t\t\n\t\t\tif eval_valid(\"e.rtc._state.__dtfmt\") then\n\t\t\t\tops.__dtfmt = e.rtc._state.__dtfmt\n\t\t\telse if eval_valid(\"rtc._state.__dtfmt\") then \n\t\t\t\tops.__dtfmt = rtc._state.__dtfmt\n\t\t\telse if eval_valid(\"request.variables._state.__dtfmt\") then \n\t\t\t\tops.__dtfmt = request.variables._state.__dtfmt\n\t\t\tend if \n\t\t\t\n\t\t\t\n\t\t\tjs_getRecord = a5_UX_Action(eTemp,ops,\"populateControlsFromTable\")\n\t\t\tjs_getRecord = js_getRecord + \";\" + crlf() + \"{dialog.object}._currentRecordNumber = 1;\"\n\t\t\t\n\t\t\tdim e.javascriptEmitAtEnd as c = default \"\"\n\t\t\tif e.javascriptEmitAtEnd <> \"\" then \n\t\t\t\te.javascriptEmitAtEnd = alltrim(e.javascriptEmitAtEnd) + \";\"\n\t\t\tend if \n\t\t\te.javascriptEmitAtEnd = e.javascriptEmitAtEnd + crlf() +js_getRecord\n\t\t\t\n\n\t\telse\n\t\t\tjs_getRecord = \"{dialog.object}.navigateRecord('first');\"\n\t\tend if \n\t\t\n\t\t\n\t\t'----------------------------------------------------\n\t\tjavascriptSetPrimaryKeys = javascriptSetPrimaryKeys + js_getRecord\n\t\tjavascriptSetPrimaryKeys = javascriptSetPrimaryKeys + <<%txt%\n\t\t\n\t\t%txt%\n\telse\n\t\n\t\n\t\t'-\n\t\t'----------------new record javascript -------------\n\t\tdim ops as p\n\t\tops.showDebugInfo = .f.\n\t\tdim js_getNewRecord as c \n\t\tdim eTemp as p\n\t\tops.arguments = e.arguments \n\t\teTemp.tmpl = tmpl\n\t\tif eval_valid(\"e.rtc._state.__dtfmt\") then\n\t\t\tops.__dtfmt = e.rtc._state.__dtfmt\n\t\telse if eval_valid(\"rtc._state.__dtfmt\") then \n\t\t\tops.__dtfmt = rtc._state.__dtfmt\n\t\telse if eval_valid(\"request.variables._state.__dtfmt\") then \n\t\t\tops.__dtfmt = request.variables._state.__dtfmt\n\t\tend if \n\t\t'get the javascript for the new record now, rather than making another callback\n\t\tjs_getNewRecord = a5_UX_Action(eTemp,ops,\"newrecord\")\n\t\tjavascriptSetPrimaryKeys = javascriptSetPrimaryKeys + js_getNewRecord\n\t\t'------------------------------------------------------\n\n\t\t'javascriptSetPrimaryKeys = javascriptSetPrimaryKeys + \"{Dialog.Object}.newRecord();\"\n\tend if \n\n\n\t\n\t\n\tcn.close()\nend if \n\nif rtc.fatalError = .t. then \n\te.showGlobalError = .t.\n\tdim errorText as c \n\terrorText = rtc.errorText\n\terrorText = stritran(errorText,crlf(),\"<br>\")\n\tjsErrorMessage = \"var ele = $('\"+tmpl.alias+\".GLOBALERRORS')\" +crlf()+\\\n\t\"if(ele) $svs(ele,'\"+js_escape(errorText)+\"'); \" + crlf()+\\\n\t\"if(ele) ele.style.display = '';\"\nelse\n\tjsErrorMessage = \"var ele = $('\"+tmpl.alias+\".GLOBALERRORS')\" +crlf()+\\\n\t\"if(ele) $svs(ele,'\"+js_escape(\"\")+\"'); \" + crlf()+\\\n\t\"if(ele) ele.style.display = 'none';\"\n\t\nend if \n\n\n\n\ndim e.javascript as c = default \"\"\ndim e.javascriptSystem as c = default \"\"\ne.javascriptSystem = \te.javascriptSystem  + \";\" + crlf()+\\\n\t\t\t\tjavascriptSetPrimaryKeys  + crlf()+\\\n\t\t\t\tjsErrorMessage\n\t\t\t\t\ndim e.javascriptEmitAtEnd as c = default \"\"\n\ndim js_getRecord as c = default \"\"\ndim js_getNewRecord as c = default \"\"\ne.javascriptEmitAtEnd = js_getRecord + js_getNewRecord\n\ndim tmpl.embeddedMode as l = default .f.\nif tmpl.embeddedMode then \n\te.javascriptSystem = a5GridHelper_FixWorkingPreview_EmbeddedIcons(e.javascriptSystem)\t\t\t\t\nend if \n\t\t\t\t\n\t\t\t\t\n",
+                "metadata": "<maxNumberOfKeys=1000>\n<flagFilterTable=.F.>\n<flagOrderTable=.F.>\n<specifyFilterMethod=\"SpecifyNow\">\n<filter=\"\">\n<specifyOrderMethod=\"SpecifyNow\">\n<order=\"\">\n<includePrimaryKeyDescription=.F.>\n<columns>\n<flagDescriptionColumnsDefined=.F.>\n<filterVarname=\"\">\n<orderVarName=\"\">\n<showSlider=.F.>\n<sliderContainerId=\"\">\n<showSliderMessage=.T.>\n<sliderMessage=\"({recordNumber} of {recordcount}) &nbsp;<b>{PrimaryKeyDescription}</b> \">\n<sliderWidth=\"6in\">\n<sliderMessagePrefix=\"Record:\">\n<hideSliderMessageWhenMouseNotOverSlider=.F.>\n<sliderMessagePosition=\"Above\">\n<sliderOnSlideEventHandlerFunction=\"\">\n<sliderOnChangeEventHadlerFunction=\"\">\n<newRecordMessage=\"New\">\n<noRecordsMessage=\"No records\">\n<showSliderC=\"No\">\n<showlistView=.F.>\n<listViewContainerId=\"\">\n<height=\"4in\">\n<width=\"3in\">\n<initialMessage=\"Loading data....\">\n<hasFreeformDisplay=.F.>\n<freeFormTemplate=\"\">\n<freeFormTemplateColumnHeading=\"\">\n<fillPanelContainer=.T.>\n<targetPanelOnClick=\"<NextPanel>\">\n<javascript<onSelect=\"\">\n>\n<hasCustomListViewRecordNavigator=.F.>\n<customListViewNavigatorIds=\"\">\n<showListViewC=\"No\">\n<recordNotFoundMessage=\"Record not found\">\n",
+                "builder": "getKeyValues"
+            },
+            {
+                "name": "Save Data",
+                "xbasic": "dim flagUseTransactions as l \nflagUseTransactions = .f.\ndim rtc as p\ndim tmpl as p\ntmpl = e.tmpl\n\ndim serverSideEvents as p\n\n\n\ndim geography as p \nwith geography\nDIM geocodeFieldDefinition as C\nDIM locationFieldDefinition as C\n\nend with \n\ndim opx as p\nopx.serverSideEvents = serverSideEvents\nopx.geography = geography\nopx.afterSaveAction = \"Edit record just submitted\"\nopx.listControlsToRefresh = \"\"\n\n\n\n\na5DialogHelper_SaveData(tmpl, e, rtc,flagUseTransactions, opx)\n\ndim jsShowErrors as c = \"\"\ndim jsEnterNewRecord as c = \"\"\ndim jsToFireAfterSaveEvent as c = \"\"\ndim jsShowUpdateCommands as c = \"\"\n\ndim jsConfirmationMessage as c = \"\"\n\n\n\nif rtc.fatalError = .t. then \n\t'must set this flag to prevent the Dialog from clearing the error messages.\n\te.showGlobalError = .t.\n\tdim errorText as c \n\terrorText = rtc.errorText\n\t'errorText = stritran(errorText,crlf(),\"<br>\")\n\t\n\tjsShowErrors = \"{dialog.object}.showGlobalErrors('<Default>','\" + js_escape(errorText) + \"'); \" + crlf()\n\t\n\trtc.javascript.refreshAllControls = \"\"\n\trtc.javascript.setPrimaryKeyinStateObject = \"\"\n\trtc.javascript.prepareDialog = \"\"\n\tjsToFireAfterSaveEvent = \"\"\n\tjsEnterNewRecord = \"\"\n\t\n\t\nend if \n\n\nif rtc.flagRecordWasSaved then \n\t\nelse\n\tjsEnterNewRecord = \"\"\nend if \n\n\n\n\n\n\n\ndim rtc.javascript.refreshAllControls as c = default \"\"\ndim rtc.javascript.prepareDialog as c = default \"\"\n'This flag must be set to .t., else the Javascript that sets the primaryKey in the state object will be overwritten.\ne.rtc.flagUpdatePrimaryKeysInStateObject = .t.\ndim rtc.javascript.setPrimaryKeyinStateObject as c = default \"\"\ndim e.javascript as c = default \"\"\n\ndim rtc.javascript.refreshDependentListControls as c = default \"\"\t\n\nif rtc.flagRecordWasSaved then\n\tjsToFireAfterSaveEvent = jsToFireAfterSaveEvent + <<%longtxt%\n\t\t(function() {; if({dialog.object}._functions._setInkControlsBackground) {{dialog.object}._functions._setInkControlsBackground(); ; };\n })();\n\t%longtxt%\nend if \n\n\n \n\ne.javascript = \trtc.javascript.refreshDependentListControls + \";\" + crlf()+\\\n\t\t\t\te.javascript + \";\" + crlf()  +\\\n\t\t\t\tjsShowUpdateCommands + crlf() +\\\n\t\t\t\tjsShowErrors + crlf()+\\\n                rtc.javascript.refreshAllControls + crlf() +\\\n\t\t\t\trtc.javascript.setPrimaryKeyinStateObject + crlf()+\\\n\t\t\t\trtc.javascript.prepareDialog + crlf() +\\\n\t\t\t\tjsToFireAfterSaveEvent + crlf()+\\\n\t\t\t\tjsEnterNewRecord + crlf()+\\\n\t\t\t\tjsConfirmationMessage\n\n'set the e.javascriptsystem variable so that in case the user sets e.javascript in their own code, that this value does not get lost\ne.javascriptSystem = e.javascript\t\ne.javascript = \"\"\t\t\t\n\ne.setPrimaryKeyinStateObject = rtc.javascript.setPrimaryKeyinStateObject\t\t\t\t\n\t\t\t\t\n",
+                "metadata": "<afterSubmitAction=\"Edit record just submitted\">\n<targetPage=\"\">\n<displayDebuggingInfo=.F.>\n<clientSideAfterSave=\"\">\n<useTransactions=.F.>\n<clientSideArguments=\"\">\n<clientSideAfterSaveSuccessJavascript=\"\">\n<clientSideAfterSaveFailedJavascript=\"\">\n<clientSideAfterSaveSuccessPanelToActivate=\"\">\n<displayFadeOutMessage=.F.>\n<fadeOutMessage=\"Record was saved\">\n<fadeOutMessagePosition=\"\">\n<fadeOutMessageDuration=\"2000\">\n<fadeOutMessageStyle=\"Default\">\n<flagsynchronizeListControls=.F.>\n<listControlsToSynchronize=\"\">\n<globalErrorsPlaceholder=\"<Default>\">\n<debuggingInformationPlaceholder=\"<Default>\">\n<flagStoreLocationInformation=.F.>\n<flagStoreLocationInformationC=\"No\">\n<latField=\"\">\n<lngField=\"\">\n<flagUpdateLocationField=.F.>\n<locationFieldNameForLatLng=\"\">\n<storeLocationWhen=\"InsertAndUpdate\">\n<serverSideEvent<beforeRecordInsert=\"\">\n<afterRecordInsert=\"\">\n<beforeRecordUpdate=\"\">\n<afterRecordUpdate=\"\">\n<beforeRecordDelete=\"\">\n<afterRecordDelete=\"\">\n<afterSectionRowRefresh=\"\">\n<onSQLError=\"\">\n>\n<geography<geocodeFieldDefinition=\"\">\n<locationFieldDefinition=\"\">\n>\n",
+                "builder": "saveDataToTables"
+            }
+        ],
         "_repeatingSectionPendingRecalc": "\n",
         "_crcXbEvents": 4294938541,
         "_crcJSFunctions": 4294908645,
@@ -3763,20 +3777,6 @@
         ],
         "unboundActionShowOnNewActionMessage": true,
         "actionJavascriptUnboundLastEdited": "b898a15d-192e-4fa7-9b7e-8a22616532a2",
-        "serverSideActionsArray": [
-            {
-                "name": "Load Primary Keys",
-                "xbasic": "\nif eval_valid(\"e.tmpl.databinding.tabletype\") = .f. then \n\texit function \nend if \nif e.tmpl.databinding.tabletype <> \"SQL\" then \n\te.showGlobalError = .t.\n\tdim errorText as c \n\terrorText = \"The Data Binding table type for this Component appears to have been changed from SQL to DBF. The code in your server side action scripts needs to be re-generated. Please edit your server-side actions (in the onDialogInitialize, afterDialogValidate, etc. events) and then resave them to re-generate the code. \"\n\terrorText = stritran(errorText,crlf(),\"<br>\")\n\tjsErrorMessage = \"var ele = $('\"+e.tmpl.alias+\".GLOBALERRORS')\" +crlf()+\\\n\t\"if(ele) $svs(ele,'\"+js_escape(errorText)+\"'); \" + crlf()+\\\n\t\"if(ele) ele.style.display = '';\"\n\te.javascript = jsErrorMessage\n\texit function \nend if \n\n\ndim primaryKeyTemplate as c \nprimaryKeyTemplate = \"\"\n\n\n\nrtc.fatalError = .f.\ndim javascriptSetPrimaryKeys as c = \"\"\ndim tmpl as p\ntmpl = e.tmpl\ndim cn as sql::connection \ndim flag as l \ndim connstring as c \ndim args as sql::arguments \n\nconnstring = tmpl.databinding.connectionstring\nif variable_exists(\"session\") = .f. then \n\tflag = cn.open(connstring)\nelse\n\tflag = a5SQLConnectionOpen(cn,connstring,session)\nend if \nif flag = .f. then \n\trtc.fatalError = .t.\n\trtc.errorText = \"Could not connect to database. Error reported was: \" + cn.CallResult.text \nend if \n\nif rtc.fatalError = .f. then \n\t\n\tdim sqlNoLimit as c \n\tsqlNoLimit = \"SELECT timeentrynumber AS k FROM Time Time\"\n\t\n\tdim flagOracle as l = .f.\n\tif cn.CurrentSyntax = \"oracle\" then \n\t\tflagOracle = .t.\n\tend if \n\t\n\t\n\t\n\tif flagOracle then \n\t\tsqlNoLimit = stritran(sqlNoLimit,\"OracleLower(\",\"lower(\")\n\t\tsqlNoLimit = stritran(sqlNoLimit,\"OracleRtrim(\",\"rtrim(\")\n\telse\n\t\tsqlNoLimit = stritran(sqlNoLimit,\"OracleLower(\",\"\")\n\t\tsqlNoLimit = stritran(sqlNoLimit,\"OracleRtrim(\",\"\")\n\tend if \n\n\t\n\t\n\tif atc(\"session.\",sqlNoLimit) > 0 then \n\t\tif eval_valid(\"session\") then \n\t\t\tsqlNoLimit = replace_variables_in_string(sqlNoLimit,session,\"session\",.t.,.t.)\n\t\tend if  \n\tend if \n\t\n\t\n\t\n\tdim sql as c \n\tsql = \"SELECT FIRST 1000 timeentrynumber AS k FROM Time Time\"\n\t\n\tif flagOracle then \n\t\tsql = stritran(sql,\"OracleLower(\",\"lower(\")\n\t\tsql = stritran(sql,\"OracleRtrim(\",\"rtrim(\")\n\telse\n\t\tsql = stritran(sql,\"OracleLower(\",\"\")\n\t\tsql = stritran(sql,\"OracleRtrim(\",\"\")\n\tend if \n\n\t\n\t\n\tif atc(\"session.\",sql) > 0 then \n\t\tif eval_valid(\"session\") then \n\t\t\tsql = replace_variables_in_string(sql,session,\"session\",.t.,.t.)\n\t\tend if  \n\tend if \n\t\n\t\n\tcn.PortableSQLEnabled = .t.\n\tdim args as sql::arguments \n\tif eval_valid(\"e.arguments\") then \n\t\targs = e.arguments\n\tend if \n\t\n\tdim pc as p\n\t\n\tpc = a5_sql_getcount(cn,sqlNoLimit,args)\t\n\n\tif pc.error = .t. then \n\t\trtc.fatalError = .t.\n\t\trtc.errorText = \"Error getting count of records in query.\"\n\t\tcn.close()\n\tend if \n\t\n\t'if pc.count = -1 then could not get count of records in query\n\tif pc.count = -1 then \n\t\tcn.close()\n\tend if \n\trtc.recordsInQuery = pc.count \n\t\n\t\n\t\n\tif rtc.fatalError = .f. then \n\t\tflag = cn.Execute(sql,args)\n\t\tif flag = .f. then \n\t\t\trtc.fatalError = .t.\n\t\t\trtc.errorText = \"Could not execute query to get keys. Error reported was: \" + cn.CallResult.text \n\t\t\tcn.close()\n\t\tend if \n\tend if \nend if \n\ndim flagFatalError as l = .t.\nif rtc.fatalError = .f. then \n\tif pc.count > -1 then \n\t\tflagFatalError = .f.\n\tend if \nend if \n\nif flagFatalError = .f. then \n\tdim rs as sql::ResultSet\n\trs = cn.ResultSet\n\tdim txt_JSONKeys as c \n\tif primaryKeyTemplate = \"\" then \n\t\ttxt_JSONKeys = rs.ToJSONObjectSyntax()\n\telse\n\t\ttxt_JSONKeys = a5_mergeDataIntoTemplate(primaryKeyTemplate,rs)\n\tend if \n\ttxt_JSONKeys = \"[\" + crlf_to_comma(txt_JSONKeys) + \"]\"\n\t'make sure {k is lower case - some databases, such as Oracle will generate upper case names by default\n\ttxt_JSONKeys = stritran(txt_JSONKeys,\"{K\",\"{k\")\n\ttxt_JSONKeys = stritran(txt_JSONKeys,\"{\\\"K\",\"{\\\"k\")\n\t\n\t\n\t\tdim sliderCode as c = \"\"\n\tdim listViewCode as c = \"\"\n\t\n\tsliderCode = <<%txt%\n\n\t%txt%\n\n\t\n\tlistViewCode = <<%txt%\n\n\t%txt%\n\t\n\tjavascriptSetPrimaryKeys = \"{dialog.object}._primaryKeyList = \" + txt_JSONKeys  + \";\"\n\tjavascriptSetPrimaryKeys = javascriptSetPrimaryKeys + sliderCode + crlf()\n\tjavascriptSetPrimaryKeys = javascriptSetPrimaryKeys + \"{dialog.object}._navigationSliderSetMax('FullyQualified',{dialog.object}._primaryKeyList.length);\"\n\tjavascriptSetPrimaryKeys = javascriptSetPrimaryKeys + listViewCode + crlf()\n\tjavascriptSetPrimaryKeys = javascriptSetPrimaryKeys + \"if({dialog.object}._primaryKeyListNavigator) { var lObj = {dialog.object}._primaryKeyListNavigator; var data = {dialog.object}._primaryKeyList ; lObj.populate(data); if(data.length > 0) lObj.setValue(0,false); }\" + crlf()\n\t\n\t\n\tdim filter as c\n\tdim order as c \n\tdim maxNumberOfkeys as n \n\tfilter = \"\"\n\torder = \"\"\n\tmaxNumberOfKeys = \"1000\"\n\tdim pjs as p \n\tpjs.__keys_Filter = filter\n\tpjs.__keys_Order = order\n\t'pjs.__keys_FilterArguments = args.XML\n\tpjs.__keys_FilterArgumentsJSON = argumentsToJSON(args,.t.)\n\tpjs.__keys_MaxKeys = \"\" + maxNumberOfKeys\n\tdim jsState as c \n\tjsState = vartojson(pjs,.f.,.t.)\n\tjsState = tmpl.alias  + \"_DlgObj.setStateInfo(\" + jsState + \");\"\n\tjavascriptSetPrimaryKeys = javascriptSetPrimaryKeys + jsState\n\n\tif rtc.recordsInQuery > 0 then\n\t\t'--------------------------------------\n\t\t'get the javascript now to populate the controls for the first record - don't do another callback\n\t\tdim pp as p \n\t\tif txt_JSONKeys <> \"\" then\n\t\t\tpp = json_parse(txt_JSONKeys)\n\t\t\tdim keyFirst as c \n\t\t\tkeyFirst = pp[1].k\n\t\t\tdim ops as p\n\t\t\tops.primaryKey = keyFirst\n\t\t\tops.showDebugInfo = .f.\n\t\t\tdim js_getRecord as c \n\t\t\tdim eTemp as p\n\t\t\teTemp.tmpl = tmpl\n\t\t\t\n\t\t\t\n\t\t\t\n\t\t\tif eval_valid(\"e.rtc._state.__dtfmt\") then\n\t\t\t\tops.__dtfmt = e.rtc._state.__dtfmt\n\t\t\telse if eval_valid(\"rtc._state.__dtfmt\") then \n\t\t\t\tops.__dtfmt = rtc._state.__dtfmt\n\t\t\telse if eval_valid(\"request.variables._state.__dtfmt\") then \n\t\t\t\tops.__dtfmt = request.variables._state.__dtfmt\n\t\t\tend if \n\t\t\t\n\t\t\t\n\t\t\tjs_getRecord = a5_UX_Action(eTemp,ops,\"populateControlsFromTable\")\n\t\t\tjs_getRecord = js_getRecord + \";\" + crlf() + \"{dialog.object}._currentRecordNumber = 1;\"\n\t\t\t\n\t\t\tdim e.javascriptEmitAtEnd as c = default \"\"\n\t\t\tif e.javascriptEmitAtEnd <> \"\" then \n\t\t\t\te.javascriptEmitAtEnd = alltrim(e.javascriptEmitAtEnd) + \";\"\n\t\t\tend if \n\t\t\te.javascriptEmitAtEnd = e.javascriptEmitAtEnd + crlf() +js_getRecord\n\t\t\t\n\n\t\telse\n\t\t\tjs_getRecord = \"{dialog.object}.navigateRecord('first');\"\n\t\tend if \n\t\t\n\t\t\n\t\t'----------------------------------------------------\n\t\tjavascriptSetPrimaryKeys = javascriptSetPrimaryKeys + js_getRecord\n\t\tjavascriptSetPrimaryKeys = javascriptSetPrimaryKeys + <<%txt%\n\t\t\n\t\t%txt%\n\telse\n\t\n\t\n\t\t'-\n\t\t'----------------new record javascript -------------\n\t\tdim ops as p\n\t\tops.showDebugInfo = .f.\n\t\tdim js_getNewRecord as c \n\t\tdim eTemp as p\n\t\tops.arguments = e.arguments \n\t\teTemp.tmpl = tmpl\n\t\tif eval_valid(\"e.rtc._state.__dtfmt\") then\n\t\t\tops.__dtfmt = e.rtc._state.__dtfmt\n\t\telse if eval_valid(\"rtc._state.__dtfmt\") then \n\t\t\tops.__dtfmt = rtc._state.__dtfmt\n\t\telse if eval_valid(\"request.variables._state.__dtfmt\") then \n\t\t\tops.__dtfmt = request.variables._state.__dtfmt\n\t\tend if \n\t\t'get the javascript for the new record now, rather than making another callback\n\t\tjs_getNewRecord = a5_UX_Action(eTemp,ops,\"newrecord\")\n\t\tjavascriptSetPrimaryKeys = javascriptSetPrimaryKeys + js_getNewRecord\n\t\t'------------------------------------------------------\n\n\t\t'javascriptSetPrimaryKeys = javascriptSetPrimaryKeys + \"{Dialog.Object}.newRecord();\"\n\tend if \n\n\n\t\n\t\n\tcn.close()\nend if \n\nif rtc.fatalError = .t. then \n\te.showGlobalError = .t.\n\tdim errorText as c \n\terrorText = rtc.errorText\n\terrorText = stritran(errorText,crlf(),\"<br>\")\n\tjsErrorMessage = \"var ele = $('\"+tmpl.alias+\".GLOBALERRORS')\" +crlf()+\\\n\t\"if(ele) $svs(ele,'\"+js_escape(errorText)+\"'); \" + crlf()+\\\n\t\"if(ele) ele.style.display = '';\"\nelse\n\tjsErrorMessage = \"var ele = $('\"+tmpl.alias+\".GLOBALERRORS')\" +crlf()+\\\n\t\"if(ele) $svs(ele,'\"+js_escape(\"\")+\"'); \" + crlf()+\\\n\t\"if(ele) ele.style.display = 'none';\"\n\t\nend if \n\n\n\n\ndim e.javascript as c = default \"\"\ndim e.javascriptSystem as c = default \"\"\ne.javascriptSystem = \te.javascriptSystem  + \";\" + crlf()+\\\n\t\t\t\tjavascriptSetPrimaryKeys  + crlf()+\\\n\t\t\t\tjsErrorMessage\n\t\t\t\t\ndim e.javascriptEmitAtEnd as c = default \"\"\n\ndim js_getRecord as c = default \"\"\ndim js_getNewRecord as c = default \"\"\ne.javascriptEmitAtEnd = js_getRecord + js_getNewRecord\n\ndim tmpl.embeddedMode as l = default .f.\nif tmpl.embeddedMode then \n\te.javascriptSystem = a5GridHelper_FixWorkingPreview_EmbeddedIcons(e.javascriptSystem)\t\t\t\t\nend if \n\t\t\t\t\n\t\t\t\t\n",
-                "metadata": "<maxNumberOfKeys=1000>\n<flagFilterTable=.F.>\n<flagOrderTable=.F.>\n<specifyFilterMethod=\"SpecifyNow\">\n<filter=\"\">\n<specifyOrderMethod=\"SpecifyNow\">\n<order=\"\">\n<includePrimaryKeyDescription=.F.>\n<columns>\n<flagDescriptionColumnsDefined=.F.>\n<filterVarname=\"\">\n<orderVarName=\"\">\n<showSlider=.F.>\n<sliderContainerId=\"\">\n<showSliderMessage=.T.>\n<sliderMessage=\"({recordNumber} of {recordcount}) &nbsp;<b>{PrimaryKeyDescription}</b> \">\n<sliderWidth=\"6in\">\n<sliderMessagePrefix=\"Record:\">\n<hideSliderMessageWhenMouseNotOverSlider=.F.>\n<sliderMessagePosition=\"Above\">\n<sliderOnSlideEventHandlerFunction=\"\">\n<sliderOnChangeEventHadlerFunction=\"\">\n<newRecordMessage=\"New\">\n<noRecordsMessage=\"No records\">\n<showSliderC=\"No\">\n<showlistView=.F.>\n<listViewContainerId=\"\">\n<height=\"4in\">\n<width=\"3in\">\n<initialMessage=\"Loading data....\">\n<hasFreeformDisplay=.F.>\n<freeFormTemplate=\"\">\n<freeFormTemplateColumnHeading=\"\">\n<fillPanelContainer=.T.>\n<targetPanelOnClick=\"<NextPanel>\">\n<javascript<onSelect=\"\">\n>\n<hasCustomListViewRecordNavigator=.F.>\n<customListViewNavigatorIds=\"\">\n<showListViewC=\"No\">\n<recordNotFoundMessage=\"Record not found\">\n",
-                "builder": "getKeyValues"
-            },
-            {
-                "name": "Save Data",
-                "xbasic": "dim flagUseTransactions as l \nflagUseTransactions = .f.\ndim rtc as p\ndim tmpl as p\ntmpl = e.tmpl\n\ndim serverSideEvents as p\n\n\n\ndim geography as p \nwith geography\nDIM geocodeFieldDefinition as C\nDIM locationFieldDefinition as C\n\nend with \n\ndim opx as p\nopx.serverSideEvents = serverSideEvents\nopx.geography = geography\nopx.afterSaveAction = \"Edit record just submitted\"\nopx.listControlsToRefresh = \"\"\n\n\n\n\na5DialogHelper_SaveData(tmpl, e, rtc,flagUseTransactions, opx)\n\ndim jsShowErrors as c = \"\"\ndim jsEnterNewRecord as c = \"\"\ndim jsToFireAfterSaveEvent as c = \"\"\ndim jsShowUpdateCommands as c = \"\"\n\ndim jsConfirmationMessage as c = \"\"\n\n\n\nif rtc.fatalError = .t. then \n\t'must set this flag to prevent the Dialog from clearing the error messages.\n\te.showGlobalError = .t.\n\tdim errorText as c \n\terrorText = rtc.errorText\n\t'errorText = stritran(errorText,crlf(),\"<br>\")\n\t\n\tjsShowErrors = \"{dialog.object}.showGlobalErrors('<Default>','\" + js_escape(errorText) + \"'); \" + crlf()\n\t\n\trtc.javascript.refreshAllControls = \"\"\n\trtc.javascript.setPrimaryKeyinStateObject = \"\"\n\trtc.javascript.prepareDialog = \"\"\n\tjsToFireAfterSaveEvent = \"\"\n\tjsEnterNewRecord = \"\"\n\t\n\t\nend if \n\n\nif rtc.flagRecordWasSaved then \n\t\nelse\n\tjsEnterNewRecord = \"\"\nend if \n\n\n\n\n\n\n\ndim rtc.javascript.refreshAllControls as c = default \"\"\ndim rtc.javascript.prepareDialog as c = default \"\"\n'This flag must be set to .t., else the Javascript that sets the primaryKey in the state object will be overwritten.\ne.rtc.flagUpdatePrimaryKeysInStateObject = .t.\ndim rtc.javascript.setPrimaryKeyinStateObject as c = default \"\"\ndim e.javascript as c = default \"\"\n\ndim rtc.javascript.refreshDependentListControls as c = default \"\"\t\n\nif rtc.flagRecordWasSaved then\n\tjsToFireAfterSaveEvent = jsToFireAfterSaveEvent + <<%longtxt%\n\t\t(function() {; if({dialog.object}._functions._setInkControlsBackground) {{dialog.object}._functions._setInkControlsBackground(); ; };\n })();\n\t%longtxt%\nend if \n\n\n \n\ne.javascript = \trtc.javascript.refreshDependentListControls + \";\" + crlf()+\\\n\t\t\t\te.javascript + \";\" + crlf()  +\\\n\t\t\t\tjsShowUpdateCommands + crlf() +\\\n\t\t\t\tjsShowErrors + crlf()+\\\n                rtc.javascript.refreshAllControls + crlf() +\\\n\t\t\t\trtc.javascript.setPrimaryKeyinStateObject + crlf()+\\\n\t\t\t\trtc.javascript.prepareDialog + crlf() +\\\n\t\t\t\tjsToFireAfterSaveEvent + crlf()+\\\n\t\t\t\tjsEnterNewRecord + crlf()+\\\n\t\t\t\tjsConfirmationMessage\n\n'set the e.javascriptsystem variable so that in case the user sets e.javascript in their own code, that this value does not get lost\ne.javascriptSystem = e.javascript\t\ne.javascript = \"\"\t\t\t\n\ne.setPrimaryKeyinStateObject = rtc.javascript.setPrimaryKeyinStateObject\t\t\t\t\n\t\t\t\t\n",
-                "metadata": "<afterSubmitAction=\"Edit record just submitted\">\n<targetPage=\"\">\n<displayDebuggingInfo=.F.>\n<clientSideAfterSave=\"\">\n<useTransactions=.F.>\n<clientSideArguments=\"\">\n<clientSideAfterSaveSuccessJavascript=\"\">\n<clientSideAfterSaveFailedJavascript=\"\">\n<clientSideAfterSaveSuccessPanelToActivate=\"\">\n<displayFadeOutMessage=.F.>\n<fadeOutMessage=\"Record was saved\">\n<fadeOutMessagePosition=\"\">\n<fadeOutMessageDuration=\"2000\">\n<fadeOutMessageStyle=\"Default\">\n<flagsynchronizeListControls=.F.>\n<listControlsToSynchronize=\"\">\n<globalErrorsPlaceholder=\"<Default>\">\n<debuggingInformationPlaceholder=\"<Default>\">\n<flagStoreLocationInformation=.F.>\n<flagStoreLocationInformationC=\"No\">\n<latField=\"\">\n<lngField=\"\">\n<flagUpdateLocationField=.F.>\n<locationFieldNameForLatLng=\"\">\n<storeLocationWhen=\"InsertAndUpdate\">\n<serverSideEvent<beforeRecordInsert=\"\">\n<afterRecordInsert=\"\">\n<beforeRecordUpdate=\"\">\n<afterRecordUpdate=\"\">\n<beforeRecordDelete=\"\">\n<afterRecordDelete=\"\">\n<afterSectionRowRefresh=\"\">\n<onSQLError=\"\">\n>\n<geography<geocodeFieldDefinition=\"\">\n<locationFieldDefinition=\"\">\n>\n",
-                "builder": "saveDataToTables"
-            }
-        ],
         "arguments": [
             {
                 "Name": "ATTORNEY_CODE",
@@ -3800,7 +3800,7 @@
             "output": {
                 "Head": {
                     "JavaScript": "*gzip:H4sIAAAAAAAAC5WMsQ6CQBAFexP/Aa/Hq+gOOjsqf2Cznq84PPGyuyD8vSQUFlaWM5NM0CipWGVrQesMi/mBZ96tq1Ri677Cc3Me1HXB79wdD+HfAU2Sfyanun/x/bIYZOTcp5uwJGi9NSJByRzBdp1GS08QRVW1NcPe4IcSfQAk7ywxxgAAAA==",
-                    "CSS_Link": "*gzip:H4sIAAAAAAAAC81Y/0/bOBS/nyftf7DK0EBaaGlXCVLgxKDbkNjdBOy4+2lyE6fxcOPIcSms4n+/5y9JnDQpMO6HUwSNn5/fe5/n54/tHGTynhEk71Ny2JHkTnaDLOscvX4VyxlDS+QtyOSGSk/i1IvpNGbwJ72AMy58JKYTvNV7p5/tUaE7z4jwMsJIIH2U8IRA1yzzJJ8HsYcDSXli5Q+vX9FI4BlBy8bBKiCltHM8DHgiMU2IQMuIcSx9RiI5SnEY0mTq99I7q3dyfY7v+VyiZd6H3kMnMoOQHoUm/M7L6E/dO+EiBJcgUmHyn157Z9beZ6Nv6TehfRI0/ExDMhaCixPOkJUV7WVIs5The98krRx1wRda6QyyUNNyTOMs10Nrx9GEQSK9CePBzaji5C9KFl94SErdBqVxSGVVqRYI6JwlhdY6608cuOqxIaxTKuT9OtMnjOCVLNS8Z8ZKq9WnDap5KkIhai6uoKbR0qwgQcJRBIWtaob4e6msqn3OFxzUvNJaENXwJ5y1D6Opa3yCg5up4PMk9DeiKMIRRnPBtt7SGZ6SrPsGirP7Rlnp7t3tdd9ElLHut3Rz+PGU4ilPMPOvYyrJ5uB4sz/oD4eb/ZP+YN/830mT6Q4ealNvt0em3P3d9A5lnNEQbUR7e6MZFlOawNpP/T4sw3xNqvcWBGdJOq8kaMWwEhq7Slgb6eRsxUS/yURJHZeadUj4YS6lWi88xQGV9/7OcASJkWAAszTGW1Z+OATSMyPPklua0Qkj51CWaOlkvc6RRl+TkaoSYDMUqF9FFzIGmiqSglRgaEFDGdv32Ey/afBbIsDMwkcxDUOSjFDBd7rfojMNi9/Qig6VMoUsHwpRmUcRaE60x5DG5IQkUnFulUztrCoy9fFc8nyahQ5QSxR1e1iZ8FGgjbTS7kOD33Mw3eK1xclaZn9ADT4uTJk8As31oV2vw9GewSPkbE7vUDPgx5RMxI9puR6LbXOty3Vajs9yDy7JDVV2k3ybzSmvfGD4cRBAsmD3v6KSkT8T7awmjKIG6SnNMCyu0PFq3Nm6Rg7p7O/vFyyDFM3o+QsJ2MPOySOYi0wdYVJOdW3aaYdFKPnMDESumYcqgq84gd2oxb0tCcV5xlmDcYcXkdcvKOgKT654alNjGzYlptWaCvd8sz6uPAw3NLOmkEvRz0heNXa0rOH1dkuzhXDgYv6ghSVs2y6RG8FLwP+3QPOA8xpwJjsHqiUVlGq9lRh1q0Soms+t84a6egkoE18xfTZVldmzMgXLArcS57gFljRnlFBNs8Sq288Fa/1pYm5dVi+Bb4Mu8BtPFfhGNKgtV0UG1UJ1JSqrblu7WcsfFeLJWdSax0n4hHG9yuKCMfDjrC4rcJaXkZRTkvKMmpwJwiB7t2T0rFl6hGNc9vvFaVuoc6mXwVGMKI2FwGkD5F/hIhh7SVIM3uEiVeRaB+Eu9hrw/HA2cOH07DFXvUmEBcWs6kgVx2UgOGNPyXklTU8F1pzOJy+ypgmtQND1/D/E4BLToyCc4m/YbJs4upHLmrertSea/JKB4JaB7DUDVe4ZPoKLhon2miYhX6Cl/U5hcOKQzjOTJ+c7xEqfa0FdU5pYpNfruVdGtNHv90dlhP3iIlSPsD/cLo6/9WOeH6u7SvNhz+mrEFNVbk5BVZndPqvCfKOpmc1PE0a8XKkmwEpEfrHXGL6QZH4myQytKDu1A3dkxqcXlytsURJECK5hljeCIBghfU62PDF07hpae1hMUW72I+f66uVq7fbKHcE8B139Be9Iv4OHG9gFGAGvh52OWoSHHd2fxYTITv07H4oFiQ478Npdfvv768X4YvzH6fji8uqf8/GDMbwDnb9P5pSFAdSE/L77fqA+Dx5kgaDAaY7BH/gWG2kHZSJ4xOyPVasARQ8/ypE8I/zvWYzhUn+plddGrp7f/gUYec5c9xQAAA==",
+                    "CSS_Link": "*gzip:H4sIAAAAAAAAC81YbU/jOBC+zyvtf7AKaEHa0FKoBClwYqG7i8TerYA97j6t3MRpvLhx5LgUtuK/3/gliZMmBZb7cIqg8Xg8M894/NjOYSYfGEHyISVHHUnuZTfIss7x2zexnDK0QN6cjG+p9CROvZhOYgZ/0gs448JHYjLGm733+tkaFrqzjAgvI4wE0kcJTwh0TTNP8lkQeziQlCdW/vj2DY0EnhK0aBysAlJK2yeDgCcS04QItIgYx9JnJJLDFIchTSZ+L723eqc3F/iBzyRa5H1oDzqRGYT0KDTm915Gf+reMRchuASRCpP/9No7s/Y+G31Lvwntk6DhZxqSkRBcnHKGrKxoL0KapQw/+CZp5ahLPtdK55CFmpZjGme5Hlo5jiYMEumNGQ9uhxUnf1Ey/8JDUuo2KI1CKqtKtUBA5zwptFZZf+bAZY8NYZ1RIR9WmT5lBC9loeY9M1ZarT5vUM1TEQpRc3ENNY0WZgUJEg4jKGxVM8TfT2VV7XO+4KDmldacqIY/5qx9GE1d42Mc3E4EnyWhvxZFEY4wmgm2+Y5O8YRk3XUozu66stLdv9/vrkeUse63dGPw8YziCU8w829iKsnG7slGf7c/GGz0T/u7B+b/dppMtvFAm3q3NTTl7u+k9yjjjIZoLdrfH06xmNAE1n7q92EZ5mtSvbcgOE/SWSVBS4aV0NhVwtpIJ2dLJvpNJkrquNKsQ8IPMynVeuEpDqh88LcHQ0iMBAOYpTHetPKjAZCeGXme3NGMjhm5gLJECyfrdY40+pqMVJUAm6FA/Sq6kDHQVJEUpAJDcxrK2L7HZvpNg98RAWbmPoppGJJkiAq+0/0WnWlY/IZWdKiUKWT5UIjKPIpAc6I9gTQmpySRinOrZGpnVZGpj2eS59MsdIBaoqjbw8qEjwJtpJV2Hxv8XoDpFq8tTlYy+yNq8HFpyuQJaK4P7XoVjvYMHiNnc3qPmgE/pWQifkrL9VhsmytdrtJyfJZ7cEluqLKb5NtsTnnlA8NPggCSBbv/NZWM/JloZzVhFDVIz2iGYXGFjlfjztY1ckjn4OCgYBmkaEbPX0jAHnZOHsFMZOoIk3Kqa9NOOyxCyadmIHLNPFYRfMUJ7EYt7m1JKM4zzhqMO7yIvH5BQdd4fM1TmxrbsCkxrdZUuOeb1XHlYbihmTWFXIp+QfKqsaNFDa+3U5othLsu5g9aWMK27RK5EbwG/H8LNA84rwFnsnOgWlJBqdZbiVG3SoSq+dI6b6ir14Ay8RXTZ1NVmT0rU7AscCtxjltgSXNGCdU0S6y6/VKw1p8m5tZl9Rr4NugCv/FUgW9Eu7XlqsigWqiuRGXVbWs3K/mjQjw5i1rzOAmfMa5XWVwwBn6c1WUFzvIyknJKUp5RkzNBGGTvjgxfNEtPcIzLfr84bXN1LvUyOIoRpTEXOG2A/CtcBGOvSIrBO1ykilzrINzFXgOeH852XTg9e8xVbxJhQTGrOlLFcRUIzthzcl5J03OBNafz2YusaUIrEHQ9/w8xuMT0JAin+Bs22yaObuSy5u1q5Ykmv2QguGUge81AlXuGj+CiYaK9oUnI52hhv1MYnDiks8zkyfkOsdTnWlDXlCYW6fV67pURrfX7/WEZYb+4CNUj7A+2iuNv/Zjnx+qu0nzYc/oqxFSVm1NQVWa3z6ow32hqZvPThBEvlqoJsBKRX+w1hi8kmZ1LMkVLyk7twB2Z8cnl1RJblAQRgmuY5bUgCIZIn5MtTwycu4bWHhRTlJv9yLm+erlaO71yRzDPYVd/wTvW7+DhFnYBRsDrUaejFuFRR/dnMSGyU//Oh2JBoqMOvHYX3/7+ejm6HP1xNrq8uv7nYvRoDG9D5+/jGWVhADUhv+/s7anPg4dZIChwmmPwB77DRtpBmQieMPtj2SpA0cOPcyQvCP97FmO41F9p5ZWRq+e3fwEWZC/g9xQAAA==",
                     "title": "*gzip:H4sIAAAAAAAAC7MpySzJSbULjbDRh7AAiMez8hEAAAA="
                 },
                 "body": {

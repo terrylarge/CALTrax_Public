@@ -228,7 +228,7 @@
 >
 <[58]<page="AdminCollabRecords_grid.a5wcmp">
 <action="login">
-<groups="f3fac67fdcd74fdabf40cd2663385180,Administrators">
+<groups="f3fac67fdcd74fdabf40cd2663385180,Administrators,45b863d66a7441b38cff98c100d6f42a,Office">
 >
 <[59]<page="FillablePDF.htm">
 <action="allow">
@@ -293,5 +293,9 @@
 <[74]<page="AttySelectTimeByDatesUX.a5wcmp">
 <action="allow">
 <groups="">
+>
+<[75]<page="rpt_atty_select_grid.a5wcmp">
+<action="login">
+<groups="c3fe6b9f49f24540b4dcf0f43571e851,Attorneys">
 >
 >

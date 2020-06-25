@@ -298,4 +298,12 @@
 <action="login">
 <groups="c3fe6b9f49f24540b4dcf0f43571e851,Attorneys">
 >
+<[76]<page="extendeduserinformation1_ux.a5wcmp">
+<action="login">
+<groups="f3fac67fdcd74fdabf40cd2663385180,Administrators,45b863d66a7441b38cff98c100d6f42a,Office">
+>
+<[77]<page="zAttyRecapSheetNonSVP.a5rpt">
+<action="login">
+<groups="c3fe6b9f49f24540b4dcf0f43571e851,Attorneys">
+>
 >

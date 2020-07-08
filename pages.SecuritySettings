@@ -366,4 +366,16 @@
 <action="login">
 <groups="f3fac67fdcd74fdabf40cd2663385180,Administrators,45b863d66a7441b38cff98c100d6f42a,Office">
 >
+<[93]<page="securityAddNewInvestigator.a5wcmp">
+<action="login">
+<groups="f3fac67fdcd74fdabf40cd2663385180,Administrators,45b863d66a7441b38cff98c100d6f42a,Office">
+>
+<[94]<page="securityAddNewOfficeStaff.a5wcmp">
+<action="login">
+<groups="f3fac67fdcd74fdabf40cd2663385180,Administrators,45b863d66a7441b38cff98c100d6f42a,Office">
+>
+<[95]<page="securityEditExistingUser.a5wcmp">
+<action="login">
+<groups="f3fac67fdcd74fdabf40cd2663385180,Administrators,45b863d66a7441b38cff98c100d6f42a,Office">
+>
 >

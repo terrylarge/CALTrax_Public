@@ -9,7 +9,7 @@
         "flagTreeViewGrid": true,
         "flagTreeViewDV": true,
         "componentType": "Grid",
-        "Xbasic": "dim tmpl as p\ntmpl.ComponentName = \"office_investigator_embedded_grid\"\ntmpl.ComponentType = \"Grid\"\ntmpl.AjaxOn = .t.\ntmpl.LayoutColumns = 1\ntmpl.useCompactTheme = .t.\ntmpl.showPulseEffect = .t.\ntmpl.queryEcho = .f.\ntmpl.connectToWebSocketServer = .f.\ntmpl.flagAddPKToORDER = .t.\ntmpl.saveFileType = \"Formatted JSON\"\ntmpl.captureJSErrorStackTrace = .f.\ntmpl.pusherApp = .f.\ntmpl.pusherConfigJSON = \"\"\ntmpl.SecurityModel = \"Group Based\"\ntmpl.SecurityMode = \"\"\ntmpl.PreCalcMode = \"Standard\"\ntmpl.clientSideDateFormat = \"MM/dd/yyyy\"\ntmpl.publishedServerVariables = \"\"\ntmpl.datePicker.dayNames = \"Sun,Mon,Tue,Wed,Thu,Fri,Sat\"\ntmpl.datePicker.firstDayOfWeek = 1\ntmpl.datePicker.monthNames = \"January,February,March,April,May,June,July,August,September,October,November,December\"\ntmpl.datePicker.todayButtonText = \"Today\"\ntmpl.datePicker.closeButtonText = \"Close\"\ntmpl.datePicker.closeButtonText = \"Close\"\ntmpl.friendlydatesCustomizationJSON = \"\"\ntmpl.customizationString.javascriptDialogs = \"\"\ntmpl.iconMapOverrides = \"\"\ntmpl.DataSourceType = \"CS\"\ntmpl.CS.database_type = \"CS\"\ntmpl.CS.type = \"connectionstring\"\ntmpl.cs.ConnectionString  = \"::name::aconn\"\ntmpl.CS.SQL = \"SELECT [acess ID], [fullname], [E-mailAddress], [barCellular], [barPhone] FROM [tblAttorney] WHERE barPI = -1 ORDER BY barLastName\"\nDIM tmpl.Arguments[1] AS P\nwith tmpl.Arguments[1]\n\t.Name = \"\"\n\t.DataType = \"\"\n\t.Source = \"\"\n\t.SourceDisplay = \"\"\n\t.VariableScope = \"\"\n\t.VariableName = \"\"\n\t.VariableWithScope = \"\"\n\t.DefaultValue = \"\"\n\t.Prompt = .f.\n\t.PromptText = \"\"\n\t.PromptControlType = \"\"\n\t.PromptChoices = \"\"\n\t.PromptDlgTitle = \"\"\n\t.PromptTextAbove = \"\"\n\t.PreviewValue = \"\"\n\t.delete = .f.\n\t.variable = \"\"\nend with\nDIM tmpl.ArgumentsPage AS P\nwith tmpl.ArgumentsPage\n\t.PromptTextAbove = \"\"\nend with\ntmpl.CS.PrimaryKeyColumns = \"acess ID\"\ntmpl.CS.IdentitySequenceName  = \"\"\ntmpl.CS.primaryKeyTopAliasIsAutoIncrement  = .t.\ntmpl.grid_is_editable = .t.\ntmpl.edit.allow_update = .t.\ntmpl.edit.allow_insert = .t.\ntmpl.edit.number_of_insert_rows = 1\ntmpl.edit.allow_delete = .t.\ntmpl.edit.validateFieldsSetting = \"Dirty Fields Only\"\ntmpl.ShowNewRecordsOnLastPageOnly = .t.\ntmpl.AddNewRecordRowsPosition = \"Bottom\"\ntmpl.SecurityMode = \"\"\ntmpl.edit.delete_checkbox_label = \"Delete\"\ntmpl.edit.delete_checkbox_allowDeleteAll = .f.\ntmpl.edit.delete_checkbox_label_position = \"Left\"\ntmpl.edit.has_Cancel_button = .t.\ntmpl.edit.cancel_button_text = \"Cancel\"\ntmpl.edit.submit_button_text = \"Submit\"\ntmpl.edit.cancel_button_inlinestyle = \"\"\ntmpl.edit.submit_button_inlinestyle = \"\"\ntmpl.edit.confirm_before_submit = .f.\ntmpl.edit.confirm_before_submit_message = \"Submit changes?\"\ntmpl.edit.check_for_write_conflicts = .t.\ntmpl.edit.write_conflict_check_type = 2\ntmpl.edit.save_original_values  = .t.\ntmpl.edit.Show_Update_Commands = .f.\ntmpl.edit.Execute_Update_Commands = .t.\ntmpl.edit.TargetPage = \"<Self>\"\ntmpl.autoNumberColumnLabel = \"Auto\"\ntmpl.edit.RowEditStyle = \"AllRows\"\ntmpl.edit.NewRecordsEditStyle = \"AlwaysShown\"\ntmpl.edit.HideNewRecordsAfterInsert = .f.\ntmpl.edit.NewRecordsButtonLabel = \"New Records\"\ntmpl.edit.DeleteRecordControl = \"Checkbox\"\ntmpl.edit.HasRowStatusColumn = .t.\ntmpl.edit.OneEditableRowAtATime = .t.\ntmpl.edit.field_error_style.type = \"Icon\"\ntmpl.edit.field_error_style.icon = \"images/$$generic.error.png.a5image\"\ntmpl.edit.field_error_style.control_classname = \"\"\ntmpl.edit.field_error_style.error_classname = \"\"\ntmpl.edit.field_error_style.control_hover_classname = \"\"\ntmpl.edit.field_error_style.error_hover_classname = \"\"\ntmpl.edit.show_row_errors_in_popup = .f.\ntmpl.edit.row_errors_window_title = \"Errors\"\ntmpl.edit.row_errors_window_style = \"color: red; width: 6in; height: 2in;\"\ntmpl.edit.RefreshRowMethod = \"AutoSelect\"\ntmpl.edit.Editable_GridRow_Options_Style = \"Icons\"\ntmpl.edit.RefreshRowOnDirty = .t.\ntmpl.edit.LazyEdit = .t.\ntmpl.edit.abortGridUpdateIfAnyRowHasError = .f.\nDIM tmpl.update.tables[1] as p\nWith tmpl.update.tables[1]\n\t.Name = \"tblAttorney\"\n\t.Table_Alias = \"tblAttorney\"\n\t.PrimaryKey = \"acess ID\"\nEnd With\ntmpl.grid_layout_style = 1\ntmpl.add_records_only = .f.\ntmpl.rows = 20\ntmpl.maxRowsPerPage = 200\ntmpl.rowsWhenSearchActive = -1\ntmpl.suppress_empty_rows = .t.\ntmpl.has_row_separator = .t.\ntmpl.alternate_bands = .f.\ntmpl.even_band_size = 1\ntmpl.odd_band_size = 1\ntmpl.alternate_column_bands = .f.\ntmpl.even_column_band_size = 1\ntmpl.odd_column_band_size = 1\ntmpl.conditionalStyle = \"\"\ntmpl.clientSideConditionalStyle = \"\"\ntmpl.show_title = .f.\ntmpl.title = \"\"\ntmpl.FontSize = \"Medium\"\ntmpl.No_records_message = \"No records in query\"\ntmpl.total_records_row_position = 1\ntmpl.total_records_row = \"Records:&nbsp; {Total_Records}&nbsp;\"\ntmpl.show_column_titles = 1\ntmpl.suppress_titles_if_no_records = .f.\ntmpl.show_row_labels = .t.\ntmpl.snakingLayout_suppressRepeatedLabels = .f.\ntmpl.sort_style = 3\ntmpl.reset_page_number_when_sorting = .t.\ntmpl.allowGridBodyScrolling = .f.\ntmpl.scrollableRegionHeight = \"2in\"\ntmpl.scrollableRegionWidth = \"100%\"\ntmpl.fixedWidthColumns = .f.\ntmpl.defaultColumnWidth = \"1in\"\ntmpl.columnWidthSettings = \"\"\ntmpl.EditRegion.Grid.Top = <<%editregion%\n%editregion%\ntmpl.EditRegion.Grid.Bottom = <<%editregion%\n%editregion%\ntmpl.EditRegion.Grid.Left = <<%editregion%\n%editregion%\ntmpl.EditRegion.Grid.Right = <<%editregion%\n%editregion%\ntmpl.HasNewRecordsTitle = .f.\ntmpl.NewRecordsTitle = \"<tr><td class=\\\"[class.gridData]\\\" colspan=\\\"{a5_colspan}\\\" style=\\\"padding: 0px;\\\" >New Records</td></tr>\"\ntmpl.HasExistingRecordsTitle = .f.\ntmpl.ExistingRecordsTitle = \"<tr><td class=\\\"[class.gridData]\\\" colspan=\\\"{a5_colspan}\\\" style=\\\"padding: 0px;\\\" >Existing Records</td></tr>\"\ntmpl.Highlight_row_onHover =  .t.\ntmpl.Highlight_row_onSelect =  .t.\ntmpl.HasRecordsPerPageSelector = .t.\ntmpl.RecordsPerPageChoices =   \"10,20,25,50,75,100\"\ntmpl.RecordsPerPageSelectorTemplate = \"&nbsp;&nbsp;{Grid.RecordsPerPageSelector} Records per page\"\ntmpl.has_qbe_row = .f.\ntmpl.qbe.initial_display = \"Hidden\"\ntmpl.qbe.toggleQBERowHyperlinkText = \"Show/Hide QBE Row\"\ntmpl.has_advancedSearch = .f.\ntmpl.hasLinkedContent = .f.\ntmpl.hasExternalNavigators = .f.\ntmpl.hasRowExpandColumn = .f.\ntmpl.hasSelectedRowColumn = .t.\ntmpl.hasCheckboxSelectColumn = .f.\ntmpl.AdditionalGridStyles = \"\"\ntmpl.LocalCss = \"\"\ntmpl.CSSLinkedFiles = \"\"\ntmpl.localsvg = \"\"\ntmpl.SVGLinkedFiles = \"\"\ntmpl.CSSIcons = \"\"\ntmpl.JavaScriptLinkedFiles = \"\"\ntmpl.useMasterTemplate = .f.\ntmpl.MasterTemplateStyle = \"Table - Vertical Layout\"\ntmpl.MasterLayoutTemplate = \"\"\ntmpl.MasterLayoutTemplateJavascript = \"\"\ntmpl.MasterLayout.PaneLabel.Search = \"Search\"\ntmpl.MasterLayout.PaneLabel.Grid = \"Grid\"\ntmpl.MasterLayout.PaneLabel.DetailView = \"Detail\"\ntmpl.MasterLayout.AccordionStyle = \"Multiple\"\ntmpl.MasterLayout.InitialOpenPanes = \"Search,Grid,DetailView\"\ntmpl.verticalAlignDataInColumns = \"Middle\"\ntmpl.CanCollapseGrid = .f.\ntmpl.CollapseBar.Title = \"Collapse Grid\"\ntmpl.CollapseBar.OpenIcon = \"\"\ntmpl.CollapseBar.ClosedIcon = \"\"\ntmpl.CollapseBar.Style = \"\"\ntmpl.Collapsebar.Class = \"\"\ntmpl.Collapsebar.ContainerStyle = \"\"\ntmpl.Collapsebar.ContainerClass = \"\"\ntmpl.Collapsebar.InitialState = \"open\"\ntmpl.languageTags_RemoveUnConsumedTags = .t.\ntmpl.activeLanguage = \"<Default>\"\ntmpl.search.highlightSearchStrings = .f.\ntmpl.autoRefreshGrid = .f.\ntmpl.autoRefreshInterval = 60\ntmpl.helpTableType = \"DBF\"\ntmpl.helpTableName = \"\"\ntmpl.helpConnectionString = \"\"\ntmpl.helpIDfield = \"\"\ntmpl.helpContentsField = \"\"\ntmpl.fieldHelpWindowStyle = \"modal-resizeable\"\ntmpl.fields = 6\nDIM tmpl.field_info[tmpl.fields] as P \nwith tmpl.field_info[1]\n\t.Controltype = \"Unbound_Button\"\n\t.Fieldname = \"_Unbound_Button_1\"\n\t.Varname = \"_Unbound_Button_1\"\n\t.ButtonText = \"Detail\"\n\t.Button.class = \"\"\n\t.Button.style = \"\"\n\t.clientSideConditionalStyle = \"\"\n\t.clientSideConditionalStyleLevel = \"control\"\n\t.Column.CanSort = .t.\n\t.Column.Sort = \"\"\n\t.Column.Heading = \"\"\n\t.Column.InLineStyle = \"\"\n\t.Column.LabelInLineStyle = \"\"\n\t.Column.heading_left = \"\"\n\t.Column.Hide = .f.\n\t.BreakType = \"None\"\n\t.Column.LabelPosition = \"Left\"\n\t.nCols = 1\n\t.javascript.onclick = <<%txt%\n/* actionJavascript:020c543f-ad63-4fa0-8f92-bda1bd656281    */\n{grid.componentName}_G__UNBOUND_BUTTON_1_1({grid.rownumber},'{grid.rowId}',this);%txt%\n\t.javascriptDeclarationsGlobal.onclick = <<%txt%\nwindow['{grid.componentName}_G__UNBOUND_BUTTON_1_1'] = function(rowNum,rowId,objEle) {\nvar windowName = 'WINDOW_60b02c50_f866_4370_8f93_40b5070218e8';\nvar currWindow = {Grid.object}.getWindow(windowName);\nvar go = new Object();\ngo.objectId = objEle.id;\ngo.dialog2Name = 'office_inv_embedded_expanded_UX';\ngo.type = 'dialog2';\ngo.specialDialogMode = 'editGridRow';\ngo.recordPrimaryKey = {grid.object}._getCurrentKey(rowNum);\ngo.closeDialogAfterSubmit=true;\ngo.alias = '{GRID.COMPONENTNAME}_OFFICE_INV_DXSO';\ngo.submitCurrentFieldValues = true;\ngo.sourceGridPart = 'G';\ngo.sourceGridRowNumber = rowNum;\ngo.workingMessage = '<img src=\\'css/A5System/Images/wait.gif\\' />Working...';\ngo.placeholderValues = '';\ngo.argumentBinding = '';\ngo._thisGridAlias = {grid.object}.gridId;\nif(typeof {grid.object}.gridId != 'undefined') go._thisGridAlias = {grid.object}.gridId;\nif(typeof {grid.object}.dialogId != 'undefined') {\n\tgo._thisGridAlias = {grid.object}.dialogId;\n}\ngo._thisGridGUID = {grid.object}.componentGUID;\ngo._gridCurrentFilter = {grid.object}._gridFilter;\ngo._gridCurrentOrder = {grid.object}._gridOrder;\ngo._gridCurrentArguments = {grid.object}._gridArguments;\ngo._gridCurrentDBType = {grid.object}._gridDBType;\ngo.overrideSettings = 'Style_name = `{Grid.style}`||Style_name = `{Grid.style}`'+'||';\ngo.a5_default_path = '{grid.defaultPath}';\ngo.windowName = windowName;\ngo.synchronizeArguments = true;\ngo.showWindowParameters = '';\nif(!currWindow) {\n\tcurrWindow = {Grid.object}.createWindow(windowName,'modal-resizable',\n\t{\n\tbody: {\n\t\tcontent: {\n\t\t\ttype: 'blank',\n\t\t\telementId: '~'\n\t\t}\n\t},\n\theight: '5in',\n\twidth: '8in',\n\ttitle: {\n\t\thtml: 'Investigator',\n\t\tlocation: 'top',\n\t\tdirection: 'ltr',\n\t\tshow: true\n\t},\n\tdisableMove: false,\n\ttheme: '{Grid.style}',\n\tonBeforeHide: function() {\nvar isDirty = false;\nif(typeof window['{GRID.COMPONENTNAME}_OFFICE_INV_DXSO_DlgObj'] != 'undefined') {\n\tisDirty = window['{GRID.COMPONENTNAME}_OFFICE_INV_DXSO_DlgObj']._isDirty;\n}\nif(isDirty) {\n\twindow['{GRID.COMPONENTNAME}_OFFICE_INV_DXSO_DlgObj']._confirmAction();\n\treturn false;\n} else return true;\n}\n}\n\t);\t\t\n\tgo.dialog2Div = currWindow.getWindowId('body');\n\tA5.component.runGenericComponent(go)\nsetTimeout(function() { {grid.object}.blur();},100);\n\tcurrWindow.show();\n} else {\n\t\tvar ele = '{Grid.componentname}_office_inv_dxso.GRID_PART.FORM_CONTAINER_DIV';\n\tvar pele = $(ele);\n\tif(pele) pele.innerHTML = '<img src=\\'css/A5System/Images/wait.gif\\' /> Working...';\n\tgo.dialog2Div = currWindow.getWindowId('body');\n\tgo.parentGridId = '{grid.componentname}';\n\tA5.component.runGenericComponent(go)\n\tcurrWindow.show();\nsetTimeout(function() { {grid.object}.blur();},100);\n};\n}%txt%\nend with\nwith tmpl.field_info[2]\n\t.Fieldname = \"acess ID\"\n\t.Scope = \"Local\"\n\t.DisplayFormat = \"\"\n\t.DisplayUnFormat = \"\"\n\t.ConditionalStyle = \"\"\n\t.ConditionalStyleLevel = \"Cell\"\n\t.ClientSideConditionalStyle = \"\"\n\t.ClientSideConditionalStyleLevel = \"Cell\"\n\t.QBEDisable = .f.\n\t.QBEInlineStyle = \"\"\n\t.QBEOptionsJSON = \"\"\n\t.canBeUsedInWhereClause = .t.\n\t.autoincrement = .t.\n\t.portableType = \"Integer32\"\n\t.nativeType = \"Integer\"\n\t.Type = \"N\"\n\t.UserDefinedClientSideValidationJavascript = \"\"\n\t.onChange_ValidationOption = \"None\"\n\t.Updateable = .t.\n\t.TreatBlankAsNull = .f.\n\t.Table_Alias = \"tblAttorney\"\n\t.FieldToUpdate = \"acess ID\"\n\t.Varname = \"ACESS_ID\"\n\t.Initial_Value = \"NULL\"\n\t.Column.LabelPosition = \"Left\"\n\t.Controltype = \"TextBox\"\n\t.Textbox.Size = 11\n\t.Textbox.HTML5Type = \"\"\n\t.Textbox.customAttributes = \"\"\n\t.Textbox.readonly = .f.\n\t.Textbox.MaxLength = 11\n\t.Textbox.InLineStyle = \"text-align: right;\"\n\t.Textbox.className = \"\"\n\t.Textbox.ContainerInlineStyle = \"\"\n\t.Textbox.IsPassword = .f.\n\t.hasWatermark= .f.\n\t.BreakType = \"None\"\n\t.nCols = 1\n\t.Column.Hide = .f.\n\t.BaseFieldExpression = \"[acess ID]\"\n\t.SourceAlias = \"\"\n\t.Column.Heading = \"Investigator ID\"\n\t.Column.Sort = \"[acess ID]\"\n\t.Column.FirstClickDirection = \"A\"\nend with\nwith tmpl.field_info[3]\n\t.Fieldname = \"fullname\"\n\t.Scope = \"Local\"\n\t.DisplayFormat = \"\"\n\t.DisplayUnFormat = \"\"\n\t.ConditionalStyle = \"\"\n\t.ConditionalStyleLevel = \"Cell\"\n\t.ClientSideConditionalStyle = \"\"\n\t.ClientSideConditionalStyleLevel = \"Cell\"\n\t.QBEDisable = .f.\n\t.QBEInlineStyle = \"\"\n\t.QBEOptionsJSON = \"\"\n\t.canBeUsedInWhereClause = .t.\n\t.autoincrement = .f.\n\t.portableType = \"NationalVaryingCharacter\"\n\t.nativeType = \"Varying Wide Character\"\n\t.Type = \"C\"\n\t.UserDefinedClientSideValidationJavascript = \"\"\n\t.onChange_ValidationOption = \"None\"\n\t.Updateable = .t.\n\t.TreatBlankAsNull = .f.\n\t.Table_Alias = \"tblAttorney\"\n\t.FieldToUpdate = \"fullname\"\n\t.Varname = \"FULLNAME\"\n\t.Initial_Value = \"NULL\"\n\t.Column.LabelPosition = \"Left\"\n\t.Controltype = \"TextBox\"\n\t.Textbox.Size = 30\n\t.Textbox.HTML5Type = \"\"\n\t.Textbox.customAttributes = \"\"\n\t.Textbox.readonly = .f.\n\t.Textbox.MaxLength = 30\n\t.Textbox.InLineStyle = \"\"\n\t.Textbox.className = \"\"\n\t.Textbox.ContainerInlineStyle = \"\"\n\t.Textbox.IsPassword = .f.\n\t.hasWatermark= .f.\n\t.BreakType = \"None\"\n\t.nCols = 1\n\t.Column.Hide = .f.\n\t.BaseFieldExpression = \"fullname\"\n\t.SourceAlias = \"\"\n\t.Column.Heading = \"Name\"\n\t.Column.Sort = \"fullname\"\n\t.Column.FirstClickDirection = \"A\"\nend with\nwith tmpl.field_info[4]\n\t.Fieldname = \"E-mailAddress\"\n\t.Scope = \"Local\"\n\t.DisplayFormat = \"\"\n\t.DisplayUnFormat = \"\"\n\t.ConditionalStyle = \"\"\n\t.ConditionalStyleLevel = \"Cell\"\n\t.ClientSideConditionalStyle = \"\"\n\t.ClientSideConditionalStyleLevel = \"Cell\"\n\t.QBEDisable = .f.\n\t.QBEInlineStyle = \"\"\n\t.QBEOptionsJSON = \"\"\n\t.canBeUsedInWhereClause = .t.\n\t.autoincrement = .f.\n\t.portableType = \"NationalVaryingCharacter\"\n\t.nativeType = \"Varying Wide Character\"\n\t.Type = \"C\"\n\t.UserDefinedClientSideValidationJavascript = \"\"\n\t.onChange_ValidationOption = \"None\"\n\t.Updateable = .t.\n\t.TreatBlankAsNull = .f.\n\t.Table_Alias = \"tblAttorney\"\n\t.FieldToUpdate = \"E-mailAddress\"\n\t.Varname = \"E_MAILADDRESS\"\n\t.Initial_Value = \"NULL\"\n\t.Column.LabelPosition = \"Left\"\n\t.Controltype = \"TextBox\"\n\t.Textbox.Size = 30\n\t.Textbox.HTML5Type = \"\"\n\t.Textbox.customAttributes = \"\"\n\t.Textbox.readonly = .f.\n\t.Textbox.MaxLength = 50\n\t.Textbox.InLineStyle = \"\"\n\t.Textbox.className = \"\"\n\t.Textbox.ContainerInlineStyle = \"\"\n\t.Textbox.IsPassword = .f.\n\t.hasWatermark= .f.\n\t.BreakType = \"None\"\n\t.nCols = 1\n\t.Column.Hide = .f.\n\t.BaseFieldExpression = \"[E-mailAddress]\"\n\t.SourceAlias = \"\"\n\t.Column.Heading = \"E-Mail Address\"\n\t.Column.Sort = \"[E-mailAddress]\"\n\t.Column.FirstClickDirection = \"A\"\nend with\nwith tmpl.field_info[5]\n\t.Fieldname = \"barCellular\"\n\t.Scope = \"Local\"\n\t.DisplayFormat = \"\"\n\t.DisplayUnFormat = \"\"\n\t.ConditionalStyle = \"\"\n\t.ConditionalStyleLevel = \"Cell\"\n\t.ClientSideConditionalStyle = \"\"\n\t.ClientSideConditionalStyleLevel = \"Cell\"\n\t.QBEDisable = .f.\n\t.QBEInlineStyle = \"\"\n\t.QBEOptionsJSON = \"\"\n\t.canBeUsedInWhereClause = .t.\n\t.autoincrement = .f.\n\t.portableType = \"NationalVaryingCharacter\"\n\t.nativeType = \"Varying Wide Character\"\n\t.Type = \"C\"\n\t.UserDefinedClientSideValidationJavascript = \"\"\n\t.onChange_ValidationOption = \"None\"\n\t.Updateable = .t.\n\t.TreatBlankAsNull = .f.\n\t.Table_Alias = \"tblAttorney\"\n\t.FieldToUpdate = \"barCellular\"\n\t.Varname = \"BARCELLULAR\"\n\t.Initial_Value = \"NULL\"\n\t.Column.LabelPosition = \"Left\"\n\t.Controltype = \"TextBox\"\n\t.Textbox.Size = 14\n\t.Textbox.HTML5Type = \"\"\n\t.Textbox.customAttributes = \"\"\n\t.Textbox.readonly = .f.\n\t.Textbox.MaxLength = 14\n\t.Textbox.InLineStyle = \"\"\n\t.Textbox.className = \"\"\n\t.Textbox.ContainerInlineStyle = \"\"\n\t.Textbox.IsPassword = .f.\n\t.hasWatermark= .f.\n\t.BreakType = \"None\"\n\t.nCols = 1\n\t.Column.Hide = .f.\n\t.BaseFieldExpression = \"barCellular\"\n\t.SourceAlias = \"\"\n\t.Column.Heading = \"Cellular\"\n\t.Column.Sort = \"barCellular\"\n\t.Column.FirstClickDirection = \"A\"\nend with\nwith tmpl.field_info[6]\n\t.Fieldname = \"barPhone\"\n\t.Scope = \"Local\"\n\t.DisplayFormat = \"\"\n\t.DisplayUnFormat = \"\"\n\t.ConditionalStyle = \"\"\n\t.ConditionalStyleLevel = \"Cell\"\n\t.ClientSideConditionalStyle = \"\"\n\t.ClientSideConditionalStyleLevel = \"Cell\"\n\t.QBEDisable = .f.\n\t.QBEInlineStyle = \"\"\n\t.QBEOptionsJSON = \"\"\n\t.canBeUsedInWhereClause = .t.\n\t.autoincrement = .f.\n\t.portableType = \"NationalVaryingCharacter\"\n\t.nativeType = \"Varying Wide Character\"\n\t.Type = \"C\"\n\t.UserDefinedClientSideValidationJavascript = \"\"\n\t.onChange_ValidationOption = \"None\"\n\t.Updateable = .t.\n\t.TreatBlankAsNull = .f.\n\t.Table_Alias = \"tblAttorney\"\n\t.FieldToUpdate = \"barPhone\"\n\t.Varname = \"BARPHONE\"\n\t.Initial_Value = \"NULL\"\n\t.Column.LabelPosition = \"Left\"\n\t.Controltype = \"TextBox\"\n\t.Textbox.Size = 14\n\t.Textbox.HTML5Type = \"\"\n\t.Textbox.customAttributes = \"\"\n\t.Textbox.readonly = .f.\n\t.Textbox.MaxLength = 14\n\t.Textbox.InLineStyle = \"\"\n\t.Textbox.className = \"\"\n\t.Textbox.ContainerInlineStyle = \"\"\n\t.Textbox.IsPassword = .f.\n\t.hasWatermark= .f.\n\t.BreakType = \"None\"\n\t.nCols = 1\n\t.Column.Hide = .f.\n\t.BaseFieldExpression = \"barPhone\"\n\t.SourceAlias = \"\"\n\t.Column.Heading = \"Phone\"\n\t.Column.Sort = \"barPhone\"\n\t.Column.FirstClickDirection = \"A\"\nend with\ntmpl.RecordNavigationStyle = \"NavigationButtons\"\ntmpl.fetchMoreRecordsButton.text = \"More Records\"\ntmpl.fetchMoreRecordsButton.style = \"\"\ntmpl.RecNav.SuppressIfOnlyOnePage = .t.\ntmpl.RecNav.First_Label = \"First\"\ntmpl.RecNav.Has_First_Button = .t.\ntmpl.RecNav.Has_Last_Button = .t.\ntmpl.RecNav.Has_Next_Button = .t.\ntmpl.RecNav.Has_Prev_Button = .t.\ntmpl.RecNav.HTML_Template_source = \"Computed\"\ntmpl.RecNav.Justify = \"Left\"\ntmpl.RecNav.Last_Label = \"Last\"\ntmpl.RecNav.Next_Label = \"Next\"\ntmpl.RecNav.Number_of_page_links = 10\ntmpl.RecNav.Page_Numbering_Style = 3\ntmpl.RecNav.PagesTemplate_w_PageCount = \"{PageNumber} of {PageCount}\"\ntmpl.RecNav.PagesTemplate_wout_PageCount = \"{PageNumber}\"\ntmpl.RecNav.Position = 1\ntmpl.RecNav.suppress_recNavBar_if_no_records = .f.\ntmpl.RecNav.Prev_Label = \"Prev\"\ntmpl.RecNav.Show_disabled_controls = .t.\ntmpl.RecNav.Show_Page_Count = .t.\ntmpl.RecNav.Use_Images = .f.\ntmpl.gridToolbarTemplate = <<%html%\n%html%\ntmpl.gridToolbarTemplateEditable = <<%html%\n%html%\ntmpl.style_name = \"<ProjectStyle>\"\ntmpl.resolveAbstractClassNames = .t.\ntmpl.style_type = \"Alpha Five\"\ntmpl.UseSimpleStyles = .f.\ntmpl.overrideStylesForJavascriptObjects = .f.\ntmpl.searchBehavior = \"\"\ntmpl.GUID = \"28289b5b-d5d1-4b12-9c24-af041887a2cf\"\ntmpl.onlyIncludeSelectedFieldsInQuery = .t.\ntmpl.hasGroupBreaks = .t.\ntmpl.groupBreaks.expression1 = \"\"\ntmpl.groupBreaks.direction1 = \"\"\ntmpl.groupBreaks.header1 = <<%HTML%\n%HTML%\ntmpl.groupBreaks.footer1 = <<%HTML%\n%HTML%\ntmpl.groupBreaks.collapseAllGroupsOnInitialDisplay = .f.\ntmpl.timestamp = \"2020-03-31:10-09-44.741\"\ntmpl.resolveAbstractClassNamesAtDesignTime  = .f.\ntmpl.resolveAbstractIconNamesAtDesignTime = .f. \ntmpl.useLegacyDatePicker = .f.\ntmpl.javascriptUnboundActionDefinitions = <<%javascriptActions%\n%javascriptActions%\n\ntmpl.precalc.sessionVarsInShowHideExpns = <<%sessionvars%\n%sessionvars%\ntmpl.precalc.unboundActionsXbasicFunctions = \"\"\ntmpl.precalc.includeS3Javascript = .f.",
+        "Xbasic": "dim tmpl as p\ntmpl.ComponentName = \"office_investigator_embedded_grid\"\ntmpl.ComponentType = \"Grid\"\ntmpl.AjaxOn = .t.\ntmpl.LayoutColumns = 1\ntmpl.useCompactTheme = .t.\ntmpl.showPulseEffect = .t.\ntmpl.queryEcho = .f.\ntmpl.connectToWebSocketServer = .f.\ntmpl.flagAddPKToORDER = .t.\ntmpl.saveFileType = \"Formatted JSON\"\ntmpl.captureJSErrorStackTrace = .f.\ntmpl.pusherApp = .f.\ntmpl.pusherConfigJSON = \"\"\ntmpl.SecurityModel = \"Group Based\"\ntmpl.SecurityMode = \"\"\ntmpl.PreCalcMode = \"Standard\"\ntmpl.clientSideDateFormat = \"MM/dd/yyyy\"\ntmpl.publishedServerVariables = \"\"\ntmpl.datePicker.dayNames = \"Sun,Mon,Tue,Wed,Thu,Fri,Sat\"\ntmpl.datePicker.firstDayOfWeek = 1\ntmpl.datePicker.monthNames = \"January,February,March,April,May,June,July,August,September,October,November,December\"\ntmpl.datePicker.todayButtonText = \"Today\"\ntmpl.datePicker.closeButtonText = \"Close\"\ntmpl.datePicker.closeButtonText = \"Close\"\ntmpl.friendlydatesCustomizationJSON = \"\"\ntmpl.customizationString.javascriptDialogs = \"\"\ntmpl.iconMapOverrides = \"\"\ntmpl.DataSourceType = \"CS\"\ntmpl.CS.database_type = \"CS\"\ntmpl.CS.type = \"connectionstring\"\ntmpl.cs.ConnectionString  = \"::name::aconn\"\ntmpl.CS.SQL = \"SELECT [acess ID], [barFirstName], [barLastName], [barPI] FROM [tblAttorney] WHERE barPI = -1 ORDER BY barLastName\"\nDIM tmpl.Arguments[1] AS P\nwith tmpl.Arguments[1]\n\t.Name = \"\"\n\t.DataType = \"\"\n\t.Source = \"\"\n\t.SourceDisplay = \"\"\n\t.VariableScope = \"\"\n\t.VariableName = \"\"\n\t.VariableWithScope = \"\"\n\t.DefaultValue = \"\"\n\t.Prompt = .f.\n\t.PromptText = \"\"\n\t.PromptControlType = \"\"\n\t.PromptChoices = \"\"\n\t.PromptDlgTitle = \"\"\n\t.PromptTextAbove = \"\"\n\t.PreviewValue = \"\"\n\t.delete = .f.\n\t.variable = \"\"\nend with\nDIM tmpl.ArgumentsPage AS P\nwith tmpl.ArgumentsPage\n\t.PromptTextAbove = \"\"\nend with\ntmpl.CS.PrimaryKeyColumns = \"acess ID\"\ntmpl.CS.IdentitySequenceName  = \"\"\ntmpl.CS.primaryKeyTopAliasIsAutoIncrement  = .t.\ntmpl.grid_is_editable = .t.\ntmpl.edit.allow_update = .t.\ntmpl.edit.allow_insert = .t.\ntmpl.edit.number_of_insert_rows = 1\ntmpl.edit.allow_delete = .t.\ntmpl.edit.validateFieldsSetting = \"Dirty Fields Only\"\ntmpl.ShowNewRecordsOnLastPageOnly = .t.\ntmpl.AddNewRecordRowsPosition = \"Bottom\"\ntmpl.SecurityMode = \"\"\ntmpl.edit.delete_checkbox_label = \"Delete\"\ntmpl.edit.delete_checkbox_allowDeleteAll = .f.\ntmpl.edit.delete_checkbox_label_position = \"Left\"\ntmpl.edit.has_Cancel_button = .t.\ntmpl.edit.cancel_button_text = \"Cancel\"\ntmpl.edit.submit_button_text = \"Submit\"\ntmpl.edit.cancel_button_inlinestyle = \"\"\ntmpl.edit.submit_button_inlinestyle = \"\"\ntmpl.edit.confirm_before_submit = .f.\ntmpl.edit.confirm_before_submit_message = \"Submit changes?\"\ntmpl.edit.check_for_write_conflicts = .t.\ntmpl.edit.write_conflict_check_type = 2\ntmpl.edit.save_original_values  = .t.\ntmpl.edit.Show_Update_Commands = .f.\ntmpl.edit.Execute_Update_Commands = .t.\ntmpl.edit.TargetPage = \"<Self>\"\ntmpl.autoNumberColumnLabel = \"Auto\"\ntmpl.edit.RowEditStyle = \"AllRows\"\ntmpl.edit.NewRecordsEditStyle = \"AlwaysShown\"\ntmpl.edit.HideNewRecordsAfterInsert = .f.\ntmpl.edit.NewRecordsButtonLabel = \"New Records\"\ntmpl.edit.DeleteRecordControl = \"Checkbox\"\ntmpl.edit.HasRowStatusColumn = .t.\ntmpl.edit.OneEditableRowAtATime = .t.\ntmpl.edit.field_error_style.type = \"Icon\"\ntmpl.edit.field_error_style.icon = \"images/$$generic.error.png.a5image\"\ntmpl.edit.field_error_style.control_classname = \"\"\ntmpl.edit.field_error_style.error_classname = \"\"\ntmpl.edit.field_error_style.control_hover_classname = \"\"\ntmpl.edit.field_error_style.error_hover_classname = \"\"\ntmpl.edit.show_row_errors_in_popup = .f.\ntmpl.edit.row_errors_window_title = \"Errors\"\ntmpl.edit.row_errors_window_style = \"color: red; width: 6in; height: 2in;\"\ntmpl.edit.RefreshRowMethod = \"AutoSelect\"\ntmpl.edit.Editable_GridRow_Options_Style = \"Icons\"\ntmpl.edit.RefreshRowOnDirty = .t.\ntmpl.edit.LazyEdit = .t.\ntmpl.edit.abortGridUpdateIfAnyRowHasError = .f.\nDIM tmpl.update.tables[1] as p\nWith tmpl.update.tables[1]\n\t.Name = \"tblAttorney\"\n\t.Table_Alias = \"tblAttorney\"\n\t.PrimaryKey = \"acess ID\"\nEnd With\ntmpl.grid_layout_style = 1\ntmpl.add_records_only = .f.\ntmpl.rows = 20\ntmpl.maxRowsPerPage = 200\ntmpl.rowsWhenSearchActive = -1\ntmpl.suppress_empty_rows = .t.\ntmpl.has_row_separator = .t.\ntmpl.alternate_bands = .f.\ntmpl.even_band_size = 1\ntmpl.odd_band_size = 1\ntmpl.alternate_column_bands = .f.\ntmpl.even_column_band_size = 1\ntmpl.odd_column_band_size = 1\ntmpl.conditionalStyle = \"\"\ntmpl.clientSideConditionalStyle = \"\"\ntmpl.show_title = .f.\ntmpl.title = \"\"\ntmpl.FontSize = \"Medium\"\ntmpl.No_records_message = \"No records in query\"\ntmpl.total_records_row_position = 1\ntmpl.total_records_row = \"Records:&nbsp; {Total_Records}&nbsp;\"\ntmpl.show_column_titles = 1\ntmpl.suppress_titles_if_no_records = .f.\ntmpl.show_row_labels = .t.\ntmpl.snakingLayout_suppressRepeatedLabels = .f.\ntmpl.sort_style = 3\ntmpl.reset_page_number_when_sorting = .t.\ntmpl.allowGridBodyScrolling = .f.\ntmpl.scrollableRegionHeight = \"2in\"\ntmpl.scrollableRegionWidth = \"100%\"\ntmpl.fixedWidthColumns = .f.\ntmpl.defaultColumnWidth = \"1in\"\ntmpl.columnWidthSettings = \"\"\ntmpl.EditRegion.Grid.Top = <<%editregion%\n%editregion%\ntmpl.EditRegion.Grid.Bottom = <<%editregion%\n%editregion%\ntmpl.EditRegion.Grid.Left = <<%editregion%\n%editregion%\ntmpl.EditRegion.Grid.Right = <<%editregion%\n%editregion%\ntmpl.HasNewRecordsTitle = .f.\ntmpl.NewRecordsTitle = \"<tr><td class=\\\"[class.gridData]\\\" colspan=\\\"{a5_colspan}\\\" style=\\\"padding: 0px;\\\" >New Records</td></tr>\"\ntmpl.HasExistingRecordsTitle = .f.\ntmpl.ExistingRecordsTitle = \"<tr><td class=\\\"[class.gridData]\\\" colspan=\\\"{a5_colspan}\\\" style=\\\"padding: 0px;\\\" >Existing Records</td></tr>\"\ntmpl.Highlight_row_onHover =  .t.\ntmpl.Highlight_row_onSelect =  .t.\ntmpl.HasRecordsPerPageSelector = .t.\ntmpl.RecordsPerPageChoices =   \"10,20,25,50,75,100\"\ntmpl.RecordsPerPageSelectorTemplate = \"&nbsp;&nbsp;{Grid.RecordsPerPageSelector} Records per page\"\ntmpl.has_qbe_row = .f.\ntmpl.qbe.initial_display = \"Hidden\"\ntmpl.qbe.toggleQBERowHyperlinkText = \"Show/Hide QBE Row\"\ntmpl.has_advancedSearch = .f.\ntmpl.hasLinkedContent = .f.\ntmpl.hasExternalNavigators = .f.\ntmpl.hasRowExpandColumn = .f.\ntmpl.hasSelectedRowColumn = .t.\ntmpl.hasCheckboxSelectColumn = .f.\ntmpl.AdditionalGridStyles = \"\"\ntmpl.LocalCss = \"\"\ntmpl.CSSLinkedFiles = \"\"\ntmpl.localsvg = \"\"\ntmpl.SVGLinkedFiles = \"\"\ntmpl.CSSIcons = \"\"\ntmpl.JavaScriptLinkedFiles = \"\"\ntmpl.useMasterTemplate = .f.\ntmpl.MasterTemplateStyle = \"Table - Vertical Layout\"\ntmpl.MasterLayoutTemplate = \"\"\ntmpl.MasterLayoutTemplateJavascript = \"\"\ntmpl.MasterLayout.PaneLabel.Search = \"Search\"\ntmpl.MasterLayout.PaneLabel.Grid = \"Grid\"\ntmpl.MasterLayout.PaneLabel.DetailView = \"Detail\"\ntmpl.MasterLayout.AccordionStyle = \"Multiple\"\ntmpl.MasterLayout.InitialOpenPanes = \"Search,Grid,DetailView\"\ntmpl.verticalAlignDataInColumns = \"Middle\"\ntmpl.CanCollapseGrid = .f.\ntmpl.CollapseBar.Title = \"Collapse Grid\"\ntmpl.CollapseBar.OpenIcon = \"\"\ntmpl.CollapseBar.ClosedIcon = \"\"\ntmpl.CollapseBar.Style = \"\"\ntmpl.Collapsebar.Class = \"\"\ntmpl.Collapsebar.ContainerStyle = \"\"\ntmpl.Collapsebar.ContainerClass = \"\"\ntmpl.Collapsebar.InitialState = \"open\"\ntmpl.languageTags_RemoveUnConsumedTags = .t.\ntmpl.activeLanguage = \"<Default>\"\ntmpl.search.highlightSearchStrings = .f.\ntmpl.autoRefreshGrid = .f.\ntmpl.autoRefreshInterval = 60\ntmpl.helpTableType = \"DBF\"\ntmpl.helpTableName = \"\"\ntmpl.helpConnectionString = \"\"\ntmpl.helpIDfield = \"\"\ntmpl.helpContentsField = \"\"\ntmpl.fieldHelpWindowStyle = \"modal-resizeable\"\ntmpl.fields = 5\nDIM tmpl.field_info[tmpl.fields] as P \nwith tmpl.field_info[1]\n\t.Controltype = \"Unbound_Button\"\n\t.Fieldname = \"_Unbound_Button_1\"\n\t.Varname = \"_Unbound_Button_1\"\n\t.ButtonText = \"Detail\"\n\t.Button.class = \"\"\n\t.Button.style = \"\"\n\t.clientSideConditionalStyle = \"\"\n\t.clientSideConditionalStyleLevel = \"control\"\n\t.Column.CanSort = .t.\n\t.Column.Sort = \"\"\n\t.Column.Heading = \"\"\n\t.Column.InLineStyle = \"\"\n\t.Column.LabelInLineStyle = \"\"\n\t.Column.heading_left = \"\"\n\t.Column.Hide = .f.\n\t.BreakType = \"None\"\n\t.Column.LabelPosition = \"Left\"\n\t.nCols = 1\n\t.javascript.onclick = <<%txt%\n/* actionJavascript:020c543f-ad63-4fa0-8f92-bda1bd656281    */\n{grid.componentName}_G__UNBOUND_BUTTON_1_1({grid.rownumber},'{grid.rowId}',this);%txt%\n\t.javascriptDeclarationsGlobal.onclick = <<%txt%\nwindow['{grid.componentName}_G__UNBOUND_BUTTON_1_1'] = function(rowNum,rowId,objEle) {\nvar windowName = 'WINDOW_60b02c50_f866_4370_8f93_40b5070218e8';\nvar currWindow = {Grid.object}.getWindow(windowName);\nvar go = new Object();\ngo.objectId = objEle.id;\ngo.dialog2Name = 'office_inv_embedded_expanded_UX';\ngo.type = 'dialog2';\ngo.specialDialogMode = 'editGridRow';\ngo.recordPrimaryKey = {grid.object}._getCurrentKey(rowNum);\ngo.closeDialogAfterSubmit=true;\ngo.alias = '{GRID.COMPONENTNAME}_OFFICE_INV_DXSO';\ngo.submitCurrentFieldValues = true;\ngo.sourceGridPart = 'G';\ngo.sourceGridRowNumber = rowNum;\ngo.workingMessage = '<img src=\\'css/A5System/Images/wait.gif\\' />Working...';\ngo.placeholderValues = '';\ngo.argumentBinding = '';\ngo._thisGridAlias = {grid.object}.gridId;\nif(typeof {grid.object}.gridId != 'undefined') go._thisGridAlias = {grid.object}.gridId;\nif(typeof {grid.object}.dialogId != 'undefined') {\n\tgo._thisGridAlias = {grid.object}.dialogId;\n}\ngo._thisGridGUID = {grid.object}.componentGUID;\ngo._gridCurrentFilter = {grid.object}._gridFilter;\ngo._gridCurrentOrder = {grid.object}._gridOrder;\ngo._gridCurrentArguments = {grid.object}._gridArguments;\ngo._gridCurrentDBType = {grid.object}._gridDBType;\ngo.overrideSettings = 'Style_name = `{Grid.style}`||Style_name = `{Grid.style}`'+'||';\ngo.a5_default_path = '{grid.defaultPath}';\ngo.windowName = windowName;\ngo.synchronizeArguments = true;\ngo.showWindowParameters = '';\nif(!currWindow) {\n\tcurrWindow = {Grid.object}.createWindow(windowName,'modal-resizable',\n\t{\n\tbody: {\n\t\tcontent: {\n\t\t\ttype: 'blank',\n\t\t\telementId: '~'\n\t\t}\n\t},\n\theight: '5in',\n\twidth: '8in',\n\ttitle: {\n\t\thtml: 'Investigator',\n\t\tlocation: 'top',\n\t\tdirection: 'ltr',\n\t\tshow: true\n\t},\n\tdisableMove: false,\n\ttheme: '{Grid.style}',\n\tonBeforeHide: function() {\nvar isDirty = false;\nif(typeof window['{GRID.COMPONENTNAME}_OFFICE_INV_DXSO_DlgObj'] != 'undefined') {\n\tisDirty = window['{GRID.COMPONENTNAME}_OFFICE_INV_DXSO_DlgObj']._isDirty;\n}\nif(isDirty) {\n\twindow['{GRID.COMPONENTNAME}_OFFICE_INV_DXSO_DlgObj']._confirmAction();\n\treturn false;\n} else return true;\n}\n}\n\t);\t\t\n\tgo.dialog2Div = currWindow.getWindowId('body');\n\tA5.component.runGenericComponent(go)\nsetTimeout(function() { {grid.object}.blur();},100);\n\tcurrWindow.show();\n} else {\n\t\tvar ele = '{Grid.componentname}_office_inv_dxso.GRID_PART.FORM_CONTAINER_DIV';\n\tvar pele = $(ele);\n\tif(pele) pele.innerHTML = '<img src=\\'css/A5System/Images/wait.gif\\' /> Working...';\n\tgo.dialog2Div = currWindow.getWindowId('body');\n\tgo.parentGridId = '{grid.componentname}';\n\tA5.component.runGenericComponent(go)\n\tcurrWindow.show();\nsetTimeout(function() { {grid.object}.blur();},100);\n};\n}%txt%\nend with\nwith tmpl.field_info[2]\n\t.Fieldname = \"acess ID\"\n\t.Scope = \"Local\"\n\t.DisplayFormat = \"\"\n\t.DisplayUnFormat = \"\"\n\t.ConditionalStyle = \"\"\n\t.ConditionalStyleLevel = \"Cell\"\n\t.ClientSideConditionalStyle = \"\"\n\t.ClientSideConditionalStyleLevel = \"Cell\"\n\t.QBEDisable = .f.\n\t.QBEInlineStyle = \"\"\n\t.QBEOptionsJSON = \"\"\n\t.canBeUsedInWhereClause = .t.\n\t.autoincrement = .t.\n\t.portableType = \"Integer32\"\n\t.nativeType = \"Integer\"\n\t.Type = \"N\"\n\t.UserDefinedClientSideValidationJavascript = \"\"\n\t.onChange_ValidationOption = \"None\"\n\t.Updateable = .t.\n\t.TreatBlankAsNull = .f.\n\t.Table_Alias = \"tblAttorney\"\n\t.FieldToUpdate = \"acess ID\"\n\t.Varname = \"ACESS_ID\"\n\t.Initial_Value = \"NULL\"\n\t.Column.LabelPosition = \"Left\"\n\t.Controltype = \"TextBox\"\n\t.Textbox.Size = 11\n\t.Textbox.HTML5Type = \"\"\n\t.Textbox.customAttributes = \"\"\n\t.Textbox.readonly = .f.\n\t.Textbox.MaxLength = 11\n\t.Textbox.InLineStyle = \"text-align: right;\"\n\t.Textbox.className = \"\"\n\t.Textbox.ContainerInlineStyle = \"\"\n\t.Textbox.IsPassword = .f.\n\t.hasWatermark= .f.\n\t.BreakType = \"None\"\n\t.nCols = 1\n\t.Column.Hide = .f.\n\t.BaseFieldExpression = \"[acess ID]\"\n\t.SourceAlias = \"\"\n\t.Column.Heading = \"Investigator ID\"\n\t.Column.Sort = \"[acess ID]\"\n\t.Column.FirstClickDirection = \"A\"\nend with\nwith tmpl.field_info[3]\n\t.Fieldname = \"barFirstName\"\n\t.Scope = \"Local\"\n\t.DisplayFormat = \"\"\n\t.DisplayUnFormat = \"\"\n\t.ConditionalStyle = \"\"\n\t.ConditionalStyleLevel = \"Cell\"\n\t.ClientSideConditionalStyle = \"\"\n\t.ClientSideConditionalStyleLevel = \"Cell\"\n\t.QBEDisable = .f.\n\t.QBEInlineStyle = \"\"\n\t.QBEOptionsJSON = \"\"\n\t.canBeUsedInWhereClause = .t.\n\t.autoincrement = .f.\n\t.portableType = \"NationalVaryingCharacter\"\n\t.nativeType = \"Varying Wide Character\"\n\t.Type = \"C\"\n\t.UserDefinedClientSideValidationJavascript = \"\"\n\t.onChange_ValidationOption = \"None\"\n\t.Updateable = .t.\n\t.TreatBlankAsNull = .f.\n\t.Table_Alias = \"tblAttorney\"\n\t.FieldToUpdate = \"barFirstName\"\n\t.Varname = \"BARFIRSTNAME\"\n\t.Initial_Value = \"NULL\"\n\t.Column.LabelPosition = \"Left\"\n\t.Controltype = \"TextBox\"\n\t.Textbox.Size = 30\n\t.Textbox.HTML5Type = \"\"\n\t.Textbox.customAttributes = \"\"\n\t.Textbox.readonly = .f.\n\t.Textbox.MaxLength = 50\n\t.Textbox.InLineStyle = \"\"\n\t.Textbox.className = \"\"\n\t.Textbox.ContainerInlineStyle = \"\"\n\t.Textbox.IsPassword = .f.\n\t.hasWatermark= .f.\n\t.BreakType = \"None\"\n\t.nCols = 1\n\t.Column.Hide = .f.\n\t.BaseFieldExpression = \"barFirstName\"\n\t.SourceAlias = \"\"\n\t.Column.Heading = \"Bar First Name\"\n\t.Column.Sort = \"barFirstName\"\n\t.Column.FirstClickDirection = \"A\"\nend with\nwith tmpl.field_info[4]\n\t.Fieldname = \"barLastName\"\n\t.Scope = \"Local\"\n\t.DisplayFormat = \"\"\n\t.DisplayUnFormat = \"\"\n\t.ConditionalStyle = \"\"\n\t.ConditionalStyleLevel = \"Cell\"\n\t.ClientSideConditionalStyle = \"\"\n\t.ClientSideConditionalStyleLevel = \"Cell\"\n\t.QBEDisable = .f.\n\t.QBEInlineStyle = \"\"\n\t.QBEOptionsJSON = \"\"\n\t.canBeUsedInWhereClause = .t.\n\t.autoincrement = .f.\n\t.portableType = \"NationalVaryingCharacter\"\n\t.nativeType = \"Varying Wide Character\"\n\t.Type = \"C\"\n\t.UserDefinedClientSideValidationJavascript = \"\"\n\t.onChange_ValidationOption = \"None\"\n\t.Updateable = .t.\n\t.TreatBlankAsNull = .f.\n\t.Table_Alias = \"tblAttorney\"\n\t.FieldToUpdate = \"barLastName\"\n\t.Varname = \"BARLASTNAME\"\n\t.Initial_Value = \"NULL\"\n\t.Column.LabelPosition = \"Left\"\n\t.Controltype = \"TextBox\"\n\t.Textbox.Size = 30\n\t.Textbox.HTML5Type = \"\"\n\t.Textbox.customAttributes = \"\"\n\t.Textbox.readonly = .f.\n\t.Textbox.MaxLength = 50\n\t.Textbox.InLineStyle = \"\"\n\t.Textbox.className = \"\"\n\t.Textbox.ContainerInlineStyle = \"\"\n\t.Textbox.IsPassword = .f.\n\t.hasWatermark= .f.\n\t.BreakType = \"None\"\n\t.nCols = 1\n\t.Column.Hide = .f.\n\t.BaseFieldExpression = \"barLastName\"\n\t.SourceAlias = \"\"\n\t.Column.Heading = \"Bar Last Name\"\n\t.Column.Sort = \"barLastName\"\n\t.Column.FirstClickDirection = \"A\"\nend with\nwith tmpl.field_info[5]\n\t.Fieldname = \"barPI\"\n\t.Scope = \"Local\"\n\t.ConditionalStyle = \"\"\n\t.ConditionalStyleLevel = \"Cell\"\n\t.ClientSideConditionalStyle = \"\"\n\t.ClientSideConditionalStyleLevel = \"Cell\"\n\t.QBEDisable = .f.\n\t.QBEInlineStyle = \"\"\n\t.QBEOptionsJSON = \"\"\n\t.canBeUsedInWhereClause = .t.\n\t.autoincrement = .f.\n\t.portableType = \"Boolean\"\n\t.nativeType = \"Boolean\"\n\t.Type = \"L\"\n\t.UserDefinedClientSideValidationJavascript = \"\"\n\t.onChange_ValidationOption = \"None\"\n\t.Updateable = .t.\n\t.TreatBlankAsNull = .f.\n\t.Table_Alias = \"tblAttorney\"\n\t.FieldToUpdate = \"barPI\"\n\t.Varname = \"BARPI\"\n\t.Initial_Value = \"-1\"\n\t.Column.LabelPosition = \"Left\"\n\t.Controltype = \"Checkbox\"\n\t.InitialValue = \"False\"\n\t.BreakType = \"None\"\n\t.nCols = 1\n\t.Column.Hide = .f.\n\t.BaseFieldExpression = \"barPI\"\n\t.SourceAlias = \"\"\n\t.Column.Heading = \"Bar PI\"\n\t.Column.Sort = \"barPI\"\n\t.Column.FirstClickDirection = \"A\"\nend with\ntmpl.RecordNavigationStyle = \"NavigationButtons\"\ntmpl.fetchMoreRecordsButton.text = \"More Records\"\ntmpl.fetchMoreRecordsButton.style = \"\"\ntmpl.RecNav.SuppressIfOnlyOnePage = .t.\ntmpl.RecNav.First_Label = \"First\"\ntmpl.RecNav.Has_First_Button = .t.\ntmpl.RecNav.Has_Last_Button = .t.\ntmpl.RecNav.Has_Next_Button = .t.\ntmpl.RecNav.Has_Prev_Button = .t.\ntmpl.RecNav.HTML_Template_source = \"Computed\"\ntmpl.RecNav.Justify = \"Left\"\ntmpl.RecNav.Last_Label = \"Last\"\ntmpl.RecNav.Next_Label = \"Next\"\ntmpl.RecNav.Number_of_page_links = 10\ntmpl.RecNav.Page_Numbering_Style = 3\ntmpl.RecNav.PagesTemplate_w_PageCount = \"{PageNumber} of {PageCount}\"\ntmpl.RecNav.PagesTemplate_wout_PageCount = \"{PageNumber}\"\ntmpl.RecNav.Position = 1\ntmpl.RecNav.suppress_recNavBar_if_no_records = .f.\ntmpl.RecNav.Prev_Label = \"Prev\"\ntmpl.RecNav.Show_disabled_controls = .t.\ntmpl.RecNav.Show_Page_Count = .t.\ntmpl.RecNav.Use_Images = .f.\ntmpl.gridToolbarTemplate = <<%html%\n%html%\ntmpl.gridToolbarTemplateEditable = <<%html%\n%html%\ntmpl.style_name = \"<ProjectStyle>\"\ntmpl.resolveAbstractClassNames = .t.\ntmpl.style_type = \"Alpha Five\"\ntmpl.UseSimpleStyles = .f.\ntmpl.overrideStylesForJavascriptObjects = .f.\ntmpl.searchBehavior = \"\"\ntmpl.GUID = \"28289b5b-d5d1-4b12-9c24-af041887a2cf\"\ntmpl.onlyIncludeSelectedFieldsInQuery = .t.\ntmpl.hasGroupBreaks = .t.\ntmpl.groupBreaks.expression1 = \"\"\ntmpl.groupBreaks.direction1 = \"\"\ntmpl.groupBreaks.header1 = <<%HTML%\n%HTML%\ntmpl.groupBreaks.footer1 = <<%HTML%\n%HTML%\ntmpl.groupBreaks.collapseAllGroupsOnInitialDisplay = .f.\ntmpl.timestamp = \"2020-07-09:12-40-25.679\"\ntmpl.resolveAbstractClassNamesAtDesignTime  = .f.\ntmpl.resolveAbstractIconNamesAtDesignTime = .f. \ntmpl.useLegacyDatePicker = .f.\ntmpl.javascriptUnboundActionDefinitions = <<%javascriptActions%\n%javascriptActions%\n\ntmpl.precalc.sessionVarsInShowHideExpns = <<%sessionvars%\n%sessionvars%\ntmpl.precalc.unboundActionsXbasicFunctions = \"\"\ntmpl.precalc.includeS3Javascript = .f.",
         "datasourceType": 3,
         "componentName": "office_investigator_embedded_grid",
         "query_ado": {
@@ -68,12 +68,11 @@
         "fields": {
             "a_fields": [
                 {
-                    "varname": "_Unbound_Button_1",
-                    "Fieldname": "[Button].1",
-                    "Display": "[Button].1",
-                    "controltype": "layout_directive_button",
-                    "layout": {
-                        "ControlID": "1",
+                    "fieldname": "[Button].1",
+                    "showHelpIcon": "None",
+                    "helpIconBehavior": "ShowHelpOnClick",
+                    "onChange_ValidationOption": "None",
+                    "Layout": {
                         "Title": "Tab label",
                         "TabPane": {
                             "show": true
@@ -111,25 +110,16 @@
                             "Horizontal": ".1in",
                             "Vertical": ".1in"
                         },
-                        "nCols": 1
+                        "nCols": 1,
+                        "ControlID": "1"
                     },
-                    "BreakType": "None",
-                    "column": {
-                        "LabelPosition": "Left",
-                        "CanSort": true,
-                        "firstclickdirection": "Ascending"
-                    },
-                    "displayOD": "{F=Tahoma,8}{I:'$$control.button'}{T=.2}{C=}{DATA=[Button].1}[Button].1",
-                    "displayODFlat": "{F=Tahoma,8}{I:'$$control.button'}{T=.2}{C=}{DATA=[Button].1}[Button].1",
-                    "showHelpIcon": "None",
-                    "helpIconBehavior": "ShowHelpOnClick",
-                    "onChange_ValidationOption": "None",
                     "javascript": {
                         "onclick": "/* actionJavascript:020c543f-ad63-4fa0-8f92-bda1bd656281    */\n{grid.componentName}_G__UNBOUND_BUTTON_1_1({grid.rownumber},'{grid.rowId}',this);"
                     },
                     "javascriptDeclarationsGlobal": {
                         "onclick": "window['{grid.componentName}_G__UNBOUND_BUTTON_1_1'] = function(rowNum,rowId,objEle) {\n\nvar windowName = 'WINDOW_60b02c50_f866_4370_8f93_40b5070218e8';\nvar currWindow = {Grid.object}.getWindow(windowName);\nvar go = new Object();\n\n\n\ngo.objectId = objEle.id;\ngo.dialog2Name = 'office_inv_embedded_expanded_UX';\ngo.type = 'dialog2';\ngo.specialDialogMode = 'editGridRow';\ngo.recordPrimaryKey = {grid.object}._getCurrentKey(rowNum);\ngo.closeDialogAfterSubmit=true;\ngo.alias = '{GRID.COMPONENTNAME}_OFFICE_INV_DXSO';\ngo.submitCurrentFieldValues = true;\ngo.sourceGridPart = 'G';\ngo.sourceGridRowNumber = rowNum;\ngo.workingMessage = '<img src=\\'css/A5System/Images/wait.gif\\' />Working...';\ngo.placeholderValues = '';\ngo.argumentBinding = '';\n\ngo._thisGridAlias = {grid.object}.gridId;\nif(typeof {grid.object}.gridId != 'undefined') go._thisGridAlias = {grid.object}.gridId;\nif(typeof {grid.object}.dialogId != 'undefined') {\n\tgo._thisGridAlias = {grid.object}.dialogId;\n}\n\t\n\ngo._thisGridGUID = {grid.object}.componentGUID;\ngo._gridCurrentFilter = {grid.object}._gridFilter;\n\n\ngo._gridCurrentOrder = {grid.object}._gridOrder;\ngo._gridCurrentArguments = {grid.object}._gridArguments;\ngo._gridCurrentDBType = {grid.object}._gridDBType;\ngo.overrideSettings = 'Style_name = `{Grid.style}`||Style_name = `{Grid.style}`'+'||';\ngo.a5_default_path = '{grid.defaultPath}';\ngo.windowName = windowName;\ngo.synchronizeArguments = true;\ngo.showWindowParameters = '';\n\n\n\nif(!currWindow) {\n\tcurrWindow = {Grid.object}.createWindow(windowName,'modal-resizable',\n\t{\n\tbody: {\n\t\tcontent: {\n\t\t\ttype: 'blank',\n\t\t\telementId: '~'\n\t\t}\n\t},\n\theight: '5in',\n\twidth: '8in',\n\ttitle: {\n\t\thtml: 'Investigator',\n\t\tlocation: 'top',\n\t\tdirection: 'ltr',\n\t\tshow: true\n\t},\n\tdisableMove: false,\n\ttheme: '{Grid.style}',\n\tonBeforeHide: function() {\nvar isDirty = false;\nif(typeof window['{GRID.COMPONENTNAME}_OFFICE_INV_DXSO_DlgObj'] != 'undefined') {\n\tisDirty = window['{GRID.COMPONENTNAME}_OFFICE_INV_DXSO_DlgObj']._isDirty;\n}\nif(isDirty) {\n\twindow['{GRID.COMPONENTNAME}_OFFICE_INV_DXSO_DlgObj']._confirmAction();\n\treturn false;\n} else return true;\n}\n}\n\t);\t\t\n\tgo.dialog2Div = currWindow.getWindowId('body');\n\tA5.component.runGenericComponent(go)\nsetTimeout(function() { {grid.object}.blur();},100);\n\tcurrWindow.show();\n\t\n} else {\n\n\t\tvar ele = '{Grid.componentname}_office_inv_dxso.GRID_PART.FORM_CONTAINER_DIV';\n\tvar pele = $(ele);\n\tif(pele) pele.innerHTML = '<img src=\\'css/A5System/Images/wait.gif\\' /> Working...';\n\tgo.dialog2Div = currWindow.getWindowId('body');\n\tgo.parentGridId = '{grid.componentname}';\n\t\n\tA5.component.runGenericComponent(go)\n\tcurrWindow.show();\nsetTimeout(function() { {grid.object}.blur();},100);\n\n\t\n\n\t\n};\n\n}"
                     },
+                    "controltype": "layout_directive_button",
                     "Search": {
                         "FromLabel": "From:",
                         "ToLabel": "To:"
@@ -149,11 +139,11 @@
                         "HighYear": 2050
                     },
                     "TextBox": {
-                        "className": "",
                         "Size": 20,
-                        "readonly": false,
                         "MaxLength": 20,
-                        "stylefieldiferror": true
+                        "stylefieldiferror": true,
+                        "className": "",
+                        "readonly": false
                     },
                     "Watermark": {
                         "text": "<FieldLabel>"
@@ -170,9 +160,9 @@
                                 "width": "2in"
                             },
                             "style": "font: 9pt Arial;",
+                            "editButtonText": "Edit...",
                             "toolbaricons": "",
-                            "toolbardefinition": "",
-                            "editButtonText": "Edit..."
+                            "toolbardefinition": ""
                         }
                     },
                     "radiobutton": {
@@ -211,12 +201,6 @@
                         "OpenMethod": "ClickIcon",
                         "UseComboBoxes": true,
                         "DateFormat": "<Default>",
-                        "friendlyDisplay": {
-                            "settingsJSON": "",
-                            "enabled": false
-                        },
-                        "showPreDefinedDates": false,
-                        "preDefinedDatesJSON": "",
                         "LowYear": 1950,
                         "HighYear": 2050,
                         "SwitchYear": 20,
@@ -224,11 +208,22 @@
                         "showDaysOfWeek": true,
                         "showTodayButton": true,
                         "OKButtonLabel": "OK",
-                        "CancelButtonLabel": "Cancel"
+                        "CancelButtonLabel": "Cancel",
+                        "friendlyDisplay": {
+                            "settingsJSON": "",
+                            "enabled": false
+                        },
+                        "showPreDefinedDates": false,
+                        "preDefinedDatesJSON": ""
+                    },
+                    "column": {
+                        "LabelPosition": "Left",
+                        "CanSort": true,
+                        "firstclickdirection": "Ascending"
                     },
                     "initial_value": "NULL",
+                    "BreakType": "None",
                     "nCols": 1,
-                    "columnQBEOptionsJSON": "",
                     "link": {
                         "StaticImageInlineStyle": "border-style: none;",
                         "DisplayType": "Value in Field",
@@ -277,10 +272,15 @@
                     },
                     "PortableType": "Integer32",
                     "width": 11,
+                    "varname": "_Unbound_Button_1",
+                    "Display": "[Button].1",
+                    "displayOD": "{F=Tahoma,8}{I:'$$control.button'}{T=.2}{C=}{DATA=[Button].1}[Button].1",
+                    "displayODFlat": "{F=Tahoma,8}{I:'$$control.button'}{T=.2}{C=}{DATA=[Button].1}[Button].1",
                     "scope": "Local",
                     "tmplTxtComputed": true,
-                    "tmplTxt": "with tmpl.field_info[_fieldNumber_]\n\t.Controltype = \"Unbound_Button\"\n\t.Fieldname = \"_Unbound_Button_1\"\n\t.Varname = \"_Unbound_Button_1\"\n\t.ButtonText = \"Detail\"\n\t.Button.class = \"\"\n\t.Button.style = \"\"\n\t.clientSideConditionalStyle = \"\"\n\t.clientSideConditionalStyleLevel = \"control\"\n\t.Column.CanSort = .t.\n\t.Column.Sort = \"\"\n\t.Column.Heading = \"\"\n\t.Column.InLineStyle = \"\"\n\t.Column.LabelInLineStyle = \"\"\n\t.Column.heading_left = \"\"\n\t.Column.Hide = .f.\n\t.BreakType = \"None\"\n\t.Column.LabelPosition = \"Left\"\n\t.nCols = 1\n\t.javascript.onclick = <<%txt%\n/* actionJavascript:020c543f-ad63-4fa0-8f92-bda1bd656281    */\n{grid.componentName}_G__UNBOUND_BUTTON_1_1({grid.rownumber},'{grid.rowId}',this);%txt%\n\t.javascriptDeclarationsGlobal.onclick = <<%txt%\nwindow['{grid.componentName}_G__UNBOUND_BUTTON_1_1'] = function(rowNum,rowId,objEle) {\nvar windowName = 'WINDOW_60b02c50_f866_4370_8f93_40b5070218e8';\nvar currWindow = {Grid.object}.getWindow(windowName);\nvar go = new Object();\ngo.objectId = objEle.id;\ngo.dialog2Name = 'office_inv_embedded_expanded_UX';\ngo.type = 'dialog2';\ngo.specialDialogMode = 'editGridRow';\ngo.recordPrimaryKey = {grid.object}._getCurrentKey(rowNum);\ngo.closeDialogAfterSubmit=true;\ngo.alias = '{GRID.COMPONENTNAME}_OFFICE_INV_DXSO';\ngo.submitCurrentFieldValues = true;\ngo.sourceGridPart = 'G';\ngo.sourceGridRowNumber = rowNum;\ngo.workingMessage = '<img src=\\'css/A5System/Images/wait.gif\\' />Working...';\ngo.placeholderValues = '';\ngo.argumentBinding = '';\ngo._thisGridAlias = {grid.object}.gridId;\nif(typeof {grid.object}.gridId != 'undefined') go._thisGridAlias = {grid.object}.gridId;\nif(typeof {grid.object}.dialogId != 'undefined') {\n\tgo._thisGridAlias = {grid.object}.dialogId;\n}\ngo._thisGridGUID = {grid.object}.componentGUID;\ngo._gridCurrentFilter = {grid.object}._gridFilter;\ngo._gridCurrentOrder = {grid.object}._gridOrder;\ngo._gridCurrentArguments = {grid.object}._gridArguments;\ngo._gridCurrentDBType = {grid.object}._gridDBType;\ngo.overrideSettings = 'Style_name = `{Grid.style}`||Style_name = `{Grid.style}`'+'||';\ngo.a5_default_path = '{grid.defaultPath}';\ngo.windowName = windowName;\ngo.synchronizeArguments = true;\ngo.showWindowParameters = '';\nif(!currWindow) {\n\tcurrWindow = {Grid.object}.createWindow(windowName,'modal-resizable',\n\t{\n\tbody: {\n\t\tcontent: {\n\t\t\ttype: 'blank',\n\t\t\telementId: '~'\n\t\t}\n\t},\n\theight: '5in',\n\twidth: '8in',\n\ttitle: {\n\t\thtml: 'Investigator',\n\t\tlocation: 'top',\n\t\tdirection: 'ltr',\n\t\tshow: true\n\t},\n\tdisableMove: false,\n\ttheme: '{Grid.style}',\n\tonBeforeHide: function() {\nvar isDirty = false;\nif(typeof window['{GRID.COMPONENTNAME}_OFFICE_INV_DXSO_DlgObj'] != 'undefined') {\n\tisDirty = window['{GRID.COMPONENTNAME}_OFFICE_INV_DXSO_DlgObj']._isDirty;\n}\nif(isDirty) {\n\twindow['{GRID.COMPONENTNAME}_OFFICE_INV_DXSO_DlgObj']._confirmAction();\n\treturn false;\n} else return true;\n}\n}\n\t);\t\t\n\tgo.dialog2Div = currWindow.getWindowId('body');\n\tA5.component.runGenericComponent(go)\nsetTimeout(function() { {grid.object}.blur();},100);\n\tcurrWindow.show();\n} else {\n\t\tvar ele = '{Grid.componentname}_office_inv_dxso.GRID_PART.FORM_CONTAINER_DIV';\n\tvar pele = $(ele);\n\tif(pele) pele.innerHTML = '<img src=\\'css/A5System/Images/wait.gif\\' /> Working...';\n\tgo.dialog2Div = currWindow.getWindowId('body');\n\tgo.parentGridId = '{grid.componentname}';\n\tA5.component.runGenericComponent(go)\n\tcurrWindow.show();\nsetTimeout(function() { {grid.object}.blur();},100);\n};\n}%txt%\nend with\n",
-                    "index": 2001
+                    "tmplTxt": "with tmpl.field_info[_fieldNumber_]\n\t.Controltype = \"Unbound_Button\"\n\t.Fieldname = \"_Unbound_Button_1\"\n\t.Varname = \"_Unbound_Button_1\"\n\t.ButtonText = \"Detail\"\n\t.Button.class = \"\"\n\t.Button.style = \"\"\n\t.clientSideConditionalStyle = \"\"\n\t.clientSideConditionalStyleLevel = \"control\"\n\t.Column.CanSort = .t.\n\t.Column.Sort = \"\"\n\t.Column.Heading = \"\"\n\t.Column.InLineStyle = \"\"\n\t.Column.LabelInLineStyle = \"\"\n\t.Column.heading_left = \"\"\n\t.Column.Hide = .f.\n\t.BreakType = \"None\"\n\t.Column.LabelPosition = \"Left\"\n\t.nCols = 1\n\t.javascript.onclick = <<%txt%\n/* actionJavascript:020c543f-ad63-4fa0-8f92-bda1bd656281    */\n{grid.componentName}_G__UNBOUND_BUTTON_1_1({grid.rownumber},'{grid.rowId}',this);%txt%\n\t.javascriptDeclarationsGlobal.onclick = <<%txt%\nwindow['{grid.componentName}_G__UNBOUND_BUTTON_1_1'] = function(rowNum,rowId,objEle) {\nvar windowName = 'WINDOW_60b02c50_f866_4370_8f93_40b5070218e8';\nvar currWindow = {Grid.object}.getWindow(windowName);\nvar go = new Object();\ngo.objectId = objEle.id;\ngo.dialog2Name = 'office_inv_embedded_expanded_UX';\ngo.type = 'dialog2';\ngo.specialDialogMode = 'editGridRow';\ngo.recordPrimaryKey = {grid.object}._getCurrentKey(rowNum);\ngo.closeDialogAfterSubmit=true;\ngo.alias = '{GRID.COMPONENTNAME}_OFFICE_INV_DXSO';\ngo.submitCurrentFieldValues = true;\ngo.sourceGridPart = 'G';\ngo.sourceGridRowNumber = rowNum;\ngo.workingMessage = '<img src=\\'css/A5System/Images/wait.gif\\' />Working...';\ngo.placeholderValues = '';\ngo.argumentBinding = '';\ngo._thisGridAlias = {grid.object}.gridId;\nif(typeof {grid.object}.gridId != 'undefined') go._thisGridAlias = {grid.object}.gridId;\nif(typeof {grid.object}.dialogId != 'undefined') {\n\tgo._thisGridAlias = {grid.object}.dialogId;\n}\ngo._thisGridGUID = {grid.object}.componentGUID;\ngo._gridCurrentFilter = {grid.object}._gridFilter;\ngo._gridCurrentOrder = {grid.object}._gridOrder;\ngo._gridCurrentArguments = {grid.object}._gridArguments;\ngo._gridCurrentDBType = {grid.object}._gridDBType;\ngo.overrideSettings = 'Style_name = `{Grid.style}`||Style_name = `{Grid.style}`'+'||';\ngo.a5_default_path = '{grid.defaultPath}';\ngo.windowName = windowName;\ngo.synchronizeArguments = true;\ngo.showWindowParameters = '';\nif(!currWindow) {\n\tcurrWindow = {Grid.object}.createWindow(windowName,'modal-resizable',\n\t{\n\tbody: {\n\t\tcontent: {\n\t\t\ttype: 'blank',\n\t\t\telementId: '~'\n\t\t}\n\t},\n\theight: '5in',\n\twidth: '8in',\n\ttitle: {\n\t\thtml: 'Investigator',\n\t\tlocation: 'top',\n\t\tdirection: 'ltr',\n\t\tshow: true\n\t},\n\tdisableMove: false,\n\ttheme: '{Grid.style}',\n\tonBeforeHide: function() {\nvar isDirty = false;\nif(typeof window['{GRID.COMPONENTNAME}_OFFICE_INV_DXSO_DlgObj'] != 'undefined') {\n\tisDirty = window['{GRID.COMPONENTNAME}_OFFICE_INV_DXSO_DlgObj']._isDirty;\n}\nif(isDirty) {\n\twindow['{GRID.COMPONENTNAME}_OFFICE_INV_DXSO_DlgObj']._confirmAction();\n\treturn false;\n} else return true;\n}\n}\n\t);\t\t\n\tgo.dialog2Div = currWindow.getWindowId('body');\n\tA5.component.runGenericComponent(go)\nsetTimeout(function() { {grid.object}.blur();},100);\n\tcurrWindow.show();\n} else {\n\t\tvar ele = '{Grid.componentname}_office_inv_dxso.GRID_PART.FORM_CONTAINER_DIV';\n\tvar pele = $(ele);\n\tif(pele) pele.innerHTML = '<img src=\\'css/A5System/Images/wait.gif\\' /> Working...';\n\tgo.dialog2Div = currWindow.getWindowId('body');\n\tgo.parentGridId = '{grid.componentname}';\n\tA5.component.runGenericComponent(go)\n\tcurrWindow.show();\nsetTimeout(function() { {grid.object}.blur();},100);\n};\n}%txt%\nend with\n\n\n\n",
+                    "index": 2001,
+                    "columnQBEOptionsJSON": ""
                 },
                 {
                     "fieldname": "acess ID",
@@ -501,12 +501,12 @@
                     "displayODFlat": "{F=Tahoma,8}{I:'$a5_control_field'}{T=.2}{C=}{DATA=acess ID}acess ID",
                     "scope": "Local",
                     "tmplTxtComputed": true,
-                    "tmplTxt": "with tmpl.field_info[_fieldNumber_]\n\t.Fieldname = \"acess ID\"\n\t.Scope = \"Local\"\n\t.DisplayFormat = \"\"\n\t.DisplayUnFormat = \"\"\n\t.ConditionalStyle = \"\"\n\t.ConditionalStyleLevel = \"Cell\"\n\t.ClientSideConditionalStyle = \"\"\n\t.ClientSideConditionalStyleLevel = \"Cell\"\n\t.QBEDisable = .f.\n\t.QBEInlineStyle = \"\"\n\t.QBEOptionsJSON = \"\"\n\t.canBeUsedInWhereClause = .t.\n\t.autoincrement = .t.\n\t.portableType = \"Integer32\"\n\t.nativeType = \"Integer\"\n\t.Type = \"N\"\n\t.UserDefinedClientSideValidationJavascript = \"\"\n\t.onChange_ValidationOption = \"None\"\n\t.Updateable = .t.\n\t.TreatBlankAsNull = .f.\n\t.Table_Alias = \"tblAttorney\"\n\t.FieldToUpdate = \"acess ID\"\n\t.Varname = \"ACESS_ID\"\n\t.Initial_Value = \"NULL\"\n\t.Column.LabelPosition = \"Left\"\n\t.Controltype = \"TextBox\"\n\t.Textbox.Size = 11\n\t.Textbox.HTML5Type = \"\"\n\t.Textbox.customAttributes = \"\"\n\t.Textbox.readonly = .f.\n\t.Textbox.MaxLength = 11\n\t.Textbox.InLineStyle = \"text-align: right;\"\n\t.Textbox.className = \"\"\n\t.Textbox.ContainerInlineStyle = \"\"\n\t.Textbox.IsPassword = .f.\n\t.hasWatermark= .f.\n\t.BreakType = \"None\"\n\t.nCols = 1\n\t.Column.Hide = .f.\n\t.BaseFieldExpression = \"[acess ID]\"\n\t.SourceAlias = \"\"\n\t.Column.Heading = \"Investigator ID\"\n\t.Column.Sort = \"[acess ID]\"\n\t.Column.FirstClickDirection = \"A\"\nend with\n\n\n\n\n\n\n\n\n\n",
+                    "tmplTxt": "with tmpl.field_info[_fieldNumber_]\n\t.Fieldname = \"acess ID\"\n\t.Scope = \"Local\"\n\t.DisplayFormat = \"\"\n\t.DisplayUnFormat = \"\"\n\t.ConditionalStyle = \"\"\n\t.ConditionalStyleLevel = \"Cell\"\n\t.ClientSideConditionalStyle = \"\"\n\t.ClientSideConditionalStyleLevel = \"Cell\"\n\t.QBEDisable = .f.\n\t.QBEInlineStyle = \"\"\n\t.QBEOptionsJSON = \"\"\n\t.canBeUsedInWhereClause = .t.\n\t.autoincrement = .t.\n\t.portableType = \"Integer32\"\n\t.nativeType = \"Integer\"\n\t.Type = \"N\"\n\t.UserDefinedClientSideValidationJavascript = \"\"\n\t.onChange_ValidationOption = \"None\"\n\t.Updateable = .t.\n\t.TreatBlankAsNull = .f.\n\t.Table_Alias = \"tblAttorney\"\n\t.FieldToUpdate = \"acess ID\"\n\t.Varname = \"ACESS_ID\"\n\t.Initial_Value = \"NULL\"\n\t.Column.LabelPosition = \"Left\"\n\t.Controltype = \"TextBox\"\n\t.Textbox.Size = 11\n\t.Textbox.HTML5Type = \"\"\n\t.Textbox.customAttributes = \"\"\n\t.Textbox.readonly = .f.\n\t.Textbox.MaxLength = 11\n\t.Textbox.InLineStyle = \"text-align: right;\"\n\t.Textbox.className = \"\"\n\t.Textbox.ContainerInlineStyle = \"\"\n\t.Textbox.IsPassword = .f.\n\t.hasWatermark= .f.\n\t.BreakType = \"None\"\n\t.nCols = 1\n\t.Column.Hide = .f.\n\t.BaseFieldExpression = \"[acess ID]\"\n\t.SourceAlias = \"\"\n\t.Column.Heading = \"Investigator ID\"\n\t.Column.Sort = \"[acess ID]\"\n\t.Column.FirstClickDirection = \"A\"\nend with\n\n\n\n\n\n\n\n\n\n\n\n\n",
                     "index": 2001,
                     "columnQBEOptionsJSON": ""
                 },
                 {
-                    "fieldname": "fullname",
+                    "fieldname": "barFirstName",
                     "showHelpIcon": "None",
                     "helpIconBehavior": "ShowHelpOnClick",
                     "onChange_ValidationOption": "None",
@@ -570,231 +570,11 @@
                         "HighYear": 2050
                     },
                     "TextBox": {
-                        "Size": 30,
-                        "MaxLength": 30,
-                        "stylefieldiferror": true,
                         "className": "",
-                        "readonly": false
-                    },
-                    "Watermark": {
-                        "text": "<FieldLabel>"
-                    },
-                    "clientSideFormat": {
-                        "type": "Mask"
-                    },
-                    "Lookup": {
-                        "Type": "Grid Component"
-                    },
-                    "TextArea": {
-                        "rows": 2,
-                        "cols": 20,
-                        "RichText": {
-                            "display": {
-                                "height": "1in",
-                                "width": "2in"
-                            },
-                            "style": "font: 9pt Arial;",
-                            "editButtonText": "Edit...",
-                            "toolbaricons": "",
-                            "toolbardefinition": ""
-                        }
-                    },
-                    "radiobutton": {
-                        "datasource": "DBF-Table",
-                        "NotInListRule": "Add to List",
-                        "orientation": "Horizontal",
-                        "columnFlow": "LRTB",
-                        "columnCount": 3,
-                        "rowCount": 3,
-                        "stylefieldiferror": true,
-                        "type": "Static"
-                    },
-                    "CheckBox": {
-                        "type": "Static",
-                        "datasource": "DBF-Table",
-                        "stylefieldiferror": true,
-                        "NotInListRule": "Add to List",
-                        "orientation": "Horizontal",
-                        "columnFlow": "LRTB",
-                        "columnCount": 3,
-                        "rowCount": 3,
-                        "initial_value": "False"
-                    },
-                    "connection_type": "Access Database",
-                    "dropdownbox": {
-                        "Size": 1,
-                        "type": "Static",
-                        "selectStyle": "Single",
-                        "datasource": "DBF-Table",
-                        "stylefieldiferror": true,
-                        "NotInListRule": "Add to List",
-                        "fieldNameOfFieldLinkedToParentControl": "<Auto>",
-                        "methodForComputingCascadingFilter": "<Auto>"
-                    },
-                    "DatePicker": {
-                        "OpenMethod": "ClickIcon",
-                        "UseComboBoxes": true,
-                        "DateFormat": "<DefaultTimeFormat>",
-                        "LowYear": 1950,
-                        "HighYear": 2050,
-                        "SwitchYear": 20,
-                        "IconNumber": 2,
-                        "showDaysOfWeek": true,
-                        "showTodayButton": true,
-                        "OKButtonLabel": "OK",
-                        "CancelButtonLabel": "Cancel",
-                        "friendlyDisplay": {
-                            "settingsJSON": "",
-                            "enabled": false
-                        },
-                        "showPreDefinedDates": false,
-                        "preDefinedDatesJSON": ""
-                    },
-                    "column": {
-                        "heading": "Name",
-                        "LabelPosition": "Left",
-                        "CanSort": true,
-                        "sort": "fullname",
-                        "firstclickdirection": "Ascending"
-                    },
-                    "initial_value": "NULL",
-                    "BreakType": "None",
-                    "nCols": 1,
-                    "link": {
-                        "StaticImageInlineStyle": "border-style: none;",
-                        "DisplayType": "Value in Field",
-                        "Type": "Field value is link address",
-                        "ajaxWindowType": "Modal-Popup",
-                        "ajaxWindowTitle": "Window",
-                        "ajaxWindowHeight": "3in",
-                        "ajaxWindowWidth": "4in",
-                        "ajaxWindowisResizable": true,
-                        "ajaxWindowWorkingMessage": "Working...",
-                        "ajaxWindowWorkingMessageIcon": "css/A5System/Images/wait.gif",
-                        "ajaxWindowRefreshGridOnClose": "None",
-                        "targetDIVHideHyperlink": "Close"
-                    },
-                    "BaseFieldExpression": "fullname",
-                    "type": "C",
-                    "ConditionalStyleLevel": "Cell",
-                    "ClientSideConditionalStyleLevel": "Cell",
-                    "Updateable": true,
-                    "TableAlias": "tblAttorney",
-                    "canBeUsedInWhereClause": true,
-                    "nativeType": "Varying Wide Character",
-                    "table": "tblAttorney",
-                    "FieldToUpdate": "fullname",
-                    "summary": {
-                        "total": {
-                            "inlinestyle": "text-align: right;"
-                        },
-                        "count": {
-                            "inlinestyle": "text-align: right;"
-                        },
-                        "average": {
-                            "inlinestyle": "text-align: right;"
-                        },
-                        "min": {
-                            "inlinestyle": "text-align: right;"
-                        },
-                        "max": {
-                            "inlinestyle": "text-align: right;"
-                        },
-                        "StdDev": {
-                            "inlinestyle": "text-align: right;"
-                        },
-                        "Var": {
-                            "inlinestyle": "text-align: right;"
-                        },
-                        "First": {
-                            "inlinestyle": "text-align: right;"
-                        },
-                        "Last": {
-                            "inlinestyle": "text-align: right;"
-                        }
-                    },
-                    "PortableType": "NationalVaryingCharacter",
-                    "width": 255,
-                    "varname": "fullname",
-                    "Display": "fullname",
-                    "displayOD": "{F=Tahoma,8}{I:'$a5_control_field'}{T=.2}{C=}{DATA=fullname}fullname",
-                    "displayODFlat": "{F=Tahoma,8}{I:'$a5_control_field'}{T=.2}{C=}{DATA=fullname}fullname",
-                    "scope": "Local",
-                    "tmplTxtComputed": true,
-                    "tmplTxt": "with tmpl.field_info[_fieldNumber_]\n\t.Fieldname = \"fullname\"\n\t.Scope = \"Local\"\n\t.DisplayFormat = \"\"\n\t.DisplayUnFormat = \"\"\n\t.ConditionalStyle = \"\"\n\t.ConditionalStyleLevel = \"Cell\"\n\t.ClientSideConditionalStyle = \"\"\n\t.ClientSideConditionalStyleLevel = \"Cell\"\n\t.QBEDisable = .f.\n\t.QBEInlineStyle = \"\"\n\t.QBEOptionsJSON = \"\"\n\t.canBeUsedInWhereClause = .t.\n\t.autoincrement = .f.\n\t.portableType = \"NationalVaryingCharacter\"\n\t.nativeType = \"Varying Wide Character\"\n\t.Type = \"C\"\n\t.UserDefinedClientSideValidationJavascript = \"\"\n\t.onChange_ValidationOption = \"None\"\n\t.Updateable = .t.\n\t.TreatBlankAsNull = .f.\n\t.Table_Alias = \"tblAttorney\"\n\t.FieldToUpdate = \"fullname\"\n\t.Varname = \"FULLNAME\"\n\t.Initial_Value = \"NULL\"\n\t.Column.LabelPosition = \"Left\"\n\t.Controltype = \"TextBox\"\n\t.Textbox.Size = 30\n\t.Textbox.HTML5Type = \"\"\n\t.Textbox.customAttributes = \"\"\n\t.Textbox.readonly = .f.\n\t.Textbox.MaxLength = 30\n\t.Textbox.InLineStyle = \"\"\n\t.Textbox.className = \"\"\n\t.Textbox.ContainerInlineStyle = \"\"\n\t.Textbox.IsPassword = .f.\n\t.hasWatermark= .f.\n\t.BreakType = \"None\"\n\t.nCols = 1\n\t.Column.Hide = .f.\n\t.BaseFieldExpression = \"fullname\"\n\t.SourceAlias = \"\"\n\t.Column.Heading = \"Name\"\n\t.Column.Sort = \"fullname\"\n\t.Column.FirstClickDirection = \"A\"\nend with\n\n\n\n\n\n\n\n",
-                    "index": 3000,
-                    "columnQBEOptionsJSON": ""
-                },
-                {
-                    "fieldname": "E-mailAddress",
-                    "showHelpIcon": "None",
-                    "helpIconBehavior": "ShowHelpOnClick",
-                    "onChange_ValidationOption": "None",
-                    "Layout": {
-                        "Title": "Tab label",
-                        "TabPane": {
-                            "show": true
-                        },
-                        "TabControl": {
-                            "useModernTabs": true,
-                            "Type": "Tab",
-                            "TabPosition": "Top",
-                            "AccordionType": "Single",
-                            "InitialPane": 1,
-                            "BreakType": "After",
-                            "animation": {
-                                "show": {
-                                    "method": "Suggested",
-                                    "speed": "Slow"
-                                },
-                                "hide": {
-                                    "method": "Suggested",
-                                    "speed": "Slow"
-                                }
-                            }
-                        },
-                        "FrameTitle": "Frame Label",
-                        "Frame": {
-                            "BreakType": "After",
-                            "type": "Simple",
-                            "initialState": "Shown"
-                        },
-                        "Container": {
-                            "BreakType": "After"
-                        },
-                        "ButtonText": "Button",
-                        "HyperlinkText": "Hyperlink",
-                        "Spacer": {
-                            "Horizontal": ".1in",
-                            "Vertical": ".1in"
-                        },
-                        "nCols": 1
-                    },
-                    "controltype": "TextBox",
-                    "Search": {
-                        "FromLabel": "From:",
-                        "ToLabel": "To:"
-                    },
-                    "Label": {
-                        "className": ""
-                    },
-                    "Image": {
-                        "noImageFoundImage": "<None>",
-                        "newRecordImage": "<None>"
-                    },
-                    "calendar": {
-                        "DateFormat": "mm/dd/yy",
-                        "SwitchYear": 20,
-                        "UseComboBoxes": true,
-                        "LowYear": 1950,
-                        "HighYear": 2050
-                    },
-                    "TextBox": {
                         "Size": 30,
+                        "readonly": false,
                         "MaxLength": 50,
-                        "stylefieldiferror": true,
-                        "className": "",
-                        "readonly": false
+                        "stylefieldiferror": true
                     },
                     "Watermark": {
                         "text": "<FieldLabel>"
@@ -814,9 +594,9 @@
                                 "width": "2in"
                             },
                             "style": "font: 9pt Arial;",
-                            "editButtonText": "Edit...",
                             "toolbaricons": "",
-                            "toolbardefinition": ""
+                            "toolbardefinition": "",
+                            "editButtonText": "Edit..."
                         }
                     },
                     "radiobutton": {
@@ -855,6 +635,12 @@
                         "OpenMethod": "ClickIcon",
                         "UseComboBoxes": true,
                         "DateFormat": "<DefaultTimeFormat>",
+                        "friendlyDisplay": {
+                            "settingsJSON": "",
+                            "enabled": false
+                        },
+                        "showPreDefinedDates": false,
+                        "preDefinedDatesJSON": "",
                         "LowYear": 1950,
                         "HighYear": 2050,
                         "SwitchYear": 20,
@@ -862,24 +648,19 @@
                         "showDaysOfWeek": true,
                         "showTodayButton": true,
                         "OKButtonLabel": "OK",
-                        "CancelButtonLabel": "Cancel",
-                        "friendlyDisplay": {
-                            "settingsJSON": "",
-                            "enabled": false
-                        },
-                        "showPreDefinedDates": false,
-                        "preDefinedDatesJSON": ""
+                        "CancelButtonLabel": "Cancel"
                     },
                     "column": {
-                        "heading": "E-Mail Address",
+                        "heading": "Bar First Name",
                         "LabelPosition": "Left",
                         "CanSort": true,
-                        "sort": "[E-mailAddress]",
+                        "sort": "barFirstName",
                         "firstclickdirection": "Ascending"
                     },
                     "initial_value": "NULL",
                     "BreakType": "None",
                     "nCols": 1,
+                    "columnQBEOptionsJSON": "",
                     "link": {
                         "StaticImageInlineStyle": "border-style: none;",
                         "DisplayType": "Value in Field",
@@ -894,7 +675,7 @@
                         "ajaxWindowRefreshGridOnClose": "None",
                         "targetDIVHideHyperlink": "Close"
                     },
-                    "BaseFieldExpression": "[E-mailAddress]",
+                    "BaseFieldExpression": "barFirstName",
                     "type": "C",
                     "ConditionalStyleLevel": "Cell",
                     "ClientSideConditionalStyleLevel": "Cell",
@@ -903,7 +684,7 @@
                     "canBeUsedInWhereClause": true,
                     "nativeType": "Varying Wide Character",
                     "table": "tblAttorney",
-                    "FieldToUpdate": "E-mailAddress",
+                    "FieldToUpdate": "barFirstName",
                     "summary": {
                         "total": {
                             "inlinestyle": "text-align: right;"
@@ -935,18 +716,16 @@
                     },
                     "PortableType": "NationalVaryingCharacter",
                     "width": 50,
-                    "varname": "E_mailAddress",
-                    "Display": "E-mailAddress",
-                    "displayOD": "{F=Tahoma,8}{I:'$a5_control_field'}{T=.2}{C=}{DATA=E-mailAddress}E-mailAddress",
-                    "displayODFlat": "{F=Tahoma,8}{I:'$a5_control_field'}{T=.2}{C=}{DATA=E-mailAddress}E-mailAddress",
+                    "varname": "barFirstName",
+                    "Display": "barFirstName",
+                    "displayOD": "{F=Tahoma,8}{I:'$a5_control_field'}{T=.2}{C=}{DATA=barFirstName}barFirstName",
+                    "displayODFlat": "{F=Tahoma,8}{I:'$a5_control_field'}{T=.2}{C=}{DATA=barFirstName}barFirstName",
                     "scope": "Local",
                     "tmplTxtComputed": true,
-                    "tmplTxt": "with tmpl.field_info[_fieldNumber_]\n\t.Fieldname = \"E-mailAddress\"\n\t.Scope = \"Local\"\n\t.DisplayFormat = \"\"\n\t.DisplayUnFormat = \"\"\n\t.ConditionalStyle = \"\"\n\t.ConditionalStyleLevel = \"Cell\"\n\t.ClientSideConditionalStyle = \"\"\n\t.ClientSideConditionalStyleLevel = \"Cell\"\n\t.QBEDisable = .f.\n\t.QBEInlineStyle = \"\"\n\t.QBEOptionsJSON = \"\"\n\t.canBeUsedInWhereClause = .t.\n\t.autoincrement = .f.\n\t.portableType = \"NationalVaryingCharacter\"\n\t.nativeType = \"Varying Wide Character\"\n\t.Type = \"C\"\n\t.UserDefinedClientSideValidationJavascript = \"\"\n\t.onChange_ValidationOption = \"None\"\n\t.Updateable = .t.\n\t.TreatBlankAsNull = .f.\n\t.Table_Alias = \"tblAttorney\"\n\t.FieldToUpdate = \"E-mailAddress\"\n\t.Varname = \"E_MAILADDRESS\"\n\t.Initial_Value = \"NULL\"\n\t.Column.LabelPosition = \"Left\"\n\t.Controltype = \"TextBox\"\n\t.Textbox.Size = 30\n\t.Textbox.HTML5Type = \"\"\n\t.Textbox.customAttributes = \"\"\n\t.Textbox.readonly = .f.\n\t.Textbox.MaxLength = 50\n\t.Textbox.InLineStyle = \"\"\n\t.Textbox.className = \"\"\n\t.Textbox.ContainerInlineStyle = \"\"\n\t.Textbox.IsPassword = .f.\n\t.hasWatermark= .f.\n\t.BreakType = \"None\"\n\t.nCols = 1\n\t.Column.Hide = .f.\n\t.BaseFieldExpression = \"[E-mailAddress]\"\n\t.SourceAlias = \"\"\n\t.Column.Heading = \"E-Mail Address\"\n\t.Column.Sort = \"[E-mailAddress]\"\n\t.Column.FirstClickDirection = \"A\"\nend with\n\n\n\n\n\n\n\n",
-                    "index": 4000,
-                    "columnQBEOptionsJSON": ""
+                    "tmplTxt": "with tmpl.field_info[_fieldNumber_]\n\t.Fieldname = \"barFirstName\"\n\t.Scope = \"Local\"\n\t.DisplayFormat = \"\"\n\t.DisplayUnFormat = \"\"\n\t.ConditionalStyle = \"\"\n\t.ConditionalStyleLevel = \"Cell\"\n\t.ClientSideConditionalStyle = \"\"\n\t.ClientSideConditionalStyleLevel = \"Cell\"\n\t.QBEDisable = .f.\n\t.QBEInlineStyle = \"\"\n\t.QBEOptionsJSON = \"\"\n\t.canBeUsedInWhereClause = .t.\n\t.autoincrement = .f.\n\t.portableType = \"NationalVaryingCharacter\"\n\t.nativeType = \"Varying Wide Character\"\n\t.Type = \"C\"\n\t.UserDefinedClientSideValidationJavascript = \"\"\n\t.onChange_ValidationOption = \"None\"\n\t.Updateable = .t.\n\t.TreatBlankAsNull = .f.\n\t.Table_Alias = \"tblAttorney\"\n\t.FieldToUpdate = \"barFirstName\"\n\t.Varname = \"BARFIRSTNAME\"\n\t.Initial_Value = \"NULL\"\n\t.Column.LabelPosition = \"Left\"\n\t.Controltype = \"TextBox\"\n\t.Textbox.Size = 30\n\t.Textbox.HTML5Type = \"\"\n\t.Textbox.customAttributes = \"\"\n\t.Textbox.readonly = .f.\n\t.Textbox.MaxLength = 50\n\t.Textbox.InLineStyle = \"\"\n\t.Textbox.className = \"\"\n\t.Textbox.ContainerInlineStyle = \"\"\n\t.Textbox.IsPassword = .f.\n\t.hasWatermark= .f.\n\t.BreakType = \"None\"\n\t.nCols = 1\n\t.Column.Hide = .f.\n\t.BaseFieldExpression = \"barFirstName\"\n\t.SourceAlias = \"\"\n\t.Column.Heading = \"Bar First Name\"\n\t.Column.Sort = \"barFirstName\"\n\t.Column.FirstClickDirection = \"A\"\nend with\n\n\n"
                 },
                 {
-                    "fieldname": "barCellular",
+                    "fieldname": "barLastName",
                     "showHelpIcon": "None",
                     "helpIconBehavior": "ShowHelpOnClick",
                     "onChange_ValidationOption": "None",
@@ -1010,11 +789,11 @@
                         "HighYear": 2050
                     },
                     "TextBox": {
-                        "Size": 14,
-                        "MaxLength": 14,
-                        "stylefieldiferror": true,
                         "className": "",
-                        "readonly": false
+                        "Size": 30,
+                        "readonly": false,
+                        "MaxLength": 50,
+                        "stylefieldiferror": true
                     },
                     "Watermark": {
                         "text": "<FieldLabel>"
@@ -1034,9 +813,9 @@
                                 "width": "2in"
                             },
                             "style": "font: 9pt Arial;",
-                            "editButtonText": "Edit...",
                             "toolbaricons": "",
-                            "toolbardefinition": ""
+                            "toolbardefinition": "",
+                            "editButtonText": "Edit..."
                         }
                     },
                     "radiobutton": {
@@ -1075,6 +854,12 @@
                         "OpenMethod": "ClickIcon",
                         "UseComboBoxes": true,
                         "DateFormat": "<DefaultTimeFormat>",
+                        "friendlyDisplay": {
+                            "settingsJSON": "",
+                            "enabled": false
+                        },
+                        "showPreDefinedDates": false,
+                        "preDefinedDatesJSON": "",
                         "LowYear": 1950,
                         "HighYear": 2050,
                         "SwitchYear": 20,
@@ -1082,24 +867,19 @@
                         "showDaysOfWeek": true,
                         "showTodayButton": true,
                         "OKButtonLabel": "OK",
-                        "CancelButtonLabel": "Cancel",
-                        "friendlyDisplay": {
-                            "settingsJSON": "",
-                            "enabled": false
-                        },
-                        "showPreDefinedDates": false,
-                        "preDefinedDatesJSON": ""
+                        "CancelButtonLabel": "Cancel"
                     },
                     "column": {
-                        "heading": "Cellular",
+                        "heading": "Bar Last Name",
                         "LabelPosition": "Left",
                         "CanSort": true,
-                        "sort": "barCellular",
+                        "sort": "barLastName",
                         "firstclickdirection": "Ascending"
                     },
                     "initial_value": "NULL",
                     "BreakType": "None",
                     "nCols": 1,
+                    "columnQBEOptionsJSON": "",
                     "link": {
                         "StaticImageInlineStyle": "border-style: none;",
                         "DisplayType": "Value in Field",
@@ -1114,7 +894,7 @@
                         "ajaxWindowRefreshGridOnClose": "None",
                         "targetDIVHideHyperlink": "Close"
                     },
-                    "BaseFieldExpression": "barCellular",
+                    "BaseFieldExpression": "barLastName",
                     "type": "C",
                     "ConditionalStyleLevel": "Cell",
                     "ClientSideConditionalStyleLevel": "Cell",
@@ -1123,7 +903,7 @@
                     "canBeUsedInWhereClause": true,
                     "nativeType": "Varying Wide Character",
                     "table": "tblAttorney",
-                    "FieldToUpdate": "barCellular",
+                    "FieldToUpdate": "barLastName",
                     "summary": {
                         "total": {
                             "inlinestyle": "text-align: right;"
@@ -1154,19 +934,17 @@
                         }
                     },
                     "PortableType": "NationalVaryingCharacter",
-                    "width": 14,
-                    "varname": "barCellular",
-                    "Display": "barCellular",
-                    "displayOD": "{F=Tahoma,8}{I:'$a5_control_field'}{T=.2}{C=}{DATA=barCellular}barCellular",
-                    "displayODFlat": "{F=Tahoma,8}{I:'$a5_control_field'}{T=.2}{C=}{DATA=barCellular}barCellular",
+                    "width": 50,
+                    "varname": "barLastName",
+                    "Display": "barLastName",
+                    "displayOD": "{F=Tahoma,8}{I:'$a5_control_field'}{T=.2}{C=}{DATA=barLastName}barLastName",
+                    "displayODFlat": "{F=Tahoma,8}{I:'$a5_control_field'}{T=.2}{C=}{DATA=barLastName}barLastName",
                     "scope": "Local",
                     "tmplTxtComputed": true,
-                    "tmplTxt": "with tmpl.field_info[_fieldNumber_]\n\t.Fieldname = \"barCellular\"\n\t.Scope = \"Local\"\n\t.DisplayFormat = \"\"\n\t.DisplayUnFormat = \"\"\n\t.ConditionalStyle = \"\"\n\t.ConditionalStyleLevel = \"Cell\"\n\t.ClientSideConditionalStyle = \"\"\n\t.ClientSideConditionalStyleLevel = \"Cell\"\n\t.QBEDisable = .f.\n\t.QBEInlineStyle = \"\"\n\t.QBEOptionsJSON = \"\"\n\t.canBeUsedInWhereClause = .t.\n\t.autoincrement = .f.\n\t.portableType = \"NationalVaryingCharacter\"\n\t.nativeType = \"Varying Wide Character\"\n\t.Type = \"C\"\n\t.UserDefinedClientSideValidationJavascript = \"\"\n\t.onChange_ValidationOption = \"None\"\n\t.Updateable = .t.\n\t.TreatBlankAsNull = .f.\n\t.Table_Alias = \"tblAttorney\"\n\t.FieldToUpdate = \"barCellular\"\n\t.Varname = \"BARCELLULAR\"\n\t.Initial_Value = \"NULL\"\n\t.Column.LabelPosition = \"Left\"\n\t.Controltype = \"TextBox\"\n\t.Textbox.Size = 14\n\t.Textbox.HTML5Type = \"\"\n\t.Textbox.customAttributes = \"\"\n\t.Textbox.readonly = .f.\n\t.Textbox.MaxLength = 14\n\t.Textbox.InLineStyle = \"\"\n\t.Textbox.className = \"\"\n\t.Textbox.ContainerInlineStyle = \"\"\n\t.Textbox.IsPassword = .f.\n\t.hasWatermark= .f.\n\t.BreakType = \"None\"\n\t.nCols = 1\n\t.Column.Hide = .f.\n\t.BaseFieldExpression = \"barCellular\"\n\t.SourceAlias = \"\"\n\t.Column.Heading = \"Cellular\"\n\t.Column.Sort = \"barCellular\"\n\t.Column.FirstClickDirection = \"A\"\nend with\n\n\n\n\n\n\n\n\n",
-                    "index": 5000,
-                    "columnQBEOptionsJSON": ""
+                    "tmplTxt": "with tmpl.field_info[_fieldNumber_]\n\t.Fieldname = \"barLastName\"\n\t.Scope = \"Local\"\n\t.DisplayFormat = \"\"\n\t.DisplayUnFormat = \"\"\n\t.ConditionalStyle = \"\"\n\t.ConditionalStyleLevel = \"Cell\"\n\t.ClientSideConditionalStyle = \"\"\n\t.ClientSideConditionalStyleLevel = \"Cell\"\n\t.QBEDisable = .f.\n\t.QBEInlineStyle = \"\"\n\t.QBEOptionsJSON = \"\"\n\t.canBeUsedInWhereClause = .t.\n\t.autoincrement = .f.\n\t.portableType = \"NationalVaryingCharacter\"\n\t.nativeType = \"Varying Wide Character\"\n\t.Type = \"C\"\n\t.UserDefinedClientSideValidationJavascript = \"\"\n\t.onChange_ValidationOption = \"None\"\n\t.Updateable = .t.\n\t.TreatBlankAsNull = .f.\n\t.Table_Alias = \"tblAttorney\"\n\t.FieldToUpdate = \"barLastName\"\n\t.Varname = \"BARLASTNAME\"\n\t.Initial_Value = \"NULL\"\n\t.Column.LabelPosition = \"Left\"\n\t.Controltype = \"TextBox\"\n\t.Textbox.Size = 30\n\t.Textbox.HTML5Type = \"\"\n\t.Textbox.customAttributes = \"\"\n\t.Textbox.readonly = .f.\n\t.Textbox.MaxLength = 50\n\t.Textbox.InLineStyle = \"\"\n\t.Textbox.className = \"\"\n\t.Textbox.ContainerInlineStyle = \"\"\n\t.Textbox.IsPassword = .f.\n\t.hasWatermark= .f.\n\t.BreakType = \"None\"\n\t.nCols = 1\n\t.Column.Hide = .f.\n\t.BaseFieldExpression = \"barLastName\"\n\t.SourceAlias = \"\"\n\t.Column.Heading = \"Bar Last Name\"\n\t.Column.Sort = \"barLastName\"\n\t.Column.FirstClickDirection = \"A\"\nend with\n\n\n"
                 },
                 {
-                    "fieldname": "barPhone",
+                    "fieldname": "barPI",
                     "showHelpIcon": "None",
                     "helpIconBehavior": "ShowHelpOnClick",
                     "onChange_ValidationOption": "None",
@@ -1210,7 +988,7 @@
                         },
                         "nCols": 1
                     },
-                    "controltype": "TextBox",
+                    "controltype": "Checkbox",
                     "Search": {
                         "FromLabel": "From:",
                         "ToLabel": "To:"
@@ -1230,11 +1008,11 @@
                         "HighYear": 2050
                     },
                     "TextBox": {
-                        "Size": 14,
-                        "MaxLength": 14,
-                        "stylefieldiferror": true,
                         "className": "",
-                        "readonly": false
+                        "Size": 1,
+                        "readonly": false,
+                        "MaxLength": 1,
+                        "stylefieldiferror": true
                     },
                     "Watermark": {
                         "text": "<FieldLabel>"
@@ -1254,9 +1032,9 @@
                                 "width": "2in"
                             },
                             "style": "font: 9pt Arial;",
-                            "editButtonText": "Edit...",
                             "toolbaricons": "",
-                            "toolbardefinition": ""
+                            "toolbardefinition": "",
+                            "editButtonText": "Edit..."
                         }
                     },
                     "radiobutton": {
@@ -1295,6 +1073,12 @@
                         "OpenMethod": "ClickIcon",
                         "UseComboBoxes": true,
                         "DateFormat": "<DefaultTimeFormat>",
+                        "friendlyDisplay": {
+                            "settingsJSON": "",
+                            "enabled": false
+                        },
+                        "showPreDefinedDates": false,
+                        "preDefinedDatesJSON": "",
                         "LowYear": 1950,
                         "HighYear": 2050,
                         "SwitchYear": 20,
@@ -1302,24 +1086,19 @@
                         "showDaysOfWeek": true,
                         "showTodayButton": true,
                         "OKButtonLabel": "OK",
-                        "CancelButtonLabel": "Cancel",
-                        "friendlyDisplay": {
-                            "settingsJSON": "",
-                            "enabled": false
-                        },
-                        "showPreDefinedDates": false,
-                        "preDefinedDatesJSON": ""
+                        "CancelButtonLabel": "Cancel"
                     },
                     "column": {
-                        "heading": "Phone",
+                        "heading": "Bar PI",
                         "LabelPosition": "Left",
                         "CanSort": true,
-                        "sort": "barPhone",
+                        "sort": "barPI",
                         "firstclickdirection": "Ascending"
                     },
-                    "initial_value": "NULL",
+                    "initial_value": "-1",
                     "BreakType": "None",
                     "nCols": 1,
+                    "columnQBEOptionsJSON": "",
                     "link": {
                         "StaticImageInlineStyle": "border-style: none;",
                         "DisplayType": "Value in Field",
@@ -1334,16 +1113,16 @@
                         "ajaxWindowRefreshGridOnClose": "None",
                         "targetDIVHideHyperlink": "Close"
                     },
-                    "BaseFieldExpression": "barPhone",
-                    "type": "C",
+                    "BaseFieldExpression": "barPI",
+                    "type": "L",
                     "ConditionalStyleLevel": "Cell",
                     "ClientSideConditionalStyleLevel": "Cell",
                     "Updateable": true,
                     "TableAlias": "tblAttorney",
                     "canBeUsedInWhereClause": true,
-                    "nativeType": "Varying Wide Character",
+                    "nativeType": "Boolean",
                     "table": "tblAttorney",
-                    "FieldToUpdate": "barPhone",
+                    "FieldToUpdate": "barPI",
                     "summary": {
                         "total": {
                             "inlinestyle": "text-align: right;"
@@ -1373,17 +1152,16 @@
                             "inlinestyle": "text-align: right;"
                         }
                     },
-                    "PortableType": "NationalVaryingCharacter",
-                    "width": 14,
-                    "varname": "barPhone",
-                    "Display": "barPhone",
-                    "displayOD": "{F=Tahoma,8}{I:'$a5_control_field'}{T=.2}{C=}{DATA=barPhone}barPhone",
-                    "displayODFlat": "{F=Tahoma,8}{I:'$a5_control_field'}{T=.2}{C=}{DATA=barPhone}barPhone",
+                    "PortableType": "Boolean",
+                    "width": 1,
+                    "varname": "barPI",
+                    "Display": "barPI",
+                    "displayOD": "{F=Tahoma,8}{I:'$a5_control_checkbox'}{T=.2}{C=}{DATA=barPI}barPI",
+                    "displayODFlat": "{F=Tahoma,8}{I:'$a5_control_checkbox'}{T=.2}{C=}{DATA=barPI}barPI",
                     "scope": "Local",
                     "tmplTxtComputed": true,
-                    "tmplTxt": "with tmpl.field_info[_fieldNumber_]\n\t.Fieldname = \"barPhone\"\n\t.Scope = \"Local\"\n\t.DisplayFormat = \"\"\n\t.DisplayUnFormat = \"\"\n\t.ConditionalStyle = \"\"\n\t.ConditionalStyleLevel = \"Cell\"\n\t.ClientSideConditionalStyle = \"\"\n\t.ClientSideConditionalStyleLevel = \"Cell\"\n\t.QBEDisable = .f.\n\t.QBEInlineStyle = \"\"\n\t.QBEOptionsJSON = \"\"\n\t.canBeUsedInWhereClause = .t.\n\t.autoincrement = .f.\n\t.portableType = \"NationalVaryingCharacter\"\n\t.nativeType = \"Varying Wide Character\"\n\t.Type = \"C\"\n\t.UserDefinedClientSideValidationJavascript = \"\"\n\t.onChange_ValidationOption = \"None\"\n\t.Updateable = .t.\n\t.TreatBlankAsNull = .f.\n\t.Table_Alias = \"tblAttorney\"\n\t.FieldToUpdate = \"barPhone\"\n\t.Varname = \"BARPHONE\"\n\t.Initial_Value = \"NULL\"\n\t.Column.LabelPosition = \"Left\"\n\t.Controltype = \"TextBox\"\n\t.Textbox.Size = 14\n\t.Textbox.HTML5Type = \"\"\n\t.Textbox.customAttributes = \"\"\n\t.Textbox.readonly = .f.\n\t.Textbox.MaxLength = 14\n\t.Textbox.InLineStyle = \"\"\n\t.Textbox.className = \"\"\n\t.Textbox.ContainerInlineStyle = \"\"\n\t.Textbox.IsPassword = .f.\n\t.hasWatermark= .f.\n\t.BreakType = \"None\"\n\t.nCols = 1\n\t.Column.Hide = .f.\n\t.BaseFieldExpression = \"barPhone\"\n\t.SourceAlias = \"\"\n\t.Column.Heading = \"Phone\"\n\t.Column.Sort = \"barPhone\"\n\t.Column.FirstClickDirection = \"A\"\nend with\n\n\n\n\n\n\n\n\n",
-                    "index": 6000,
-                    "columnQBEOptionsJSON": ""
+                    "tmplTxt": "with tmpl.field_info[_fieldNumber_]\n\t.Fieldname = \"barPI\"\n\t.Scope = \"Local\"\n\t.ConditionalStyle = \"\"\n\t.ConditionalStyleLevel = \"Cell\"\n\t.ClientSideConditionalStyle = \"\"\n\t.ClientSideConditionalStyleLevel = \"Cell\"\n\t.QBEDisable = .f.\n\t.QBEInlineStyle = \"\"\n\t.QBEOptionsJSON = \"\"\n\t.canBeUsedInWhereClause = .t.\n\t.autoincrement = .f.\n\t.portableType = \"Boolean\"\n\t.nativeType = \"Boolean\"\n\t.Type = \"L\"\n\t.UserDefinedClientSideValidationJavascript = \"\"\n\t.onChange_ValidationOption = \"None\"\n\t.Updateable = .t.\n\t.TreatBlankAsNull = .f.\n\t.Table_Alias = \"tblAttorney\"\n\t.FieldToUpdate = \"barPI\"\n\t.Varname = \"BARPI\"\n\t.Initial_Value = \"-1\"\n\t.Column.LabelPosition = \"Left\"\n\t.Controltype = \"Checkbox\"\n\t.InitialValue = \"False\"\n\t.BreakType = \"None\"\n\t.nCols = 1\n\t.Column.Hide = .f.\n\t.BaseFieldExpression = \"barPI\"\n\t.SourceAlias = \"\"\n\t.Column.Heading = \"Bar PI\"\n\t.Column.Sort = \"barPI\"\n\t.Column.FirstClickDirection = \"A\"\nend with\n\n",
+                    "index": 5000
                 }
             ]
         },
@@ -1810,7 +1588,7 @@
         "info": {
             "createdBy": "terry",
             "LastUpdatedBy": "terry",
-            "DateUpdated": "03/31/2020 10:09:44 59 am",
+            "DateUpdated": "07/09/2020 12:44:56 09 pm",
             "DateCreated": "03/29/2020 05:06:37 79 pm"
         },
         "BuilderVersion": 2,
@@ -1818,7 +1596,7 @@
         "embeddedMode": false,
         "_style_versionNumber": -1,
         "AjaxOn": true,
-        "fpInstalled": "/J9SKAmrHowDQK/uW8QePubMUb1rMfRWsbavNpyprxxfbB4mtlSWTcS61WidlLBa9mknM42BQXF5SLqkaxqDCK/mFD3YZDT1OsoQ5vqc6hgx7TW/IadJylcyQwTe/LJM4e+e7Si6lmmszkP6x840X9kGBMNp+HFBya7+/g8mCAC6g8X4+gBdlG7PdsWexeIoGbZLLYUPoO+oMLYidOLX0+uwHDeaZXyWOucHfR6XG1p5PqCa6S5D+BNJQeBHjkzIPPlYlk9j4H3Yv+GqzgWGd4bysULW12C2uSpR9Y30tc0LezliMcpBKFfJ4pZimEp+GyPe+bPuu12ofCilPrtMjZN/d1tdFzUcGqvnP8LoATQEoTUSDWsEgxeACLbWv+OTZAGLD/pHgcdzYhIjUr4zU1LIJgxjsFmSyBYyrCQcQ9xXJrJLNpXcVntGvDiINBYgivQM1NEY2BdKwscytR67fHHzQ5ldyZ6LVJoJqBTGktVPLkoQEua3v0xi1MOOvRrkGgVi6EI8DK+MANbwqOB6tPkNWrYHKhZNIoM48E1+9k02fUEPlz0tCkgwjjRabFYDyDQ54WBCWG6xIgHQkrKr8Sf2nAZXZQDhp+2zwbZs3qVQyGzTBKSPG9Zn81j3xbHj4pPt5hBU+5de4KJIccbHJm6eZM8XEJ9rx/GDhUVnjUUBxOnUWDV0CeBLVDmJx1IV3UWJYEGkomjvi+bR/vOibrfZ3QjwULidp3ZjyT8IpfLG1whvoWb77M8ZVH71Nqd0UbXCDUqMh9UM4gSeBCKlwe3TO63Q1yoVI1CkEYEHCfTFivzspt72EWEmEh2AgtuVq+t8GjLVA+KCul+0R+bGxZnI5xOa1sw55etW9XhOVUGVlvq5GlJQEiY4hDcSTEGzpv9Qzjd4AgpIRJOy6hy3oPL13OWJkVvCL0HeAXjEBJhMFnPPSogTKO4JfRBuoBVMherQnMdTDeVxUeTnRdtzoMhXkb3F0Jl5CLbaX2jp7eX23LbKhi9Pg0X05bQhiiuzoZOdbC2Ec4G2nwv+C8Q/HZa8x/ZRZHrObw/llZTi5OxuVBE6GmjYEPm7SoPVpa3pUJMILki/A5SUWgO7yGJZo+yVv7XSIIoDP66RoQkUDe9tENB5tREaZyoKmAaFE/aksqzPr3clGbIEjtAz7ELWCB306I1jYyZhafPwr/8kd+MAd/KfEQ9CvzFEh2Z/qcOqUkpXB63/XdX3CtpfVNSgMft2xEJ5Xf79r0vxoKiuEZpKO9qe1YJ3ruhHDkLfouoqM/Hu9FqdDONqRnD5LoEy4qqceVYAzLVzRfJVmSC5AVODI31NDI9oRZnkdm4d/KHGr8dCCA+96iEtF941eQd6KSI5YkBxQrdo6VR5JBdxX440mW+v8gR6dugILwoGhNp/KcbSdGpwvcLVedCH3b+vBiussrtKCemuetX3YLgOmuu1s1/QweUMANzwgg5Wlr866LW3a1A5CcYPJPnVbHL15Lbb5wGRa9YRyMuyClvXSfC9wruxsOcO+JWlyhKBNT+rEwSRA0ZAK7h8RhXak5yPQw+8TmGvaXbxaaBSns+Rg7pXmLh/++dUIK2HeWiNcoOc8xOMpNQcUg3UJgJDcNR3Xgy4A8EyRNmHjliZ7i6hH1oTMKXyYwW7+RgkFhpZUZhMlmT/Wnn65LQgiQG3KEC6f/r2XPRRC15KIr9J5lrYRvYPj4Ede3bilH/ibMfmiJLlAOp7j1YWjf+YYhxGEJzvJsYQ9EnKaJg1UsmQmpKQ9Ukp9DBBlV1Rt1//KVjQacUwafizAdv8lUEiXHBYK5gzXM2oEAnfF67FPYOLZpHTycZvTo9B0H4v/gjIzBlz5xOGbeO34xzMpyqEjfy11DEomfm0Qqy1XoNHSJHExzmeXBXU/G97Unn6NcyBKkNEKiIGBo3ANe7rPHeZee44mtel77jW5U/BEaTOtVELtOZtweHEiGwXYfzpX4djrDQXeK/aj6lmwcdXHVJb/+P8unGXq1HYytv0crjpJKWKodKeq9ucHKGpQ/AlEAD3O4QQ/zwor0z5J7ZbF91qyUOEQZ76+VAfrFH+6gff0Zr6C6h25ARVop7e67ifRkYi+uegfD0ANZNVQW39ySPlpxuakFIKGrT7FDqe1tpOSUs3H1CJWJu4ukKnKs3geCA+cn6kjyWHPg1nfK0rXXWs9PhHpzZTkFhm959B1Rr5ZlUQWcKm9HZpgUU0lCxpY+2550RCVGoJnnO1FZYCzjJP0loV9OT5zRP3Lb6BLFTtQI9Ip0rnPtqmHcV5YFUHnXo7gcV8bCjP3EoVOp7OWHLbB98ioAR7L/nlOedHyjLJE/LJ7EVyev6S2nj64jTmBXdxlYFcz5ezP+1FpDdsAAPKCUTQ5xZkI/dvl2PZTzSRSMjvKgBjWajCHQPb83K1LpW0O5xiMpC6muoQMBzBdYrhYuBabaCWzdrscvmrhUH7+X3V8jSkB7nSYyCe2mWWZw3kNmdyVPqK/ThlpelHpM/zo53ICHE46QpvAf+ThZgumXTvYcxY9APTD9yrb7sWPTJ2awZkbw7XS99JwWFb1/KhNBtpoHOYDGyesrsoD+6O8xLW1VtlCZ4hOa9z3OOmvIE3h28Wi/c2QdWIbdIhpcx+DD9KyWWUXEvNJN2rF3JTExE8i9BsVtVfMPpgrxQux5bU1EGWVg9F16SYs8QhsKDCnQwVM09zulo6f/MUa373uE1hkgX84E32w8tWN5dd0mX3+2i9pgYmhf9n1D/Y7EtqzW9pkVJLZ0buqqLJZmtuteghvyXQ02TwFIEsdLt3XdOVnjFum8+y+gSUzOc2ytBKvS5XUwtyprUjaPF+nc5FZpUpXWOQMIyrF2Htl9MBH3ca+Db6Va/E3v0fRqaq+gPY7FGG7Yj6eNg/rxmVxO/L1hpi0Z3DjhzFVYUIP/5KEQFqaG1FjZxHauFKGQN76XxiRFbUDeYhvXI2xiJuXLqW+5PxWRT5NcIsV7NtryNdei6iZqbkmG880OTiLEe3PKaRdXQzfbX/ioFDoH3+HBRVMS2mJJ1TiZrg2c95EGeSZa2z4ASAqRdmZ/rpL5dQSSutwjfqrkPoFi7jqWovVlhjrtoCSxvCI4E4g291OYq/aHzeIq+HGWJ7d42ZmxTHthu03BjQjSmzEyaFogjRKmbkrxV+Sepy/5KgEBfyPnRfi1D3U1puX5DxLhyJ5eDXy5iTqC3yFzQ8KYON+1qlUZ6z09AuqtAmRzTKbcplfUXiqLDvkF/GFo97NbNlwQW9HGHXVhfDgjYyHsC8AuixM9YxDJeqNAv3mkLQCdhCFdtpHouzVqT7PrkgDzeYT4jCAKCATRuH6WGm0VNcjMzOkruM7UZBoq6b75iMbEsyUXPN9A9hM0Mfcw7DYvPM150eYggu8lKBrwVBCYV+Yuop2DdjG6rLfc5QOAaN0CuXXPeGFIeRndEevj29e4AUQ6+b48xWUG5QWtqFiVlrwWOUjfLeT9UFkK7Xsof0UZ4sTsJBJrW17Aef3l61cVIvfEQO4Jr2QLGaQlVLt8mx49yfGt28GpXu+GDfRtUVZ3HLZDdzqautPSo/sV7ikwkGwE7ItpJhuE22jEc1MzIpjcrv3HGghAC4fX5cTWWjrdwfjyTmCEiyUZtkmcgLiIkMaiIB7b8RO7PJbB1xgwOK37SgAI5rcwnTO+5LNSGnS48eqfWAUUydLi5HIXij4spbdYIYBtg9ikFHg/+56k8s0Qk2F90FDhn9CyZrSygPxud5uSLKKigl+yzj/ub0YNEwE31EB2G+cYxxW+djn6C4G8GW/wkS3yYKk+oT0W9RCm+vndTHLxs6y3stSzD1qG63z+XpBirmr+5euKYFWBsTwPxOMKFK8877E7yW9x7ytvgQvmKig10EOpnP9NHAlActuPPGFNg=",
+        "fpInstalled": "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",
         "componentFilename": "C:\\Users\\terry\\Documents\\AlphaAnywhere V12\\CALTrax\\CALTrax.WebProjects\\Default.WebProject\\office_investigator_embedded_grid.a5wcmp",
         "PAliases": {
             "alias": "[PathAlias.ADB_Path]\n",
@@ -1836,6 +1614,6 @@
                 "scriptMetaData": "<a_ajs<[1]<display=\"{I:'$$web.component.dialog'}{F=Tahoma,10}{C=Dark Blue,White}{B=Blue White,Dark Blue}Open a UX component to Edit Current Record in Grid, or add a new Record  {T=4}{I:'a5_vertical_line'}Open Investigator Detail\">\n<action=\"Open a UX component to Edit Current Record in Grid, or add a new Record  \">\n<icon=\"$$web.component.dialog\">\n<isCommentedOut=.F.>\n<comment=\"Open Investigator Detail\">\n<builder=\"a5ajs_openGenericComponent(v,wf,pv,dlg_mode,\\\"dialog2-EditGridRow\\\")\">\n<metaData=<<%str1%\n<targetGridDefinition=<<%str%\n<gridName=\"office_inv_embedded_expanded_UX\">\n<gridAlias=\"<DefaultAlias>\">\n<argumentBindings=\"\">\n<overrideSettings=\"\">\n<useSameStyleAsParentGrid=.T.>\n<customSettingOverridesJSON=\"\">\n<order=\"\">\n<localArguments=\"\">\n<placeHolderValues=\"\">\n%str%>\n<flagShowSynchronizePrompts=.F.>\n<parentNavigator=\"\">\n<dynamicPanelTitle=\"\">\n<dynamicPanelSetFocus=.T.>\n<waitMessagePanel=\"\">\n<dynamicPanelCanClose=.F.>\n<grid<gridName=\"office_inv_embedded_expanded_UX\">\n<alias=\"<DefaultAlias>\">\n<userFilter=\"\">\n<baseFilter=\"\">\n<link=\"\">\n<order=\"\">\n<argumentDefinitions=\"\">\n<argumentBindings=\"\">\n<useMasterStyle=.T.>\n<overrideSettings=\"\">\n<customSettingOverridesJSON=\"\">\n<debugMode=.F.>\n<timer=.F.>\n<queryEcho=.F.>\n<workingMessage=\"<img src=\\\"css/A5System/Images/wait.gif\\\" /> Computing Grid. Please wait...\">\n<beforeExecuteClientSideFunctionName=\"\">\n>\n<refreshUXOnSynchronize=.T.>\n<refreshUXJavascriptFunction=\"\">\n<allowAutoCloseIfDirty=.F.>\n<dialog<showWaitMessageOnRefresh=.F.>\n<waitMessageText=\"Wait...\">\n<waitMessageIcon=\"css/A5System/Images/wait.gif\">\n<useCachedDialog=.F.>\n>\n<specialMode=\"ExistingOrNewRecord\">\n<closeDialogAfterSubmit=.T.>\n<gridRecordMode=\"EditExistingRecord\">\n<populateDialog=.F.>\n<targetType=\"Window\">\n<targetDIVid=\"\">\n<targetDIVcanHide=.T.>\n<targetDIVHideHyperlink=\"Close\">\n<targetDIVStyle=\"\">\n<targetPanel=\"\">\n<dockWindow=.F.>\n<dockLocation=\"Bottom\">\n<windowNameExplicit=\"<Default>\">\n<ajaxWindowType=\"Modal-Popup\">\n<ajaxWindowPositionAttribute=\"\">\n<ajaxWindowPositionAttributeEnglish=\"\">\n<ajaxWindowPositionAttributeDD=\"\">\n<ajaxWindowPositionAttributeEnglishDD=\"\">\n<ajaxWindowModalLockClassName=\"<Default>\">\n<ajaxWindowTitle=\"Investigator\">\n<ajaxPaneTitle=\"Pane\">\n<ajaxPaneAlwaysUseNewPane=.T.>\n<ajaxWindowReuseExistingWindow=.F.>\n<ajaxWindowHeight=\"5in\">\n<ajaxWindowWidth=\"8in\">\n<ajaxWindowisResizable=.T.>\n<ajaxWindowWorkingMessage=\"Working...\">\n<ajaxWindowWorkingMessageIcon=\"css/A5System/Images/wait.gif\">\n<ajaxWindowWorkingMessageUseCSSAnimation=.F.>\n<ajaxWindowWorkingMessageCSSAnimationSettings<size=\"32\">\n>\n<ajaxWindowTitlePosition=\"Top\">\n<ajaxWindowTitleDirection=\"ltr\">\n<ajaxWindowTitleHasClose=.T.>\n<ajaxWindowTitleShow=.T.>\n<ajaxWindowDisableMove=.F.>\n<ajaxWindowRefreshGridOnClose=\"None\">\n<window<hasCustomButtons=.F.>\n<buttonCount=0>\n<customButtonsInLineStyle=\"\">\n<tbar<show=.F.>\n<html=\"\">\n<style=\"\">\n>\n<header<show=.F.>\n<html=\"\">\n<style=\"\">\n>\n<footer<show=.F.>\n<html=\"\">\n<style=\"\">\n>\n<bbar<show=.F.>\n<html=\"\">\n<style=\"\">\n>\n<onInitialize=\"\">\n<onBeforeShow=\"\">\n<onShow=\"\">\n<onBeforeHide=\"\">\n<onHide=\"\">\n<onFocus=\"\">\n<onMove=\"\">\n<onResize=\"\">\n<animation<hasAnimation=.F.>\n<show<method=\"Fade\">\n<speed=\"Slow\">\n>\n<hide<method=\"None\">\n<speed=\"Fast\">\n>\n>\n<backgroundStyle=\"\">\n<centerContentsVertical=.F.>\n<centerContentsHorizontal=.F.>\n<pointer<has=.F.>\n<location=\"Auto\">\n>\n<warnOnCloseIfChildGridIsDirty=.T.>\n<subtheme=\"\">\n<buttons>\n>\n<parentTabPaneRefreshGridOnClose=.F.>\n<javascriptTabPane<onBeforeChange=\"\">\n<onChange=\"\">\n<onRightClick=\"\">\n<onInitial=\"\">\n<onBeforeRemove=\"\">\n<onRemove=\"\">\n>\n<ajaxFailedMessage=\"\">\n<offlineJavascript=\"\">\n<ajaxcallbacktimeout=\"<Default>\">\n<optimization<method=\"AjaxCallback\">\n<jsfunction=\"\">\n>\n%str1%>\n<javascriptAttribute=\"{grid.componentName}_G__UNBOUND_BUTTON_1_{ACTIONNUMBER}({grid.rownumber},'{grid.rowId}',this);\">\n<Javascriptdeclarations_row=\"\">\n<Javascriptdeclarations_global=<<%str%\nwindow['{grid.componentName}_G__UNBOUND_BUTTON_1_{ACTIONNUMBER}'] = function(rowNum,rowId,objEle) {\n\nvar windowName = 'WINDOW_60b02c50_f866_4370_8f93_40b5070218e8';\nvar currWindow = {Grid.object}.getWindow(windowName);\nvar go = new Object();\n\n\n\ngo.objectId = objEle.id;\ngo.dialog2Name = 'office_inv_embedded_expanded_UX';\ngo.type = 'dialog2';\ngo.specialDialogMode = 'editGridRow';\ngo.recordPrimaryKey = {grid.object}._getCurrentKey(rowNum);\ngo.closeDialogAfterSubmit=true;\ngo.alias = '{GRID.COMPONENTNAME}_OFFICE_INV_DXSO';\ngo.submitCurrentFieldValues = true;\ngo.sourceGridPart = 'G';\ngo.sourceGridRowNumber = rowNum;\ngo.workingMessage = '<img src=\\'css/A5System/Images/wait.gif\\' />Working...';\ngo.placeholderValues = '';\ngo.argumentBinding = '';\n\ngo._thisGridAlias = {grid.object}.gridId;\nif(typeof {grid.object}.gridId != 'undefined') go._thisGridAlias = {grid.object}.gridId;\nif(typeof {grid.object}.dialogId != 'undefined') {\n\tgo._thisGridAlias = {grid.object}.dialogId;\n}\n\t\n\ngo._thisGridGUID = {grid.object}.componentGUID;\ngo._gridCurrentFilter = {grid.object}._gridFilter;\n\n\ngo._gridCurrentOrder = {grid.object}._gridOrder;\ngo._gridCurrentArguments = {grid.object}._gridArguments;\ngo._gridCurrentDBType = {grid.object}._gridDBType;\ngo.overrideSettings = 'Style_name = `{Grid.style}`||Style_name = `{Grid.style}`'+'||';\ngo.a5_default_path = '{grid.defaultPath}';\ngo.windowName = windowName;\ngo.synchronizeArguments = true;\ngo.showWindowParameters = '';\n\n\n\nif(!currWindow) {\n\tcurrWindow = {Grid.object}.createWindow(windowName,'modal-resizable',\n\t{\n\tbody: {\n\t\tcontent: {\n\t\t\ttype: 'blank',\n\t\t\telementId: '~'\n\t\t}\n\t},\n\theight: '5in',\n\twidth: '8in',\n\ttitle: {\n\t\thtml: 'Investigator',\n\t\tlocation: 'top',\n\t\tdirection: 'ltr',\n\t\tshow: true\n\t},\n\tdisableMove: false,\n\ttheme: '{Grid.style}',\n\tonBeforeHide: function() {\nvar isDirty = false;\nif(typeof window['{GRID.COMPONENTNAME}_OFFICE_INV_DXSO_DlgObj'] != 'undefined') {\n\tisDirty = window['{GRID.COMPONENTNAME}_OFFICE_INV_DXSO_DlgObj']._isDirty;\n}\nif(isDirty) {\n\twindow['{GRID.COMPONENTNAME}_OFFICE_INV_DXSO_DlgObj']._confirmAction();\n\treturn false;\n} else return true;\n}\n}\n\t);\t\t\n\tgo.dialog2Div = currWindow.getWindowId('body');\n\tA5.component.runGenericComponent(go)\nsetTimeout(function() { {grid.object}.blur();},100);\n\tcurrWindow.show();\n\t\n} else {\n\n\t\tvar ele = '{Grid.componentname}_office_inv_dxso.GRID_PART.FORM_CONTAINER_DIV';\n\tvar pele = $(ele);\n\tif(pele) pele.innerHTML = '<img src=\\'css/A5System/Images/wait.gif\\' /> Working...';\n\tgo.dialog2Div = currWindow.getWindowId('body');\n\tgo.parentGridId = '{grid.componentname}';\n\t\n\tA5.component.runGenericComponent(go)\n\tcurrWindow.show();\nsetTimeout(function() { {grid.object}.blur();},100);\n\n\t\n\n\t\n};\n\n}\n%str%>\n<xbasicFunctions=\"\">\n>\n>\n<flagRunSynchronously=.F.>\n<flagWrapInTryCatch=.F.>\n<tryCatchJavascript=\"\">\n"
             }
         ],
-        "A5SaveTimeStamp": "20200331100944652"
+        "A5SaveTimeStamp": "20200709124456193"
     }
 }

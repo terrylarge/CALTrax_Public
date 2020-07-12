@@ -34,7 +34,7 @@
             "afterAjaxCallback": "",
             "resolved": {
                 "onDialogInitialize": "function onDialogInitialize as v (e as p)\n\n'To edit this action, place insertion point anywhere in the command, then click the 'Action Scripting' button'.\n'ExecuteServerSideAction(\"Get Primary Keys for Parent Table::Load Primary Keys\")\n\n\n\n'Request - The Request object. Includes Request.Variables, which should be used instead of the older e.rv construct\n'Session - The Session object. Should be used instead of the older e.session construct\n'Inside e:\n'e.tmpl = Component definition\n'e.rtc = Runtime calculations - you can use this to store data to be passed to other server side events (Note: the 'rtc' object cannot be used to persist state information - i.e. you can't set a value in rtc and then read that value in a subsequent callback. To persist state info see e._state).\n'e.arguments = SQL::Arguments object with values for each of the arguments defined in this component.  To read a value from arguments: e.arguments.find(\"argumentName\").data\n'TIP: You can also set the value of an argument. For example: e.arguments[e.arguments.ArgumentNumber(\"country\")].data = \"portugal\"\n'TIP: If you need to write code that performs actions on a SQL database you can use the 'Xbasic SQL Actions Code Generator' by right clicking and selecting the 'Genies...' menu option\n\n'You can set the initial value of any field by setting the property (see comment at end for Javascript technique to use when setting values for a large number of controls)\n'e.control.<fieldname>\n'For example:\n'e.control.firstname = \"Fred\"\n'e.control.lastname = \"Jones\"\n\n'For multi-valued controls (such as checkbox, List control configured as multi-select, etc.) you can set the value to a cr-lf list of values or use the special array() syntax.\n'Either of the following two methods will work\n'e.control.colors = \"array(red,green)\"\n'e.control.colors = comma_to_crlf(\"red,green\")\n\n'To set the value of a field in a repeating section, you must use \"_A5INSTANCE\" and the instance number as a suffix on the fieldname.\n'For example:\n'e.control.firstname_A5INSTANCE2 = \"Bob\"  'sets the value in the 2nd row of the repeating section.\n\n'To specify any javascript that you want to execute set the  e.javascript property. For example:\n'e.javascript = \"alert('hello');\"\n\n'You can set 'state' variables in this event. The value of any state variables will be available in all subsequent ajax callbacks.\n'To set a state variable:\n'e._state.myvar1 = \"value1\"\n'e._state.myvar2 = \"value2\"\n\n\n'Using Javascript to Set Control Values and the Row Count in a Repeating Section -- Recommended For Maximum Efficiency (Advanced users)\n'---------------------------------------------------------------------------------------------------------------------------\n'When setting the value of a large number of controls, you will improve performance if you generate the Javascript directly,\n'rather than setting properties in the e.control object (as described above) and then having Alpha Five generate the Javascript from this object.\n'The following example shows Javascript code that sets the number of rows in a Repeating Section and sets the value of various control\n'in the top section and Repeating Section of the Dialog:\n\n'Generate the Javascript to emit\n'dim js as c\n'js = <<%txt%\n'var rows = 7;\n'var setFocusToFirst = true;\n'var nullOutExistingData = true;\n'var repeatingSectionId = 'CONTAINER_1';\n'{dialog.object}._setRepeatingSectionRowCount(repeatingSectionId,rows,setFocusToFirst,nullOutExistingData);\n'var _d = {};\n\n'//Next command is optional. It is ONLY needed if the ._setRepeatingSectionRowCount() method has been called.\n'//The command copies default values into the _d object. Without this command, default values defined in the component will not be set.\n'//$u.o.assign(_d,DLG1_DlgObj.originalValues[0]);\n\n'_d['B'] = 'alpha'; //set the value of a control called 'B'\n'_d['E:2'] = 'beta'; //set the value of a control called 'E' in the 2nd Repeating Section row\n'_d['G:6'] = ['Red','Green']; //set the value of a checkbox called 'G' in the 6th Repeating Section row to 'Red' and 'Green'\n'{dialog.object}.prepare();\n'{dialog.object}.populate(_d);\n'{dialog.object}.refreshClientSideComputations();\n\n'%txt%\n\n'Now, emit the Javascript...\n'e.javascript = js\n\n'NOTE: In the above example, if the ._setRepeating() method is called in the 'onDialogInitialize' event, you are responsible for setting\n'values in ALL of the controls in the component. For example, if you have defined default values for some controls, and then set the values\n'of other controls using the .populate() method, only the values set in the _d object will be set. (The default values will NOT be set).\n'You can, however, put the default values into the _d object using this code:\n'$u.o.assign(_d,{dialog.object}.originalValues[0]);\n\n\n\n\n'Tip: You can use the xbasic varToJSON() function to help generate the Javascript object passed to the .populate() method.\n'For example:\n'dim j as p\n'j.firstname = \"John\"\n'j.lastname = \"Smith\"\n'j.quantity_a5instance1 = \"2\"\n'dim j.colorchoices_a5instance2[3] as c\n'j.colorchoices_a5instance2[1] = \"Red\"\n'j.colorchoices_a5instance2[2] = \"Blue\"\n'dim jsTxt as c\n'jsTxt = varToJSON(j)\n'js = \"{dialog.object}.populate(\" + jsTxt + \"); {dialog.object}.prepare();\"\n\n\n'TIP: To simulate session variables when running in Working Preview you can use this code:\n'if eval_valid(\"request.SERVER_PROTOCOL\") then \n'\tif request.SERVER_PROTOCOL = \"A5RES\" then \n'\t\t'running in working preview\n'\t\tsession.var1 = \"simulated value for var1\"\n'\tend if \n'end if \n\nend function",
-                "afterDialogValidate": "function afterDialogValidate as v (e as p)\n\n'To edit this action, place insertion point anywhere in the command, then click the 'Action Scripting' button'.\ndim flagUseTransactions as l \nflagUseTransactions = .f.\ndim rtc as p\ndim tmpl as p\ntmpl = e.tmpl\n\ndim serverSideEvents as p\n\n\n\ndim geography as p \nwith geography\nDIM geocodeFieldDefinition as C\nDIM locationFieldDefinition as C\n\nend with \n\ndim opx as p\nopx.serverSideEvents = serverSideEvents\nopx.geography = geography\nopx.afterSaveAction = \"Edit record just submitted\"\nopx.listControlsToRefresh = \"\"\n\n\n\n\na5DialogHelper_SaveData(tmpl, e, rtc,flagUseTransactions, opx)\n\ndim jsShowErrors as c = \"\"\ndim jsEnterNewRecord as c = \"\"\ndim jsToFireAfterSaveEvent as c = \"\"\ndim jsShowUpdateCommands as c = \"\"\n\ndim jsConfirmationMessage as c = \"\"\n\n\n\nif rtc.fatalError = .t. then \n\t'must set this flag to prevent the Dialog from clearing the error messages.\n\te.showGlobalError = .t.\n\tdim errorText as c \n\terrorText = rtc.errorText\n\t'errorText = stritran(errorText,crlf(),\"<br>\")\n\t\n\tjsShowErrors = \"{dialog.object}.showGlobalErrors('<Default>','\" + js_escape(errorText) + \"'); \" + crlf()\n\t\n\trtc.javascript.refreshAllControls = \"\"\n\trtc.javascript.setPrimaryKeyinStateObject = \"\"\n\trtc.javascript.prepareDialog = \"\"\n\tjsToFireAfterSaveEvent = \"\"\n\tjsEnterNewRecord = \"\"\n\t\n\t\nend if \n\n\nif rtc.flagRecordWasSaved then \n\t\nelse\n\tjsEnterNewRecord = \"\"\nend if \n\n\n\n\n\n\n\ndim rtc.javascript.refreshAllControls as c = default \"\"\ndim rtc.javascript.prepareDialog as c = default \"\"\n'This flag must be set to .t., else the Javascript that sets the primaryKey in the state object will be overwritten.\ne.rtc.flagUpdatePrimaryKeysInStateObject = .t.\ndim rtc.javascript.setPrimaryKeyinStateObject as c = default \"\"\ndim e.javascript as c = default \"\"\n\ndim rtc.javascript.refreshDependentListControls as c = default \"\"\t\n\nif rtc.flagRecordWasSaved then\n\tjsToFireAfterSaveEvent = jsToFireAfterSaveEvent + <<%longtxt%\n\t\t(function() {; if({dialog.object}._functions._setInkControlsBackground) {{dialog.object}._functions._setInkControlsBackground(); ; };\n })();\n\t%longtxt%\nend if \n\n\n \n\ne.javascript = \trtc.javascript.refreshDependentListControls + \";\" + crlf()+\\\n\t\t\t\te.javascript + \";\" + crlf()  +\\\n\t\t\t\tjsShowUpdateCommands + crlf() +\\\n\t\t\t\tjsShowErrors + crlf()+\\\n                rtc.javascript.refreshAllControls + crlf() +\\\n\t\t\t\trtc.javascript.setPrimaryKeyinStateObject + crlf()+\\\n\t\t\t\trtc.javascript.prepareDialog + crlf() +\\\n\t\t\t\tjsToFireAfterSaveEvent + crlf()+\\\n\t\t\t\tjsEnterNewRecord + crlf()+\\\n\t\t\t\tjsConfirmationMessage\n\n'set the e.javascriptsystem variable so that in case the user sets e.javascript in their own code, that this value does not get lost\ne.javascriptSystem = e.javascript\t\ne.javascript = \"\"\t\t\t\n\ne.setPrimaryKeyinStateObject = rtc.javascript.setPrimaryKeyinStateObject\t\t\t\t\n\t\t\t\t\n\n\n\n\n\n'e.dataSubmitted  - contains all values that were submitted by the component. \n'e.oldDataSubmitted - contains the original values in the controls. \n'NOTE: All values in e.dataSubmitted and e.oldDataSubmitted are character type. Use the convert_type() function to convert data to a different type.\n\n'TIP: If you need to write code that performs actions on a SQL database you can use the 'Xbasic SQL Actions Code Generator' by right clicking and selecting the 'Genies...' menu option\n\n'The list of dirty submitted fields is in: e.dirtyColumns. This is a CRLF delimited string of dirty fields (i.e. fields\n'edited by the user). For example:\n'FIRSTNAME\n'QTY_A5INSTANCE3\n\n'========================================================================================================\n'IMPORTANT: If your event handler modifies a value in the e.dataSubmitted object (and that field has NOT\n'been edited by the user), you MUST explicitly add the field to the e.dirtyColumns value yourself.\n'For example, assume that you want to set the Company field to 'Alpha' and the 'Qty' field in row 1 of a repeating section\n'regardless of whether the user edited the value or not:\n'e.dataSubmitted.COMPANY = \"alpha\"\n'e.dataSubmitted.QTY_A5INSTANCE2 = \"2\"\n'e.dirtyColumns = e.dirtyColumns + crlf()+ \"COMPANY\" + crlf() + \"QTY_A5INSTANCE2\"\n'========================================================================================================\n\n\n'--------------------Repeating Sections ----------------------------------------\n'If your dialog contains repeating sections, data in the repeating sections will be in an array.\n'For example, say that your dialog has a repeating section that includes a field called QTY:\n'e.dataSubmitted.qty[1] - contains data from first repeating section row\n'e.dataSubmitted.qty[2] - contains data from second repeating section row, etc\n'e.dataSubmitted.favoriteColors[2][3] - contains data from the second row - 'favoriteColors' is a multi-select control - returns the 3rd choice the user made\n'e.dataSubmitted.qty.size() - number of entries in the array.\n\n'In addition, the e object will contain information about the repeating sections\n'e.repeatingSectionNames - a comma delimited list of the name (container ID) or each repeating section\n'e.repeatingSectionInfo - a property array with one entry for each repeating section.\n'The e.repeatingSectionInfo[] array will have these properties for each entry:\n' - .activeRow - the row in the repeating section that had focus when the Dialog was submitted\n' - .deletedRows - a CRLF delimited list of rows that were deleted. e.g. 1 and 3\n' - .rowCount - a count of the number of non-deleted rows\n' - .totalRowCount - a count of all rows in the repeating section including rows that were deleted\n' - .fieldsInRepeating section - a CRLF delimited list of fields in the repeating section\n' - .dirtyRowsInSection - a CRLF delimited list of rows in the repeating section that were edited. (A row that was edited, then deleted will still appear in this list).\n' - .dirtyFieldsInSection - a CRLF delimited list of fields in the repeating section that were edited. for example: PARTNO_A5INSTANCE3 is the 'PARTNO' field in row 3.\n\n'-------------------------------------------------------------------------------------------\n\n'Request - The Request object. Includes Request.Variables, which should be used instead of the older e.rv construct\n'Session - The Session object. Should be used instead of the older e.session construct\n\n'Also inside e:\n'e.tmpl = Component definition\n'e.rtc = Runtime calculations - you can use this to store data to be passed to other server side events (Note: the 'rtc' object cannot be used to persist state information - i.e. you can't set a value in rtc and then read that value in a subsequent callback. To persist state info see e._state).\n'e.arguments = SQL::Arguments object with values for each of the arguments defined in this component.  To read a value from arguments: e.arguments.find(\"argumentName\").data\n\n\n'You can set these properties:\n'e.url - if you want to redirect to another page, set this property\n'e.javascript - if you want to send some javascript back to the browser, set this property.\n\n'TIP: If you want to set the form back to a 'clean' state (which will cause the Submit/Reset buttons to go back to disabled) you should send the following \n'Javascript back to the browser:\n'e.javascript = \"{dialog.object}.resetForm(false); //false suppresses the confirmation mesage\"\n\n'You can set 'state' variables in this event. The value of any state variables will be available in all subsequent ajax callbacks.\n'To set a state variable:\n'e._state.myvar1 = \"value1\"\n'e._state.myvar2 = \"value2\"\n\n'To read the value of a 'state' variable that was previously set:\n'e._state.myvar1\n\n'-------------------Closing the Window in Which the UX Component is Hosted -------------------------\n'In certain cases the UX component will have been opened in a pop-up Ajax window and you will want code in this event handler to close the pop-up window.\n'Here is how you can do this:\n'a) In the action that opens the UX in a window, set the Window title to something like this: MyWindowTitle<span id=\"mywindowid\"></span>\n'b) In this event handler set e.javascript to: \n'\tvar ele = $('mywindowid');\n'\t{dialog.object}.closeContainerWindow(ele);\n\n'NOTE: If you have used Server-side Action Scripting in this event to save the submitted data to a table, then you might want to reference\n'the rtc.flagRecordWasSaved variable (which is set by the Action Script) to decide if the window should be closed or not. In addition, since the\n'Server-side Action will have already set the value of the e.javascript variable, you will want to append your code to e.javascript, as follows:\n'e.javascript = e.javascript + crlf() + var ele = $('mywindowid'); + crlf() + {dialog.object}.closeContainerWindow(ele);\n\n\nend function"
+                "afterDialogValidate": "function afterDialogValidate as v (e as p)\n\n'To edit this action, place insertion point anywhere in the command, then click the 'Action Scripting' button'.\ndim flagUseTransactions as l \nflagUseTransactions = .f.\ndim rtc as p\ndim tmpl as p\ntmpl = e.tmpl\n\ndim serverSideEvents as p\n\n\n\ndim geography as p \nwith geography\nDIM geocodeFieldDefinition as C\nDIM locationFieldDefinition as C\n\nend with \n\ndim opx as p\nopx.serverSideEvents = serverSideEvents\nopx.geography = geography\nopx.afterSaveAction = \"Edit record just submitted\"\nopx.listControlsToRefresh = \"\"\n\n\n\n\na5DialogHelper_SaveData(tmpl, e, rtc,flagUseTransactions, opx)\n\ndim jsShowErrors as c = \"\"\ndim jsEnterNewRecord as c = \"\"\ndim jsToFireAfterSaveEvent as c = \"\"\ndim jsShowUpdateCommands as c = \"\"\n\ndim jsConfirmationMessage as c = \"\"\n\n\n\nif rtc.fatalError = .t. then \n\t'must set this flag to prevent the Dialog from clearing the error messages.\n\te.showGlobalError = .t.\n\tdim errorText as c \n\terrorText = rtc.errorText\n\t'errorText = stritran(errorText,crlf(),\"<br>\")\n\t\n\tjsShowErrors = \"{dialog.object}.showGlobalErrors('<Default>','\" + js_escape(errorText) + \"'); \" + crlf()\n\t\n\trtc.javascript.refreshAllControls = \"\"\n\trtc.javascript.setPrimaryKeyinStateObject = \"\"\n\trtc.javascript.prepareDialog = \"\"\n\tjsToFireAfterSaveEvent = \"\"\n\tjsEnterNewRecord = \"\"\n\t\n\t\nend if \n\n\nif rtc.flagRecordWasSaved then \n\tjsConfirmationMessage = <<%js%\n{dialog.object}.fadeOutMessage('{dialog.componentname}.V.R1.','Time Entry Saved. ',2000,true);\n%js%\n\nelse\n\tjsEnterNewRecord = \"\"\nend if \n\n\n\n\n\n\n\ndim rtc.javascript.refreshAllControls as c = default \"\"\ndim rtc.javascript.prepareDialog as c = default \"\"\n'This flag must be set to .t., else the Javascript that sets the primaryKey in the state object will be overwritten.\ne.rtc.flagUpdatePrimaryKeysInStateObject = .t.\ndim rtc.javascript.setPrimaryKeyinStateObject as c = default \"\"\ndim e.javascript as c = default \"\"\n\ndim rtc.javascript.refreshDependentListControls as c = default \"\"\t\n\nif rtc.flagRecordWasSaved then\n\tjsToFireAfterSaveEvent = jsToFireAfterSaveEvent + <<%longtxt%\n\t\t(function() {; if({dialog.object}._functions._setInkControlsBackground) {{dialog.object}._functions._setInkControlsBackground(); ; };\n })();\n\t%longtxt%\nend if \n\n\n \n\ne.javascript = \trtc.javascript.refreshDependentListControls + \";\" + crlf()+\\\n\t\t\t\te.javascript + \";\" + crlf()  +\\\n\t\t\t\tjsShowUpdateCommands + crlf() +\\\n\t\t\t\tjsShowErrors + crlf()+\\\n                rtc.javascript.refreshAllControls + crlf() +\\\n\t\t\t\trtc.javascript.setPrimaryKeyinStateObject + crlf()+\\\n\t\t\t\trtc.javascript.prepareDialog + crlf() +\\\n\t\t\t\tjsToFireAfterSaveEvent + crlf()+\\\n\t\t\t\tjsEnterNewRecord + crlf()+\\\n\t\t\t\tjsConfirmationMessage\n\n'set the e.javascriptsystem variable so that in case the user sets e.javascript in their own code, that this value does not get lost\ne.javascriptSystem = e.javascript\t\ne.javascript = \"\"\t\t\t\n\ne.setPrimaryKeyinStateObject = rtc.javascript.setPrimaryKeyinStateObject\t\t\t\t\n\t\t\t\t\n\n\n\n\n\n'e.dataSubmitted  - contains all values that were submitted by the component. \n'e.oldDataSubmitted - contains the original values in the controls. \n'NOTE: All values in e.dataSubmitted and e.oldDataSubmitted are character type. Use the convert_type() function to convert data to a different type.\n\n'TIP: If you need to write code that performs actions on a SQL database you can use the 'Xbasic SQL Actions Code Generator' by right clicking and selecting the 'Genies...' menu option\n\n'The list of dirty submitted fields is in: e.dirtyColumns. This is a CRLF delimited string of dirty fields (i.e. fields\n'edited by the user). For example:\n'FIRSTNAME\n'QTY_A5INSTANCE3\n\n'========================================================================================================\n'IMPORTANT: If your event handler modifies a value in the e.dataSubmitted object (and that field has NOT\n'been edited by the user), you MUST explicitly add the field to the e.dirtyColumns value yourself.\n'For example, assume that you want to set the Company field to 'Alpha' and the 'Qty' field in row 1 of a repeating section\n'regardless of whether the user edited the value or not:\n'e.dataSubmitted.COMPANY = \"alpha\"\n'e.dataSubmitted.QTY_A5INSTANCE2 = \"2\"\n'e.dirtyColumns = e.dirtyColumns + crlf()+ \"COMPANY\" + crlf() + \"QTY_A5INSTANCE2\"\n'========================================================================================================\n\n\n'--------------------Repeating Sections ----------------------------------------\n'If your dialog contains repeating sections, data in the repeating sections will be in an array.\n'For example, say that your dialog has a repeating section that includes a field called QTY:\n'e.dataSubmitted.qty[1] - contains data from first repeating section row\n'e.dataSubmitted.qty[2] - contains data from second repeating section row, etc\n'e.dataSubmitted.favoriteColors[2][3] - contains data from the second row - 'favoriteColors' is a multi-select control - returns the 3rd choice the user made\n'e.dataSubmitted.qty.size() - number of entries in the array.\n\n'In addition, the e object will contain information about the repeating sections\n'e.repeatingSectionNames - a comma delimited list of the name (container ID) or each repeating section\n'e.repeatingSectionInfo - a property array with one entry for each repeating section.\n'The e.repeatingSectionInfo[] array will have these properties for each entry:\n' - .activeRow - the row in the repeating section that had focus when the Dialog was submitted\n' - .deletedRows - a CRLF delimited list of rows that were deleted. e.g. 1 and 3\n' - .rowCount - a count of the number of non-deleted rows\n' - .totalRowCount - a count of all rows in the repeating section including rows that were deleted\n' - .fieldsInRepeating section - a CRLF delimited list of fields in the repeating section\n' - .dirtyRowsInSection - a CRLF delimited list of rows in the repeating section that were edited. (A row that was edited, then deleted will still appear in this list).\n' - .dirtyFieldsInSection - a CRLF delimited list of fields in the repeating section that were edited. for example: PARTNO_A5INSTANCE3 is the 'PARTNO' field in row 3.\n\n'-------------------------------------------------------------------------------------------\n\n'Request - The Request object. Includes Request.Variables, which should be used instead of the older e.rv construct\n'Session - The Session object. Should be used instead of the older e.session construct\n\n'Also inside e:\n'e.tmpl = Component definition\n'e.rtc = Runtime calculations - you can use this to store data to be passed to other server side events (Note: the 'rtc' object cannot be used to persist state information - i.e. you can't set a value in rtc and then read that value in a subsequent callback. To persist state info see e._state).\n'e.arguments = SQL::Arguments object with values for each of the arguments defined in this component.  To read a value from arguments: e.arguments.find(\"argumentName\").data\n\n\n'You can set these properties:\n'e.url - if you want to redirect to another page, set this property\n'e.javascript - if you want to send some javascript back to the browser, set this property.\n\n'TIP: If you want to set the form back to a 'clean' state (which will cause the Submit/Reset buttons to go back to disabled) you should send the following \n'Javascript back to the browser:\n'e.javascript = \"{dialog.object}.resetForm(false); //false suppresses the confirmation mesage\"\n\n'You can set 'state' variables in this event. The value of any state variables will be available in all subsequent ajax callbacks.\n'To set a state variable:\n'e._state.myvar1 = \"value1\"\n'e._state.myvar2 = \"value2\"\n\n'To read the value of a 'state' variable that was previously set:\n'e._state.myvar1\n\n'-------------------Closing the Window in Which the UX Component is Hosted -------------------------\n'In certain cases the UX component will have been opened in a pop-up Ajax window and you will want code in this event handler to close the pop-up window.\n'Here is how you can do this:\n'a) In the action that opens the UX in a window, set the Window title to something like this: MyWindowTitle<span id=\"mywindowid\"></span>\n'b) In this event handler set e.javascript to: \n'\tvar ele = $('mywindowid');\n'\t{dialog.object}.closeContainerWindow(ele);\n\n'NOTE: If you have used Server-side Action Scripting in this event to save the submitted data to a table, then you might want to reference\n'the rtc.flagRecordWasSaved variable (which is set by the Action Script) to decide if the window should be closed or not. In addition, since the\n'Server-side Action will have already set the value of the e.javascript variable, you will want to append your code to e.javascript, as follows:\n'e.javascript = e.javascript + crlf() + var ele = $('mywindowid'); + crlf() + {dialog.object}.closeContainerWindow(ele);\n\n\nend function"
             }
         },
         "XbasicFunctionDeclarations": "function InvHourRateLookup as c (e as p)\ndim dateofservice as D\ndim lrsreferralID as N\n\n' dateofservice = e.datasubmitted.dateofservice\ndateofservice = e.datasubmitted.date\n'lrsreferralID = e.datasubmitted.referralnumber\n\ndim cn as sql::connection\ncn.open(\"::Name::aconn\")\n\ntable= \"AlphaInvRates\"\n\nmypanel = 1\nmypanel2 = convert_type(mypanel,\"C\")\nmypanel3 = \"id = \" + mypanel2\nmymonth = month(dateofservice)\n\nif (date_is_in_this_year(dateofservice)) then \n\t\tgoto InvThisYear\t\t\n\tELSE \n\t\tgoto InvLastYear\nend if\n\t\nInvThisYear:\n  \nif (mymonth < 7) then\n\t\tresult_expression = \"CYFH\"\n\telse\t\t\n\t\tresult_expression = \"CYLH\"\nend if\n\t\ngoto InvFinishUp\t\n\t\ninvLastYear:\n\t\nif (mymonth < 7) then\n\t\tresult_expression = \"LYFH\"\n\telse\t\t\n\t\tresult_expression = \"LYLH\"\nend if\n\t\t\n\t\t\t\nInvFinishUp:\n\nhourlyrate=sql_lookup(cn,table,\"id = 1\",result_expression) \n\ne._set.rate.value=hourlyrate\n\nEnd Function\n\n\nFunction InvBillingCycleUpdate as N (e as p)\n\t\ndim dateofservice as D\ndim otherdate as D\ndim mydifference as N\n\ndateofservice = e.datasubmitted.date\notherdate = {05/4/1997}\nmydifference = dateofservice - otherdate\ne._set.cycle.value=Int(mydifference/28) + 12\n\nEnd Function\n\n\n\n",
@@ -173,39 +173,39 @@
                 "code": "<[1]<sectionName=\"<Top Level>\">\n<_aliasesAtThisLevel=<<%str%\nTimeInv\n%str%>\n<maxRowsToDisplay=1>\n<cascadingDropdownsInSection=\"\">\n<alias<[1]<aliasName=\"TimeInv\">\n<tableInfoForAlias=<<%str%\ntimeentrynumber=N|T|T|Integer32|!!|timeentrynumber\nReferralNumber=N|F|T|Integer32|!!|ReferralNumber\nAttyID2=N|F|T|Integer32|!!|AttyID2\nInCurCode=N|F|T|Integer32|!!|InCurCode\nDescription=C|F|T|NationalVaryingCharacter|!!|Description\nInCourt=N|F|T|Real|!!|InCourt\nOutCourt=N|F|T|Real|!!|OutCourt\nInCourtT=N|F|T|Double|!!|InCourtT\nOutCourtT=N|F|T|Double|!!|OutCourtT\nTravel=N|F|T|Currency|!!|Travel\nExpense=N|F|T|Currency|!!|Expense\nTimeSheetNumber=N|F|T|Integer32|!!|TimeSheetNumber\nField9=N|F|T|Integer32|!!|Field9\nField10=C|F|T|NationalVaryingCharacter|!!|Field10\nPanelCode=C|F|T|NationalVaryingCharacter|!!|PanelCode\nStandByTime=N|F|T|Real|!!|StandByTime\nRate=N|F|T|Currency|!!|Rate\nDate=T|F|T|DateTime|!!|Date\nPanelCode1=N|F|T|Integer32|!!|PanelCode1\nCycle=N|F|T|Integer32|!!|Cycle\nInvoiceNumber=N|F|T|Integer32|!!|InvoiceNumber\nWebID=N|F|T|Integer32|!!|WebID\nPosted=L|F|T|Boolean|!!|Posted\nTotal=N|F|T|Currency|!!|Total\n%str%>\n<variablesAndCorrespondingFieldNameForAlias=<<%str%\nDate|Date|T\nReferralNumber|ReferralNumber|T\nDescription|Description|T\nInCourt|InCourt|T\nOutCourt|OutCourt|T\nExpense|Expense|T\nTravel|Travel|T\nRate|Rate|T\nTimeSheetNumber|TimeSheetNumber|T\nPanelCode|PanelCode|T\nAttyID2|AttyID2|T\nCycle|Cycle|T\nInvoiceNumber|InvoiceNumber|T\ntimeentrynumber|timeentrynumber|T\nWebID|WebID|T\nPosted|Posted|T\nStandByTime|StandByTime|T\n%str%>\n<variableAndCorrespondingFieldArrayIndex=<<%str%\nDate|1\nReferralNumber|2\nDescription|3\nInCourt|4\nOutCourt|5\nExpense|6\nTravel|7\nRate|8\nTimeSheetNumber|10\nPanelCode|11\nAttyID2|12\nCycle|13\nInvoiceNumber|14\ntimeentrynumber|15\nWebID|20\nPosted|21\nStandByTime|22\n%str%>\n<indexIntoTableArray=1>\n<parentLinkFields=\"\">\n<parentLinkVariables=\"\">\n<linkFields=\"\">\n<linkFieldsForDownstreamLinks=\"\">\n<tableType=\"SQL\">\n<tableName=\"TimeInv\">\n<parent=\"\">\n<readOnly=.F.>\n<sqlInsertSequence=\"\">\n<SQL_SecondPass=\"\">\n<allLinkedFields_onetomany=\"\">\n<allLinkedFields_onetoone=\"\">\n<xbToSetLinkingArguments_oneToMany=\"\">\n<xbToSetLinkingArguments_oneToOne=\"\">\n<xbToSetLinkingArguments_oneToManyFullyQualifiedFieldNames=\"\">\n<primaryKeyFields=\"timeentrynumber\">\n<primaryKeyIsAutoIncrement=.T.>\n<sequenceName=\"\">\n<_isLevelParent=.T.>\n<tableInfo=<<%str%\ntimeentrynumber=N|T|T|Integer32|!!|timeentrynumber\nReferralNumber=N|F|T|Integer32|!!|ReferralNumber\nAttyID2=N|F|T|Integer32|!!|AttyID2\nInCurCode=N|F|T|Integer32|!!|InCurCode\nDescription=C|F|T|NationalVaryingCharacter|!!|Description\nInCourt=N|F|T|Real|!!|InCourt\nOutCourt=N|F|T|Real|!!|OutCourt\nInCourtT=N|F|T|Double|!!|InCourtT\nOutCourtT=N|F|T|Double|!!|OutCourtT\nTravel=N|F|T|Currency|!!|Travel\nExpense=N|F|T|Currency|!!|Expense\nTimeSheetNumber=N|F|T|Integer32|!!|TimeSheetNumber\nField9=N|F|T|Integer32|!!|Field9\nField10=C|F|T|NationalVaryingCharacter|!!|Field10\nPanelCode=C|F|T|NationalVaryingCharacter|!!|PanelCode\nStandByTime=N|F|T|Real|!!|StandByTime\nRate=N|F|T|Currency|!!|Rate\nDate=T|F|T|DateTime|!!|Date\nPanelCode1=N|F|T|Integer32|!!|PanelCode1\nCycle=N|F|T|Integer32|!!|Cycle\nInvoiceNumber=N|F|T|Integer32|!!|InvoiceNumber\nWebID=N|F|T|Integer32|!!|WebID\nPosted=L|F|T|Boolean|!!|Posted\nTotal=N|F|T|Currency|!!|Total\n%str%>\n<UpdateWhereClause=<<%str%\n{timeentrynumber}=timeentrynumber = :old_timeentrynumber\n{ReferralNumber}=(ReferralNumber = :old_ReferralNumber OR ReferralNumber IS NULL AND :old_ReferralNumber IS NULL)\n{AttyID2}=(AttyID2 = :old_AttyID2 OR AttyID2 IS NULL AND :old_AttyID2 IS NULL)\n{InCurCode}=(InCurCode = :old_InCurCode OR InCurCode IS NULL AND :old_InCurCode IS NULL)\n{Description}=(Description = :old_Description OR Description IS NULL AND :old_Description IS NULL)\n{InCourt}=(InCourt = :old_InCourt OR InCourt IS NULL AND :old_InCourt IS NULL)\n{OutCourt}=(OutCourt = :old_OutCourt OR OutCourt IS NULL AND :old_OutCourt IS NULL)\n{InCourtT}=(InCourtT = :old_InCourtT OR InCourtT IS NULL AND :old_InCourtT IS NULL)\n{OutCourtT}=(OutCourtT = :old_OutCourtT OR OutCourtT IS NULL AND :old_OutCourtT IS NULL)\n{Travel}=(Travel = :old_Travel OR Travel IS NULL AND :old_Travel IS NULL)\n{Expense}=(Expense = :old_Expense OR Expense IS NULL AND :old_Expense IS NULL)\n{TimeSheetNumber}=(TimeSheetNumber = :old_TimeSheetNumber OR TimeSheetNumber IS NULL AND :old_TimeSheetNumber IS NULL)\n{Field9}=(Field9 = :old_Field9 OR Field9 IS NULL AND :old_Field9 IS NULL)\n{Field10}=(Field10 = :old_Field10 OR Field10 IS NULL AND :old_Field10 IS NULL)\n{PanelCode}=(PanelCode = :old_PanelCode OR PanelCode IS NULL AND :old_PanelCode IS NULL)\n{StandByTime}=(StandByTime = :old_StandByTime OR StandByTime IS NULL AND :old_StandByTime IS NULL)\n{Rate}=(Rate = :old_Rate OR Rate IS NULL AND :old_Rate IS NULL)\n{Date}=([Date] = :old_Date OR [Date] IS NULL AND :old_Date IS NULL)\n{PanelCode1}=(PanelCode1 = :old_PanelCode1 OR PanelCode1 IS NULL AND :old_PanelCode1 IS NULL)\n{Cycle}=(Cycle = :old_Cycle OR Cycle IS NULL AND :old_Cycle IS NULL)\n{InvoiceNumber}=(InvoiceNumber = :old_InvoiceNumber OR InvoiceNumber IS NULL AND :old_InvoiceNumber IS NULL)\n{WebID}=(WebID = :old_WebID OR WebID IS NULL AND :old_WebID IS NULL)\n{Posted}=Posted = :old_Posted\n{Total}=(Total = :old_Total OR Total IS NULL AND :old_Total IS NULL)\n%str%>\n<primaryKeyFieldTypes=\"N\">\n<primaryKeyValueSource=\"<AutoIncrementValue>\">\n<primaryKeyFieldsNative=<<%str%\ntimeentrynumber\n%str%>\n<tableNameNative=\"TimeInv\">\n<sql<FieldArgInfo<[1]<varname=\"Date\">\n<fieldname=\"Date\">\n<updateable=.T.>\n<nativeFieldName=\"[Date]\">\n<fieldInfo=\"T|F|T|DateTime|!!|Date\">\n<isObjectField=.F.>\n<indexIntoArray=1>\n<updateWhere=\"([Date] = :old_Date OR [Date] IS NULL AND :old_Date IS NULL)\">\n<sqlInsertSequence=\"\">\n<primaryKey=.F.>\n<fieldType=\"T\">\n<isFileUpload=.F.>\n<isImage=.F.>\n<isSignatureCapture=.F.>\n<argumentName=\":TimeInv_Date\">\n<argumentNameForInsert=\":TimeInv_Date\">\n<argumentName_New=\":New_Date\">\n<argumentName_Old=\":Old_Date\">\n<setField=\"Date = :TimeInv_Date\">\n<setArgument=\"convert_type(e.dataSubmitted.Date,\\\"T\\\")\">\n<setArgument_New=\"convert_type(e.dataSubmitted.Date,\\\"T\\\")\">\n<setArgument_Old=\"convert_type(e.oldDataSubmitted.Date,\\\"T\\\")\">\n<autoIncrement=.F.>\n<xbset=\"sqlArgs.add(\\\"TimeInv_Date\\\",convert_type(e.dataSubmitted.Date,\\\"T\\\"))\">\n>\n<[2]<varname=\"ReferralNumber\">\n<fieldname=\"ReferralNumber\">\n<updateable=.T.>\n<nativeFieldName=\"ReferralNumber\">\n<fieldInfo=\"N|F|T|Integer32|!!|ReferralNumber\">\n<isObjectField=.F.>\n<indexIntoArray=2>\n<updateWhere=\"(ReferralNumber = :old_ReferralNumber OR ReferralNumber IS NULL AND :old_ReferralNumber IS NULL)\">\n<sqlInsertSequence=\"\">\n<primaryKey=.F.>\n<fieldType=\"N\">\n<isFileUpload=.F.>\n<isImage=.F.>\n<isSignatureCapture=.F.>\n<argumentName=\":TimeInv_ReferralNumber\">\n<argumentNameForInsert=\":TimeInv_ReferralNumber\">\n<argumentName_New=\":New_ReferralNumber\">\n<argumentName_Old=\":Old_ReferralNumber\">\n<setField=\"ReferralNumber = :TimeInv_ReferralNumber\">\n<setArgument=\"convert_type(e.dataSubmitted.ReferralNumber,\\\"N\\\")\">\n<setArgument_New=\"convert_type(e.dataSubmitted.ReferralNumber,\\\"N\\\")\">\n<setArgument_Old=\"convert_type(e.oldDataSubmitted.ReferralNumber,\\\"N\\\")\">\n<autoIncrement=.F.>\n<xbset=\"sqlArgs.add(\\\"TimeInv_ReferralNumber\\\",convert_type(e.dataSubmitted.ReferralNumber,\\\"N\\\"))\">\n>\n<[3]<varname=\"Description\">\n<fieldname=\"Description\">\n<updateable=.T.>\n<nativeFieldName=\"Description\">\n<fieldInfo=\"C|F|T|NationalVaryingCharacter|!!|Description\">\n<isObjectField=.F.>\n<indexIntoArray=3>\n<updateWhere=\"(Description = :old_Description OR Description IS NULL AND :old_Description IS NULL)\">\n<sqlInsertSequence=\"\">\n<primaryKey=.F.>\n<fieldType=\"C\">\n<isFileUpload=.F.>\n<isImage=.F.>\n<isSignatureCapture=.F.>\n<argumentName=\":TimeInv_Description\">\n<argumentNameForInsert=\":TimeInv_Description\">\n<argumentName_New=\":New_Description\">\n<argumentName_Old=\":Old_Description\">\n<setField=\"Description = :TimeInv_Description\">\n<setArgument=\"convert_type(e.dataSubmitted.Description,\\\"C\\\")\">\n<setArgument_New=\"convert_type(e.dataSubmitted.Description,\\\"C\\\")\">\n<setArgument_Old=\"convert_type(e.oldDataSubmitted.Description,\\\"C\\\")\">\n<autoIncrement=.F.>\n<xbset=\"sqlArgs.add(\\\"TimeInv_Description\\\",convert_type(e.dataSubmitted.Description,\\\"C\\\"))\">\n>\n<[4]<varname=\"InCourt\">\n<fieldname=\"InCourt\">\n<updateable=.T.>\n<nativeFieldName=\"InCourt\">\n<fieldInfo=\"N|F|T|Real|!!|InCourt\">\n<isObjectField=.F.>\n<indexIntoArray=4>\n<updateWhere=\"(InCourt = :old_InCourt OR InCourt IS NULL AND :old_InCourt IS NULL)\">\n<sqlInsertSequence=\"\">\n<primaryKey=.F.>\n<fieldType=\"N\">\n<isFileUpload=.F.>\n<isImage=.F.>\n<isSignatureCapture=.F.>\n<argumentName=\":TimeInv_InCourt\">\n<argumentNameForInsert=\":TimeInv_InCourt\">\n<argumentName_New=\":New_InCourt\">\n<argumentName_Old=\":Old_InCourt\">\n<setField=\"InCourt = :TimeInv_InCourt\">\n<setArgument=\"convert_type(e.dataSubmitted.InCourt,\\\"N\\\")\">\n<setArgument_New=\"convert_type(e.dataSubmitted.InCourt,\\\"N\\\")\">\n<setArgument_Old=\"convert_type(e.oldDataSubmitted.InCourt,\\\"N\\\")\">\n<autoIncrement=.F.>\n<xbset=\"sqlArgs.add(\\\"TimeInv_InCourt\\\",convert_type(e.dataSubmitted.InCourt,\\\"N\\\"))\">\n>\n<[5]<varname=\"OutCourt\">\n<fieldname=\"OutCourt\">\n<updateable=.T.>\n<nativeFieldName=\"OutCourt\">\n<fieldInfo=\"N|F|T|Real|!!|OutCourt\">\n<isObjectField=.F.>\n<indexIntoArray=5>\n<updateWhere=\"(OutCourt = :old_OutCourt OR OutCourt IS NULL AND :old_OutCourt IS NULL)\">\n<sqlInsertSequence=\"\">\n<primaryKey=.F.>\n<fieldType=\"N\">\n<isFileUpload=.F.>\n<isImage=.F.>\n<isSignatureCapture=.F.>\n<argumentName=\":TimeInv_OutCourt\">\n<argumentNameForInsert=\":TimeInv_OutCourt\">\n<argumentName_New=\":New_OutCourt\">\n<argumentName_Old=\":Old_OutCourt\">\n<setField=\"OutCourt = :TimeInv_OutCourt\">\n<setArgument=\"convert_type(e.dataSubmitted.OutCourt,\\\"N\\\")\">\n<setArgument_New=\"convert_type(e.dataSubmitted.OutCourt,\\\"N\\\")\">\n<setArgument_Old=\"convert_type(e.oldDataSubmitted.OutCourt,\\\"N\\\")\">\n<autoIncrement=.F.>\n<xbset=\"sqlArgs.add(\\\"TimeInv_OutCourt\\\",convert_type(e.dataSubmitted.OutCourt,\\\"N\\\"))\">\n>\n<[6]<varname=\"Expense\">\n<fieldname=\"Expense\">\n<updateable=.T.>\n<nativeFieldName=\"Expense\">\n<fieldInfo=\"N|F|T|Currency|!!|Expense\">\n<isObjectField=.F.>\n<indexIntoArray=6>\n<updateWhere=\"(Expense = :old_Expense OR Expense IS NULL AND :old_Expense IS NULL)\">\n<sqlInsertSequence=\"\">\n<primaryKey=.F.>\n<fieldType=\"N\">\n<isFileUpload=.F.>\n<isImage=.F.>\n<isSignatureCapture=.F.>\n<argumentName=\":TimeInv_Expense\">\n<argumentNameForInsert=\":TimeInv_Expense\">\n<argumentName_New=\":New_Expense\">\n<argumentName_Old=\":Old_Expense\">\n<setField=\"Expense = :TimeInv_Expense\">\n<setArgument=\"convert_type(e.dataSubmitted.Expense,\\\"N\\\")\">\n<setArgument_New=\"convert_type(e.dataSubmitted.Expense,\\\"N\\\")\">\n<setArgument_Old=\"convert_type(e.oldDataSubmitted.Expense,\\\"N\\\")\">\n<autoIncrement=.F.>\n<xbset=\"sqlArgs.add(\\\"TimeInv_Expense\\\",convert_type(e.dataSubmitted.Expense,\\\"N\\\"))\">\n>\n<[7]<varname=\"Travel\">\n<fieldname=\"Travel\">\n<updateable=.T.>\n<nativeFieldName=\"Travel\">\n<fieldInfo=\"N|F|T|Currency|!!|Travel\">\n<isObjectField=.F.>\n<indexIntoArray=7>\n<updateWhere=\"(Travel = :old_Travel OR Travel IS NULL AND :old_Travel IS NULL)\">\n<sqlInsertSequence=\"\">\n<primaryKey=.F.>\n<fieldType=\"N\">\n<isFileUpload=.F.>\n<isImage=.F.>\n<isSignatureCapture=.F.>\n<argumentName=\":TimeInv_Travel\">\n<argumentNameForInsert=\":TimeInv_Travel\">\n<argumentName_New=\":New_Travel\">\n<argumentName_Old=\":Old_Travel\">\n<setField=\"Travel = :TimeInv_Travel\">\n<setArgument=\"convert_type(e.dataSubmitted.Travel,\\\"N\\\")\">\n<setArgument_New=\"convert_type(e.dataSubmitted.Travel,\\\"N\\\")\">\n<setArgument_Old=\"convert_type(e.oldDataSubmitted.Travel,\\\"N\\\")\">\n<autoIncrement=.F.>\n<xbset=\"sqlArgs.add(\\\"TimeInv_Travel\\\",convert_type(e.dataSubmitted.Travel,\\\"N\\\"))\">\n>\n<[8]<varname=\"Rate\">\n<fieldname=\"Rate\">\n<updateable=.T.>\n<nativeFieldName=\"Rate\">\n<fieldInfo=\"N|F|T|Currency|!!|Rate\">\n<isObjectField=.F.>\n<indexIntoArray=8>\n<updateWhere=\"(Rate = :old_Rate OR Rate IS NULL AND :old_Rate IS NULL)\">\n<sqlInsertSequence=\"\">\n<primaryKey=.F.>\n<fieldType=\"N\">\n<isFileUpload=.F.>\n<isImage=.F.>\n<isSignatureCapture=.F.>\n<argumentName=\":TimeInv_Rate\">\n<argumentNameForInsert=\":TimeInv_Rate\">\n<argumentName_New=\":New_Rate\">\n<argumentName_Old=\":Old_Rate\">\n<setField=\"Rate = :TimeInv_Rate\">\n<setArgument=\"convert_type(e.dataSubmitted.Rate,\\\"N\\\")\">\n<setArgument_New=\"convert_type(e.dataSubmitted.Rate,\\\"N\\\")\">\n<setArgument_Old=\"convert_type(e.oldDataSubmitted.Rate,\\\"N\\\")\">\n<autoIncrement=.F.>\n<xbset=\"sqlArgs.add(\\\"TimeInv_Rate\\\",convert_type(e.dataSubmitted.Rate,\\\"N\\\"))\">\n>\n<[9]<varname=\"TimeSheetNumber\">\n<fieldname=\"TimeSheetNumber\">\n<updateable=.T.>\n<nativeFieldName=\"TimeSheetNumber\">\n<fieldInfo=\"N|F|T|Integer32|!!|TimeSheetNumber\">\n<isObjectField=.F.>\n<indexIntoArray=10>\n<updateWhere=\"(TimeSheetNumber = :old_TimeSheetNumber OR TimeSheetNumber IS NULL AND :old_TimeSheetNumber IS NULL)\">\n<sqlInsertSequence=\"\">\n<primaryKey=.F.>\n<fieldType=\"N\">\n<isFileUpload=.F.>\n<isImage=.F.>\n<isSignatureCapture=.F.>\n<argumentName=\":TimeInv_TimeSheetNumber\">\n<argumentNameForInsert=\":TimeInv_TimeSheetNumber\">\n<argumentName_New=\":New_TimeSheetNumber\">\n<argumentName_Old=\":Old_TimeSheetNumber\">\n<setField=\"TimeSheetNumber = :TimeInv_TimeSheetNumber\">\n<setArgument=\"convert_type(e.dataSubmitted.TimeSheetNumber,\\\"N\\\")\">\n<setArgument_New=\"convert_type(e.dataSubmitted.TimeSheetNumber,\\\"N\\\")\">\n<setArgument_Old=\"convert_type(e.oldDataSubmitted.TimeSheetNumber,\\\"N\\\")\">\n<autoIncrement=.F.>\n<xbset=\"sqlArgs.add(\\\"TimeInv_TimeSheetNumber\\\",convert_type(e.dataSubmitted.TimeSheetNumber,\\\"N\\\"))\">\n>\n<[10]<varname=\"PanelCode\">\n<fieldname=\"PanelCode\">\n<updateable=.T.>\n<nativeFieldName=\"PanelCode\">\n<fieldInfo=\"C|F|T|NationalVaryingCharacter|!!|PanelCode\">\n<isObjectField=.F.>\n<indexIntoArray=11>\n<updateWhere=\"(PanelCode = :old_PanelCode OR PanelCode IS NULL AND :old_PanelCode IS NULL)\">\n<sqlInsertSequence=\"\">\n<primaryKey=.F.>\n<fieldType=\"C\">\n<isFileUpload=.F.>\n<isImage=.F.>\n<isSignatureCapture=.F.>\n<argumentName=\":TimeInv_PanelCode\">\n<argumentNameForInsert=\":TimeInv_PanelCode\">\n<argumentName_New=\":New_PanelCode\">\n<argumentName_Old=\":Old_PanelCode\">\n<setField=\"PanelCode = :TimeInv_PanelCode\">\n<setArgument=\"convert_type(e.dataSubmitted.PanelCode,\\\"C\\\")\">\n<setArgument_New=\"convert_type(e.dataSubmitted.PanelCode,\\\"C\\\")\">\n<setArgument_Old=\"convert_type(e.oldDataSubmitted.PanelCode,\\\"C\\\")\">\n<autoIncrement=.F.>\n<xbset=\"sqlArgs.add(\\\"TimeInv_PanelCode\\\",convert_type(e.dataSubmitted.PanelCode,\\\"C\\\"))\">\n>\n<[11]<varname=\"AttyID2\">\n<fieldname=\"AttyID2\">\n<updateable=.T.>\n<nativeFieldName=\"AttyID2\">\n<fieldInfo=\"N|F|T|Integer32|!!|AttyID2\">\n<isObjectField=.F.>\n<indexIntoArray=12>\n<updateWhere=\"(AttyID2 = :old_AttyID2 OR AttyID2 IS NULL AND :old_AttyID2 IS NULL)\">\n<sqlInsertSequence=\"\">\n<primaryKey=.F.>\n<fieldType=\"N\">\n<isFileUpload=.F.>\n<isImage=.F.>\n<isSignatureCapture=.F.>\n<argumentName=\":TimeInv_AttyID2\">\n<argumentNameForInsert=\":TimeInv_AttyID2\">\n<argumentName_New=\":New_AttyID2\">\n<argumentName_Old=\":Old_AttyID2\">\n<setField=\"AttyID2 = :TimeInv_AttyID2\">\n<setArgument=\"convert_type(e.dataSubmitted.AttyID2,\\\"N\\\")\">\n<setArgument_New=\"convert_type(e.dataSubmitted.AttyID2,\\\"N\\\")\">\n<setArgument_Old=\"convert_type(e.oldDataSubmitted.AttyID2,\\\"N\\\")\">\n<autoIncrement=.F.>\n<xbset=\"sqlArgs.add(\\\"TimeInv_AttyID2\\\",convert_type(e.dataSubmitted.AttyID2,\\\"N\\\"))\">\n>\n<[12]<varname=\"Cycle\">\n<fieldname=\"Cycle\">\n<updateable=.T.>\n<nativeFieldName=\"Cycle\">\n<fieldInfo=\"N|F|T|Integer32|!!|Cycle\">\n<isObjectField=.F.>\n<indexIntoArray=13>\n<updateWhere=\"(Cycle = :old_Cycle OR Cycle IS NULL AND :old_Cycle IS NULL)\">\n<sqlInsertSequence=\"\">\n<primaryKey=.F.>\n<fieldType=\"N\">\n<isFileUpload=.F.>\n<isImage=.F.>\n<isSignatureCapture=.F.>\n<argumentName=\":TimeInv_Cycle\">\n<argumentNameForInsert=\":TimeInv_Cycle\">\n<argumentName_New=\":New_Cycle\">\n<argumentName_Old=\":Old_Cycle\">\n<setField=\"Cycle = :TimeInv_Cycle\">\n<setArgument=\"convert_type(e.dataSubmitted.Cycle,\\\"N\\\")\">\n<setArgument_New=\"convert_type(e.dataSubmitted.Cycle,\\\"N\\\")\">\n<setArgument_Old=\"convert_type(e.oldDataSubmitted.Cycle,\\\"N\\\")\">\n<autoIncrement=.F.>\n<xbset=\"sqlArgs.add(\\\"TimeInv_Cycle\\\",convert_type(e.dataSubmitted.Cycle,\\\"N\\\"))\">\n>\n<[13]<varname=\"InvoiceNumber\">\n<fieldname=\"InvoiceNumber\">\n<updateable=.T.>\n<nativeFieldName=\"InvoiceNumber\">\n<fieldInfo=\"N|F|T|Integer32|!!|InvoiceNumber\">\n<isObjectField=.F.>\n<indexIntoArray=14>\n<updateWhere=\"(InvoiceNumber = :old_InvoiceNumber OR InvoiceNumber IS NULL AND :old_InvoiceNumber IS NULL)\">\n<sqlInsertSequence=\"\">\n<primaryKey=.F.>\n<fieldType=\"N\">\n<isFileUpload=.F.>\n<isImage=.F.>\n<isSignatureCapture=.F.>\n<argumentName=\":TimeInv_InvoiceNumber\">\n<argumentNameForInsert=\":TimeInv_InvoiceNumber\">\n<argumentName_New=\":New_InvoiceNumber\">\n<argumentName_Old=\":Old_InvoiceNumber\">\n<setField=\"InvoiceNumber = :TimeInv_InvoiceNumber\">\n<setArgument=\"convert_type(e.dataSubmitted.InvoiceNumber,\\\"N\\\")\">\n<setArgument_New=\"convert_type(e.dataSubmitted.InvoiceNumber,\\\"N\\\")\">\n<setArgument_Old=\"convert_type(e.oldDataSubmitted.InvoiceNumber,\\\"N\\\")\">\n<autoIncrement=.F.>\n<xbset=\"sqlArgs.add(\\\"TimeInv_InvoiceNumber\\\",convert_type(e.dataSubmitted.InvoiceNumber,\\\"N\\\"))\">\n>\n<[14]<varname=\"timeentrynumber\">\n<fieldname=\"timeentrynumber\">\n<updateable=.T.>\n<nativeFieldName=\"timeentrynumber\">\n<fieldInfo=\"N|T|T|Integer32|!!|timeentrynumber\">\n<isObjectField=.F.>\n<indexIntoArray=15>\n<updateWhere=\"timeentrynumber = :old_timeentrynumber\">\n<sqlInsertSequence=\"\">\n<primaryKey=.T.>\n<fieldType=\"N\">\n<isFileUpload=.F.>\n<isImage=.F.>\n<isSignatureCapture=.F.>\n<argumentName=\":TimeInv_timeentrynumber\">\n<argumentNameForInsert=\":TimeInv_timeentrynumber\">\n<argumentName_New=\":New_timeentrynumber\">\n<argumentName_Old=\":Old_timeentrynumber\">\n<setField=\"timeentrynumber = :TimeInv_timeentrynumber\">\n<setArgument=\"convert_type(e.dataSubmitted.timeentrynumber,\\\"N\\\")\">\n<setArgument_New=\"convert_type(e.dataSubmitted.timeentrynumber,\\\"N\\\")\">\n<setArgument_Old=\"convert_type(e.oldDataSubmitted.timeentrynumber,\\\"N\\\")\">\n<autoIncrement=.T.>\n<xbset=\"sqlArgs.add(\\\"TimeInv_timeentrynumber\\\",convert_type(e.dataSubmitted.timeentrynumber,\\\"N\\\"))\">\n>\n<[15]<varname=\"WebID\">\n<fieldname=\"WebID\">\n<updateable=.T.>\n<nativeFieldName=\"WebID\">\n<fieldInfo=\"N|F|T|Integer32|!!|WebID\">\n<isObjectField=.F.>\n<indexIntoArray=20>\n<updateWhere=\"(WebID = :old_WebID OR WebID IS NULL AND :old_WebID IS NULL)\">\n<sqlInsertSequence=\"\">\n<primaryKey=.F.>\n<fieldType=\"N\">\n<isFileUpload=.F.>\n<isImage=.F.>\n<isSignatureCapture=.F.>\n<argumentName=\":TimeInv_WebID\">\n<argumentNameForInsert=\":TimeInv_WebID\">\n<argumentName_New=\":New_WebID\">\n<argumentName_Old=\":Old_WebID\">\n<setField=\"WebID = :TimeInv_WebID\">\n<setArgument=\"convert_type(e.dataSubmitted.WebID,\\\"N\\\")\">\n<setArgument_New=\"convert_type(e.dataSubmitted.WebID,\\\"N\\\")\">\n<setArgument_Old=\"convert_type(e.oldDataSubmitted.WebID,\\\"N\\\")\">\n<autoIncrement=.F.>\n<xbset=\"sqlArgs.add(\\\"TimeInv_WebID\\\",convert_type(e.dataSubmitted.WebID,\\\"N\\\"))\">\n>\n<[16]<varname=\"Posted\">\n<fieldname=\"Posted\">\n<updateable=.T.>\n<nativeFieldName=\"Posted\">\n<fieldInfo=\"L|F|T|Boolean|!!|Posted\">\n<isObjectField=.F.>\n<indexIntoArray=21>\n<updateWhere=\"Posted = :old_Posted\">\n<sqlInsertSequence=\"\">\n<primaryKey=.F.>\n<fieldType=\"L\">\n<isFileUpload=.F.>\n<isImage=.F.>\n<isSignatureCapture=.F.>\n<argumentName=\":TimeInv_Posted\">\n<argumentNameForInsert=\":TimeInv_Posted\">\n<argumentName_New=\":New_Posted\">\n<argumentName_Old=\":Old_Posted\">\n<setField=\"Posted = :TimeInv_Posted\">\n<setArgument=\"convert_type(e.dataSubmitted.Posted,\\\"L\\\")\">\n<setArgument_New=\"convert_type(e.dataSubmitted.Posted,\\\"L\\\")\">\n<setArgument_Old=\"convert_type(e.oldDataSubmitted.Posted,\\\"L\\\")\">\n<autoIncrement=.F.>\n<xbset=\"sqlArgs.add(\\\"TimeInv_Posted\\\",convert_type(e.dataSubmitted.Posted,\\\"L\\\"))\">\n>\n<[17]<varname=\"StandByTime\">\n<fieldname=\"StandByTime\">\n<updateable=.T.>\n<nativeFieldName=\"StandByTime\">\n<fieldInfo=\"N|F|T|Real|!!|StandByTime\">\n<isObjectField=.F.>\n<indexIntoArray=22>\n<updateWhere=\"(StandByTime = :old_StandByTime OR StandByTime IS NULL AND :old_StandByTime IS NULL)\">\n<sqlInsertSequence=\"\">\n<primaryKey=.F.>\n<fieldType=\"N\">\n<isFileUpload=.F.>\n<isImage=.F.>\n<isSignatureCapture=.F.>\n<argumentName=\":TimeInv_StandByTime\">\n<argumentNameForInsert=\":TimeInv_StandByTime\">\n<argumentName_New=\":New_StandByTime\">\n<argumentName_Old=\":Old_StandByTime\">\n<setField=\"StandByTime = :TimeInv_StandByTime\">\n<setArgument=\"convert_type(e.dataSubmitted.StandByTime,\\\"N\\\")\">\n<setArgument_New=\"convert_type(e.dataSubmitted.StandByTime,\\\"N\\\")\">\n<setArgument_Old=\"convert_type(e.oldDataSubmitted.StandByTime,\\\"N\\\")\">\n<autoIncrement=.F.>\n<xbset=\"sqlArgs.add(\\\"TimeInv_StandByTime\\\",convert_type(e.dataSubmitted.StandByTime,\\\"N\\\"))\">\n>\n>\n<flagPrimaryKeyIsAutoIncrement=.T.>\n<primaryKey_setArgumentsXbasic=\"args.add(\\\"PRIMARYKEY_TimeInv_1\\\",convert_type(autoIncrementValue,\\\"N\\\"))\">\n<primaryKey_setArgumentsXbasic_Method2=\"\">\n<primaryKey_setArgumentsXbasicMethodused=\"<AutoIncrementValue>\">\n<refreshRowSQL=\"SELECT [Date],ReferralNumber,Description,InCourt,OutCourt,Expense,Travel,Rate,TimeSheetNumber,PanelCode,AttyID2,Cycle,InvoiceNumber,timeentrynumber,WebID,Posted,StandByTime FROM TimeInv WHERE timeentrynumber = :PRIMARYKEY_TimeInv_1\">\n<xbasicToSetLinkArguments_OneToMany=\"alias::\">\n<primaryKeyWhereClause=\"timeentrynumber = :PRIMARYKEY_TimeInv_1\">\n<primaryKeyWhereClauseTable=\"timeentrynumber = :PRIMARYKEY_TimeInv_1\">\n<primaryKeyWhereClauseSection=\"TimeInv.timeentrynumber = :PRIMARYKEY_TimeInv_1\">\n<xbToSetPrimaryKeyArgsAfterRowRefresh=<<%str%\nargs.add(\"PRIMARYKEY_TimeInv_1\",rs.data(\"timeentrynumber\"))\n%str%>\n<javascriptToRefreshControls=<<%str%\n{dialog.object}.originalValues[0]['DATE'] = '{js_escape(\"\"+rs.data(\"Date\"))}';\n{dialog.object}.originalValues[0]['REFERRALNUMBER'] = '{js_escape(\"\"+rs.data(\"ReferralNumber\"))}';\n{dialog.object}.originalValues[0]['DESCRIPTION'] = '{js_escape(\"\"+rs.data(\"Description\"))}';\n{dialog.object}.originalValues[0]['INCOURT'] = '{js_escape(\"\"+rs.data(\"InCourt\"))}';\n{dialog.object}.originalValues[0]['OUTCOURT'] = '{js_escape(\"\"+rs.data(\"OutCourt\"))}';\n{dialog.object}.originalValues[0]['EXPENSE'] = '{js_escape(\"\"+rs.data(\"Expense\"))}';\n{dialog.object}.originalValues[0]['TRAVEL'] = '{js_escape(\"\"+rs.data(\"Travel\"))}';\n{dialog.object}.originalValues[0]['RATE'] = '{js_escape(\"\"+rs.data(\"Rate\"))}';\n{dialog.object}.originalValues[0]['TIMESHEETNUMBER'] = '{js_escape(\"\"+rs.data(\"TimeSheetNumber\"))}';\n{dialog.object}.originalValues[0]['PANELCODE'] = '{js_escape(\"\"+rs.data(\"PanelCode\"))}';\n{dialog.object}.originalValues[0]['ATTYID2'] = '{js_escape(\"\"+rs.data(\"AttyID2\"))}';\n{dialog.object}.originalValues[0]['CYCLE'] = '{js_escape(\"\"+rs.data(\"Cycle\"))}';\n{dialog.object}.originalValues[0]['INVOICENUMBER'] = '{js_escape(\"\"+rs.data(\"InvoiceNumber\"))}';\n{dialog.object}.originalValues[0]['TIMEENTRYNUMBER'] = '{js_escape(\"\"+rs.data(\"timeentrynumber\"))}';\n{dialog.object}.originalValues[0]['WEBID'] = '{js_escape(\"\"+rs.data(\"WebID\"))}';\n{dialog.object}.originalValues[0]['POSTED'] = '{js_escape(\"\"+rs.data(\"Posted\"))}';\n{dialog.object}.originalValues[0]['STANDBYTIME'] = '{js_escape(\"\"+rs.data(\"StandByTime\"))}';\n%str%>\n>\n<isParentOfLevel=.T.>\n<sqlCRUD<sql<insert<sqlInsert_ExcludePrimaryKey=\"INSERT INTO TimeInv ([Date],ReferralNumber,Description,InCourt,OutCourt,Expense,Travel,Rate,TimeSheetNumber,PanelCode,AttyID2,Cycle,InvoiceNumber,WebID,Posted,StandByTime) VALUES (:TimeInv_Date,:TimeInv_ReferralNumber,:TimeInv_Description,:TimeInv_InCourt,:TimeInv_OutCourt,:TimeInv_Expense,:TimeInv_Travel,:TimeInv_Rate,:TimeInv_TimeSheetNumber,:TimeInv_PanelCode,:TimeInv_AttyID2,:TimeInv_Cycle,:TimeInv_InvoiceNumber,:TimeInv_WebID,:TimeInv_Posted,:TimeInv_StandByTime)\">\n<sqlInsert_IncludePrimaryKey=\"INSERT INTO TimeInv ([Date],ReferralNumber,Description,InCourt,OutCourt,Expense,Travel,Rate,TimeSheetNumber,PanelCode,AttyID2,Cycle,InvoiceNumber,timeentrynumber,WebID,Posted,StandByTime) VALUES (:TimeInv_Date,:TimeInv_ReferralNumber,:TimeInv_Description,:TimeInv_InCourt,:TimeInv_OutCourt,:TimeInv_Expense,:TimeInv_Travel,:TimeInv_Rate,:TimeInv_TimeSheetNumber,:TimeInv_PanelCode,:TimeInv_AttyID2,:TimeInv_Cycle,:TimeInv_InvoiceNumber,:TimeInv_timeentrynumber,:TimeInv_WebID,:TimeInv_Posted,:TimeInv_StandByTime)\">\n<sqlInsert_SetArgumentXbasic_ExcludePrimaryKey=<<%str%\nsqlArgs.add(\"TimeInv_Date\",convert_type(e.dataSubmitted.Date,\"T\"))\nsqlArgs.add(\"TimeInv_ReferralNumber\",convert_type(e.dataSubmitted.ReferralNumber,\"N\"))\nsqlArgs.add(\"TimeInv_Description\",convert_type(e.dataSubmitted.Description,\"C\"))\nsqlArgs.add(\"TimeInv_InCourt\",convert_type(e.dataSubmitted.InCourt,\"N\"))\nsqlArgs.add(\"TimeInv_OutCourt\",convert_type(e.dataSubmitted.OutCourt,\"N\"))\nsqlArgs.add(\"TimeInv_Expense\",convert_type(e.dataSubmitted.Expense,\"N\"))\nsqlArgs.add(\"TimeInv_Travel\",convert_type(e.dataSubmitted.Travel,\"N\"))\nsqlArgs.add(\"TimeInv_Rate\",convert_type(e.dataSubmitted.Rate,\"N\"))\nsqlArgs.add(\"TimeInv_TimeSheetNumber\",convert_type(e.dataSubmitted.TimeSheetNumber,\"N\"))\nsqlArgs.add(\"TimeInv_PanelCode\",convert_type(e.dataSubmitted.PanelCode,\"C\"))\nsqlArgs.add(\"TimeInv_AttyID2\",convert_type(e.dataSubmitted.AttyID2,\"N\"))\nsqlArgs.add(\"TimeInv_Cycle\",convert_type(e.dataSubmitted.Cycle,\"N\"))\nsqlArgs.add(\"TimeInv_InvoiceNumber\",convert_type(e.dataSubmitted.InvoiceNumber,\"N\"))\nsqlArgs.add(\"TimeInv_WebID\",convert_type(e.dataSubmitted.WebID,\"N\"))\nsqlArgs.add(\"TimeInv_Posted\",convert_type(e.dataSubmitted.Posted,\"L\"))\nsqlArgs.add(\"TimeInv_StandByTime\",convert_type(e.dataSubmitted.StandByTime,\"N\"))\n%str%>\n<sqlInsert_SetArgumentXbasic_IncludePrimaryKey=<<%str%\nsqlArgs.add(\"TimeInv_Date\",convert_type(e.dataSubmitted.Date,\"T\"))\nsqlArgs.add(\"TimeInv_ReferralNumber\",convert_type(e.dataSubmitted.ReferralNumber,\"N\"))\nsqlArgs.add(\"TimeInv_Description\",convert_type(e.dataSubmitted.Description,\"C\"))\nsqlArgs.add(\"TimeInv_InCourt\",convert_type(e.dataSubmitted.InCourt,\"N\"))\nsqlArgs.add(\"TimeInv_OutCourt\",convert_type(e.dataSubmitted.OutCourt,\"N\"))\nsqlArgs.add(\"TimeInv_Expense\",convert_type(e.dataSubmitted.Expense,\"N\"))\nsqlArgs.add(\"TimeInv_Travel\",convert_type(e.dataSubmitted.Travel,\"N\"))\nsqlArgs.add(\"TimeInv_Rate\",convert_type(e.dataSubmitted.Rate,\"N\"))\nsqlArgs.add(\"TimeInv_TimeSheetNumber\",convert_type(e.dataSubmitted.TimeSheetNumber,\"N\"))\nsqlArgs.add(\"TimeInv_PanelCode\",convert_type(e.dataSubmitted.PanelCode,\"C\"))\nsqlArgs.add(\"TimeInv_AttyID2\",convert_type(e.dataSubmitted.AttyID2,\"N\"))\nsqlArgs.add(\"TimeInv_Cycle\",convert_type(e.dataSubmitted.Cycle,\"N\"))\nsqlArgs.add(\"TimeInv_InvoiceNumber\",convert_type(e.dataSubmitted.InvoiceNumber,\"N\"))\nsqlArgs.add(\"TimeInv_timeentrynumber\",convert_type(e.dataSubmitted.timeentrynumber,\"N\"))\nsqlArgs.add(\"TimeInv_WebID\",convert_type(e.dataSubmitted.WebID,\"N\"))\nsqlArgs.add(\"TimeInv_Posted\",convert_type(e.dataSubmitted.Posted,\"L\"))\nsqlArgs.add(\"TimeInv_StandByTime\",convert_type(e.dataSubmitted.StandByTime,\"N\"))\n%str%>\n<useSequences=.F.>\n<xbasicToCapturePrimaryKeys=<<%str%\nwith a_sections[is].alias[ia]\n\tdim primaryKeyValue[1] as p\nend with \n\na_sections[is].alias[ia].primaryKeyValue[1].value = rs.data(\"timeentrynumber\")\n\na_sections[is].alias[ia].primaryKeyArgsXML = args.xml\n%str%>\n<xbasicToCapturePrimaryKeysByRow=<<%str%\nwith a_sections[is].rows[ir].alias[ia]\n\tdim primaryKeyValue[1] as p\nend with \n\na_sections[is].rows[ir].alias[ia].primaryKeyValue[1].value = rs.data(\"timeentrynumber\")\n\na_sections[is].rows[ir].alias[ia].primaryKeyArgsXML = args.xml\n%str%>\n>\n<updateablefields=<<%str%\nDate\nReferralNumber\nDescription\nInCourt\nOutCourt\nExpense\nTravel\nRate\nTimeSheetNumber\nPanelCode\nAttyID2\nCycle\nInvoiceNumber\ntimeentrynumber\nWebID\nPosted\nStandByTime%str%>\n>\n>\n>\n>\n<sql<sqlSelect=\"SELECT FIRST 1 TimeInv.timeentrynumber AS PRIMARYKEY_TimeInv_1, TimeInv.Date AS TimeInv_Date, TimeInv.ReferralNumber AS TimeInv_ReferralNumber, TimeInv.Description AS TimeInv_Description, TimeInv.InCourt AS TimeInv_InCourt, TimeInv.OutCourt AS TimeInv_OutCourt, TimeInv.Expense AS TimeInv_Expense, TimeInv.Travel AS TimeInv_Travel, TimeInv.Rate AS TimeInv_Rate, TimeInv.TimeSheetNumber AS TimeInv_TimeSheetNumber, TimeInv.PanelCode AS TimeInv_PanelCode, TimeInv.AttyID2 AS TimeInv_AttyID2, TimeInv.Cycle AS TimeInv_Cycle, TimeInv.InvoiceNumber AS TimeInv_InvoiceNumber, TimeInv.timeentrynumber AS TimeInv_timeentrynumber, TimeInv.WebID AS TimeInv_WebID, TimeInv.Posted AS TimeInv_Posted, TimeInv.StandByTime AS TimeInv_StandByTime FROM TimeInv\">\n<sqlCount=\"SELECT  Count(*)  FROM TimeInv\">\n<xbasicMap_captureParentSideOfOneToManyLinks=\"\">\n<refreshRowWhereClause=\"TimeInv.timeentrynumber= :primaryKey_TimeInv_1\">\n<rawDataInSection=<<%str%\n__varPrefix__.Date = {s_quote((rs.data(\"TimeInv_Date\")))}\n__varPrefix__.ReferralNumber = {s_quote((rs.data(\"TimeInv_ReferralNumber\")))}\n__varPrefix__.Description = {s_quote((rs.data(\"TimeInv_Description\")))}\n__varPrefix__.InCourt = {s_quote((rs.data(\"TimeInv_InCourt\")))}\n__varPrefix__.OutCourt = {s_quote((rs.data(\"TimeInv_OutCourt\")))}\n__varPrefix__.Expense = {s_quote((rs.data(\"TimeInv_Expense\")))}\n__varPrefix__.Travel = {s_quote((rs.data(\"TimeInv_Travel\")))}\n__varPrefix__.Rate = {s_quote((rs.data(\"TimeInv_Rate\")))}\n__varPrefix__.TimeSheetNumber = {s_quote((rs.data(\"TimeInv_TimeSheetNumber\")))}\n__varPrefix__.PanelCode = {s_quote((rs.data(\"TimeInv_PanelCode\")))}\n__varPrefix__.AttyID2 = {s_quote((rs.data(\"TimeInv_AttyID2\")))}\n__varPrefix__.Cycle = {s_quote((rs.data(\"TimeInv_Cycle\")))}\n__varPrefix__.InvoiceNumber = {s_quote((rs.data(\"TimeInv_InvoiceNumber\")))}\n__varPrefix__.timeentrynumber = {s_quote((rs.data(\"TimeInv_timeentrynumber\")))}\n__varPrefix__.WebID = {s_quote((rs.data(\"TimeInv_WebID\")))}\n__varPrefix__.Posted = {s_quote((rs.data(\"TimeInv_Posted\")))}\n__varPrefix__.StandByTime = {s_quote((rs.data(\"TimeInv_StandByTime\")))}\n%str%>\n>\n<javascriptToRefreshAllControlsInSection=<<%str%\n{dialog.object}.originalValues[0]['DATE'] = '{js_escape(\"\"+time(\"MM/dd/yyyy\",rs.data(\"TimeInv_Date\")) )}';\n{dialog.object}.originalValues[0]['REFERRALNUMBER'] = '{js_escape(\"\"+convert_number(\"\" + rs.data(\"TimeInv_ReferralNumber\")) )}';\n{dialog.object}.originalValues[0]['DESCRIPTION'] = '{js_escape(\"\"+rs.data(\"TimeInv_Description\"))}';\n{dialog.object}.originalValues[0]['INCOURT'] = '{js_escape(\"\"+alltrim(str( convert_type(rs.data(\"TimeInv_InCourt\"),\"N\") ,250,2,\",\")) )}';\n{dialog.object}.originalValues[0]['OUTCOURT'] = '{js_escape(\"\"+alltrim(str( convert_type(rs.data(\"TimeInv_OutCourt\"),\"N\") ,250,2,\",\")) )}';\n{dialog.object}.originalValues[0]['EXPENSE'] = '{js_escape(\"\"+alltrim(str( convert_type(rs.data(\"TimeInv_Expense\"),\"N\") ,250,2,\",\")) )}';\n{dialog.object}.originalValues[0]['TRAVEL'] = '{js_escape(\"\"+alltrim(str( convert_type(rs.data(\"TimeInv_Travel\"),\"N\") ,250,2,\",\")) )}';\n{dialog.object}.originalValues[0]['RATE'] = '{js_escape(\"\"+alltrim(str( convert_type(rs.data(\"TimeInv_Rate\"),\"N\") ,250,2,\",\")) )}';\n{dialog.object}.originalValues[0]['TIMESHEETNUMBER'] = '{js_escape(\"\"+convert_number(\"\" + rs.data(\"TimeInv_TimeSheetNumber\")) )}';\n{dialog.object}.originalValues[0]['PANELCODE'] = '{js_escape(\"\"+rs.data(\"TimeInv_PanelCode\"))}';\n{dialog.object}.originalValues[0]['ATTYID2'] = '{js_escape(\"\"+convert_number(\"\" + rs.data(\"TimeInv_AttyID2\")) )}';\n{dialog.object}.originalValues[0]['CYCLE'] = '{js_escape(\"\"+convert_number(\"\" + rs.data(\"TimeInv_Cycle\")) )}';\n{dialog.object}.originalValues[0]['INVOICENUMBER'] = '{js_escape(\"\"+convert_number(\"\" + rs.data(\"TimeInv_InvoiceNumber\")) )}';\n{dialog.object}.originalValues[0]['TIMEENTRYNUMBER'] = '{js_escape(\"\"+alltrim(str( convert_type(rs.data(\"TimeInv_timeentrynumber\"),\"N\") ,250,0,\"B\")) )}';\n{dialog.object}.originalValues[0]['WEBID'] = '{js_escape(\"\"+convert_number(\"\" + rs.data(\"TimeInv_WebID\")) )}';\n{dialog.object}.originalValues[0]['POSTED'] = '{js_escape(\"\"+rs.data(\"TimeInv_Posted\"))}';\n{dialog.object}.originalValues[0]['STANDBYTIME'] = '{js_escape(\"\"+convert_number(\"\" + rs.data(\"TimeInv_StandByTime\")) )}';\n%str%>\n<xBasicToSetOneToManyLinkArguments=\"\">\n>\n",
                 "sectionCount": 1
             },
-            "connectionString": "::Name::aconn",
+            "computeDataBindingEveryTimeComponentIsSaved": true,
             "tableType": "SQL",
+            "connectionString": "::Name::aconn",
             "tables": [
                 {
                     "alias": "TimeInv",
-                    "linkType": "OneToOne",
-                    "parent": "",
                     "table": "TimeInv",
+                    "parent": "",
                     "parentLinkFields": "",
+                    "linkType": "OneToOne",
                     "linkFields": "",
+                    "tableInfo": "timeentrynumber=N|T|T|Integer32|!!|timeentrynumber\nReferralNumber=N|F|T|Integer32|!!|ReferralNumber\nAttyID2=N|F|T|Integer32|!!|AttyID2\nInCurCode=N|F|T|Integer32|!!|InCurCode\nDescription=C|F|T|NationalVaryingCharacter|!!|Description\nInCourt=N|F|T|Real|!!|InCourt\nOutCourt=N|F|T|Real|!!|OutCourt\nInCourtT=N|F|T|Double|!!|InCourtT\nOutCourtT=N|F|T|Double|!!|OutCourtT\nTravel=N|F|T|Currency|!!|Travel\nExpense=N|F|T|Currency|!!|Expense\nTimeSheetNumber=N|F|T|Integer32|!!|TimeSheetNumber\nField9=N|F|T|Integer32|!!|Field9\nField10=C|F|T|NationalVaryingCharacter|!!|Field10\nPanelCode=C|F|T|NationalVaryingCharacter|!!|PanelCode\nStandByTime=N|F|T|Real|!!|StandByTime\nRate=N|F|T|Currency|!!|Rate\nDate=T|F|T|DateTime|!!|Date\nPanelCode1=N|F|T|Integer32|!!|PanelCode1\nCycle=N|F|T|Integer32|!!|Cycle\nInvoiceNumber=N|F|T|Integer32|!!|InvoiceNumber\nWebID=N|F|T|Integer32|!!|WebID\nPosted=L|F|T|Boolean|!!|Posted\nTotal=N|F|T|Currency|!!|Total\n",
                     "primaryKeyFields": "timeentrynumber",
                     "primaryKeyIsAutoIncrement": true,
                     "sequenceName": "",
-                    "tableInfo": "timeentrynumber=N|T|T|Integer32|!!|timeentrynumber\nReferralNumber=N|F|T|Integer32|!!|ReferralNumber\nAttyID2=N|F|T|Integer32|!!|AttyID2\nInCurCode=N|F|T|Integer32|!!|InCurCode\nDescription=C|F|T|NationalVaryingCharacter|!!|Description\nInCourt=N|F|T|Real|!!|InCourt\nOutCourt=N|F|T|Real|!!|OutCourt\nInCourtT=N|F|T|Double|!!|InCourtT\nOutCourtT=N|F|T|Double|!!|OutCourtT\nTravel=N|F|T|Currency|!!|Travel\nExpense=N|F|T|Currency|!!|Expense\nTimeSheetNumber=N|F|T|Integer32|!!|TimeSheetNumber\nField9=N|F|T|Integer32|!!|Field9\nField10=C|F|T|NationalVaryingCharacter|!!|Field10\nPanelCode=C|F|T|NationalVaryingCharacter|!!|PanelCode\nStandByTime=N|F|T|Real|!!|StandByTime\nRate=N|F|T|Currency|!!|Rate\nDate=T|F|T|DateTime|!!|Date\nPanelCode1=N|F|T|Integer32|!!|PanelCode1\nCycle=N|F|T|Integer32|!!|Cycle\nInvoiceNumber=N|F|T|Integer32|!!|InvoiceNumber\nWebID=N|F|T|Integer32|!!|WebID\nPosted=L|F|T|Boolean|!!|Posted\nTotal=N|F|T|Currency|!!|Total\n",
                     "UpdateWhereClause": "{timeentrynumber}=timeentrynumber = :old_timeentrynumber\n{ReferralNumber}=(ReferralNumber = :old_ReferralNumber OR ReferralNumber IS NULL AND :old_ReferralNumber IS NULL)\n{AttyID2}=(AttyID2 = :old_AttyID2 OR AttyID2 IS NULL AND :old_AttyID2 IS NULL)\n{InCurCode}=(InCurCode = :old_InCurCode OR InCurCode IS NULL AND :old_InCurCode IS NULL)\n{Description}=(Description = :old_Description OR Description IS NULL AND :old_Description IS NULL)\n{InCourt}=(InCourt = :old_InCourt OR InCourt IS NULL AND :old_InCourt IS NULL)\n{OutCourt}=(OutCourt = :old_OutCourt OR OutCourt IS NULL AND :old_OutCourt IS NULL)\n{InCourtT}=(InCourtT = :old_InCourtT OR InCourtT IS NULL AND :old_InCourtT IS NULL)\n{OutCourtT}=(OutCourtT = :old_OutCourtT OR OutCourtT IS NULL AND :old_OutCourtT IS NULL)\n{Travel}=(Travel = :old_Travel OR Travel IS NULL AND :old_Travel IS NULL)\n{Expense}=(Expense = :old_Expense OR Expense IS NULL AND :old_Expense IS NULL)\n{TimeSheetNumber}=(TimeSheetNumber = :old_TimeSheetNumber OR TimeSheetNumber IS NULL AND :old_TimeSheetNumber IS NULL)\n{Field9}=(Field9 = :old_Field9 OR Field9 IS NULL AND :old_Field9 IS NULL)\n{Field10}=(Field10 = :old_Field10 OR Field10 IS NULL AND :old_Field10 IS NULL)\n{PanelCode}=(PanelCode = :old_PanelCode OR PanelCode IS NULL AND :old_PanelCode IS NULL)\n{StandByTime}=(StandByTime = :old_StandByTime OR StandByTime IS NULL AND :old_StandByTime IS NULL)\n{Rate}=(Rate = :old_Rate OR Rate IS NULL AND :old_Rate IS NULL)\n{Date}=([Date] = :old_Date OR [Date] IS NULL AND :old_Date IS NULL)\n{PanelCode1}=(PanelCode1 = :old_PanelCode1 OR PanelCode1 IS NULL AND :old_PanelCode1 IS NULL)\n{Cycle}=(Cycle = :old_Cycle OR Cycle IS NULL AND :old_Cycle IS NULL)\n{InvoiceNumber}=(InvoiceNumber = :old_InvoiceNumber OR InvoiceNumber IS NULL AND :old_InvoiceNumber IS NULL)\n{WebID}=(WebID = :old_WebID OR WebID IS NULL AND :old_WebID IS NULL)\n{Posted}=Posted = :old_Posted\n{Total}=(Total = :old_Total OR Total IS NULL AND :old_Total IS NULL)\n",
                     "readonly": false,
+                    "filter": "",
+                    "order": "",
+                    "tableInfoCRC": 4294958111,
                     "flagOverwriteExistingPrimaryKeySettings": false,
-                    "tableInfoCRC": 4294958149,
                     "fieldList": "timeentrynumber\nReferralNumber\nAttyID2\nInCurCode\nDescription\nInCourt\nOutCourt\nInCourtT\nOutCourtT\nTravel\nExpense\nTimeSheetNumber\nField9\nField10\nPanelCode\nStandByTime\nRate\nDate\nPanelCode1\nCycle\nInvoiceNumber\nWebID\nPosted\nTotal\n",
                     "flagExistingPrimaryKeyIsValid": true,
-                    "badFields": "",
-                    "filter": "",
-                    "order": ""
+                    "badFields": ""
                 }
-            ],
-            "computeDataBindingEveryTimeComponentIsSaved": true
+            ]
         },
         "actionJavascriptDefined": true,
         "info": {
             "createdBy": "terry",
             "dateCreated": "2020-3-8",
-            "dateLastEdited": "2020-7-9",
-            "revisionnumber": 172
+            "dateLastEdited": "2020-7-12",
+            "revisionnumber": 173
         },
         "flagShowCommentsInTree": true,
         "treeCommentOffset": "6",
@@ -423,10 +423,6 @@
                     },
                     "specialtype": "None",
                     "specialtypeJSON": "",
-                    "listView": {
-                        "class": "",
-                        "allchildren": ""
-                    },
                     "info": {
                         "level": 0,
                         "isContainerStart": false,
@@ -449,6 +445,10 @@
                         "parentPanelCardId": "",
                         "break": false,
                         "display": "{B=White,Light Blue}{Data=35ee30a4_459a_4130_b99a_a4e09ca8cccb}{I:'$$control.edit'} [Date]"
+                    },
+                    "listView": {
+                        "class": "",
+                        "allchildren": ""
                     },
                     "precalc": {
                         "javascript_Lookupfields": "if(!{dialog.componentName}_DlgObj.fieldHelpers['DATE']) {  {dialog.componentName}_DlgObj.fieldHelpers['DATE'] = new A5.EditDateTime({\n\ttheme: '{dialog.style}',\n\tdateTime: {\n\t\tformat: '<DefaultDateFormat>',\n\t\tdatePicker: {\n\t\t\tdays: {dialog.object}.datePickerDayNames,\n\t\t\tmonths: {dialog.object}.datePickerMonthNames,\n\t\t\tstartDay: {dialog.object}.datePickerFirstDayOfWeek-1,\n\t\t\tcalendar: {\n\t\t\t\tlockColumnWidth: false,\n\t\t\t\tdaysOfWeek: {\n\t\t\t\t\tshow: true\n\t\t\t\t},\n\t\t\t\tweeksOfYear: {\n\t\t\t\t\tshow: false\n\t\t\t\t}\n\t\t\t},\n\t\t\tnavigator: {\n\t\t\t\theader: {\n\t\t\t\t\ttodayButton: {\n\t\t\t\t\t\tshow: true,\n\t\t\t\t\t\thtml: {dialog.object}.datePickerTodayButton,\n\t\t\t\t\t\ttip: ''\n\t\t\t\t\t}\n\t\t\t\t}\n\t\t\t},\n\t\t\tdisabledDates: {\n\t\t\t\tlow: '',\n\t\t\t\thigh: function() {\n\tif(typeof high_date!= 'undefined') return high_date();\n\telse return false;\n }\n,\n\t\t\t\tdays: []\n\t\t\t}\n\t\t},\n\t\tswitchYear: 30\n\t},\n\twindow: {\n\t\tautoGenerateButtons: false,\n\t\tbuttons: {\n\t\t\titems: [\n\t\t\t{\n\t\t\t\thtml: 'OK',\n\t\t\t\taction: 'commit'\n\t\t\t},\n\t\t\t{\n\t\t\t\thtml: 'Cancel',\n\t\t\t\taction: 'close'\n\t\t\t}]\n\t\t}\n\t},\n\tonSelect: function() {$e.execute(this,'change');} ,\n\tmultiple: {\n\t\tallow: false\n\t},\n\tselectionRequired: false\n});}",
@@ -621,9 +621,6 @@
                     },
                     "specialtype": "None",
                     "specialtypeJSON": "",
-                    "listView": {
-                        "class": ""
-                    },
                     "info": {
                         "level": 0,
                         "isContainerStart": false,
@@ -646,6 +643,9 @@
                         "parentPanelCardId": "",
                         "break": true,
                         "display": "{B=White,Light Blue}{Data=10d9835c_8c01_4071_bc3b_ea907d840fdf}{I:'$$control.edit'} [ReferralNumber] �"
+                    },
+                    "listView": {
+                        "class": ""
                     },
                     "precalc": {
                         "javascript_Lookupfields": "/* DIALOG2FieldHelperBegin:REFERRALNUMBER */\nif(!{dialog.componentName}_DlgObj.fieldHelpers['REFERRALNUMBER']){dialog.componentName}_DlgObj.fieldHelpers['REFERRALNUMBER'] = new A5.EditCombo({dialog.editcombochoices.REFERRALNUMBER},{\n\ttheme: '{dialog.style}:combo',\n\tonBind: function() {  } ,\n\twindow: {\n\t\theight: 'max: 3in',\n\t\twidth: '3 in',\n\t\tresize: 'width'\n\t},\n\tbody: {\n\t\tstyle: 'overflow: auto;'\n\t},\n\tonSelect: function(data,classInst) { \n\t$e.execute(this,'change');\n\t;\n;\n\tclassInst.selecting = false;\n}\n,\n\tonBeforeSelect:  function(data,classInst) { \n\t\n\t//console.log('selecting: ' + JSON.stringify(data,'','\\t') )\n\tclassInst.selecting = true;\n\n}\n,\n\tlistbox: {\n\t\tonItemDraw: function(ele,data,indx) {},\n\t\titem: {\n\t\t\tcolumns: [\n\t\t\t{\n\t\t\t\tname: 'OldReferralID'\n\t\t\t},\n\t\t\t{\n\t\t\t\tname: 'ClientLastName'\n\t\t\t},\n\t\t\t{\n\t\t\t\tname: 'ClientFirstName'\n\t\t\t}],\n\t\t\ttemplate: '{OLDREFERRALID}  {CLIENTLASTNAME}  {CLIENTFIRSTNAME}  ',\n\t\t\tcalculateValue: function(data) { \nreturn '' + data.OLDREFERRALID;\n}\n\t\t}\n\t},\n\tselectionRequired: true,\n\tselectionRequiredFilterMode: 'progressive'\n});\n/* DIALOG2FieldHelperEnd:REFERRALNUMBER */",
@@ -670,9 +670,6 @@
                 "displayOD": "{Data=0c977e31_79c7_40b8_820d_290a45d315be}",
                 "displayODtree": "{Data=0c977e31_79c7_40b8_820d_290a45d315be}",
                 "crc": "4294955202",
-                "isCollapsed": false,
-                "parentIsCollapsed": false,
-                "containerStartIndex": 0,
                 "v": {
                     "controlType": "textbox",
                     "variableName": "Description",
@@ -681,12 +678,15 @@
                     "watermark": {
                         "text": "<FieldLabel>"
                     },
+                    "precalc": {
+                        "clientSideValidation": "if($u.s.aTrim(data) == '') return 'Please Enter the Work Preformed';",
+                        "javascriptAbstractSetupCode": ""
+                    },
                     "lookup": {
                         "editCombo": {
                             "openLookupOnFocus": false
                         }
                     },
-                    "textboxSubTheme": "",
                     "textboxAutocorrect": true,
                     "textboxAutoCapitalize": true,
                     "label": "Description of Work",
@@ -697,10 +697,10 @@
                     "breakHorizontalSpace": ".1in",
                     "validationSettings": {
                         "general": {
-                            "require_value": true,
-                            "error_msg": "Please Enter the Work Preformed",
+                            "EnableRules": true,
                             "invalid_data_type_message": "",
-                            "EnableRules": true
+                            "require_value": true,
+                            "error_msg": "Please Enter the Work Preformed"
                         },
                         "builder": "UX"
                     },
@@ -738,8 +738,6 @@
                         },
                         "type": "Mask"
                     },
-                    "getFunction": "",
-                    "setFunction": "",
                     "onChange_ValidationOption": "Client-side only",
                     "dataBinding": {
                         "updateable": true,
@@ -757,11 +755,10 @@
                             "inkunits": 1
                         }
                     },
+                    "textboxSubTheme": "",
+                    "getFunction": "",
+                    "setFunction": "",
                     "datePicker": {
-                        "friendlyDisplay": {
-                            "enabled": false,
-                            "settingsJSON": ""
-                        },
                         "displayTimePicker": false,
                         "openMethod": "ClickIcon",
                         "dateFormat": "<Default>",
@@ -779,6 +776,10 @@
                         },
                         "timePickerOptionsDefined": false,
                         "display": false,
+                        "friendlyDisplay": {
+                            "enabled": false,
+                            "settingsJSON": ""
+                        },
                         "useComboBoxes": true,
                         "lowYear": 1950,
                         "highYear": 2050,
@@ -787,6 +788,10 @@
                         "highDate": "",
                         "disabledDays": "",
                         "disabledDates": ""
+                    },
+                    "displayAsSlider": false,
+                    "flags": {
+                        "clientSideDefinition": false
                     },
                     "specialtype": "None",
                     "specialtypeJSON": "",
@@ -813,23 +818,18 @@
                         "break": true,
                         "display": "{B=White,Light Blue}{Data=0c977e31_79c7_40b8_820d_290a45d315be}{I:'$$control.edit'} [Description] �"
                     },
-                    "displayAsSlider": false,
                     "listView": {
                         "class": ""
-                    },
-                    "precalc": {
-                        "javascriptAbstractSetupCode": "",
-                        "clientSideValidation": "if($u.s.aTrim(data) == '') return 'Please Enter the Work Preformed';"
-                    },
-                    "flags": {
-                        "clientSideDefinition": false
                     }
                 },
                 "precalc": {
                     "ControlHTML": "<div class=\"A5CWLayout\" style=\"width: 80%\" >\n\t<!--LblS--><label id=\"{grid.componentname}.LBL.R{grid.rownumber}.DESCRIPTION\" for=\"{grid.componentname}.V.R{grid.rownumber}.DESCRIPTION\" title=\"\" class=\"[class.dialogFieldLabel]\" style=\"font-size: 14px; font-weight: bold; display: block; \">Description of Work</label>\n<!--LblE-->\n\t<!--FldS--><input\ttype=\"text\" id=\"{grid.componentname}.V.R{grid.rownumber}.DESCRIPTION\" title=\"\"     class=\"[theme:edit.base.className|class.dialogInput] \" style=\"width: 100%; box-sizing: border-box; -moz-box-sizing: border-box; -ms-box-sizing: border-box; -webkit-box-sizing: border-box;\"    name=\"V.R{grid.rownumber}.DESCRIPTION\"    value=\"\"    />\n<!--FldE-->\n</div><!--breakbegin--><br  style=\"clear:both; \" /><!--breakend-->",
                     "DesignViewHTML": "",
                     "columnInfo": "'DESCRIPTION': {info: {controlType: 'textbox'}, hiddenVal: false, type: 'input,label', isCalc: false, hlp: '', isArray: false, dataType: 'C', validate: function(data,colName,rowNum,instNum) {if($u.s.aTrim(data) == '') return 'Please Enter the Work Preformed'; return true; }  }\n"
-                }
+                },
+                "isCollapsed": false,
+                "parentIsCollapsed": false,
+                "containerStartIndex": 0
             },
             {
                 "controlType": "dialog_formcontrol",
@@ -947,9 +947,6 @@
                     },
                     "specialtype": "None",
                     "specialtypeJSON": "",
-                    "listView": {
-                        "class": ""
-                    },
                     "info": {
                         "level": 0,
                         "isContainerStart": false,
@@ -972,6 +969,9 @@
                         "parentPanelCardId": "",
                         "break": false,
                         "display": "{B=White,Light Blue}{Data=cb556409_d9cd_471a_8d50_dd8c96a1f2a8}{I:'$$control.edit'} [InCourt]"
+                    },
+                    "listView": {
+                        "class": ""
                     }
                 },
                 "precalc": {
@@ -1098,9 +1098,6 @@
                     },
                     "specialtype": "None",
                     "specialtypeJSON": "",
-                    "listView": {
-                        "class": ""
-                    },
                     "info": {
                         "level": 0,
                         "isContainerStart": false,
@@ -1123,6 +1120,9 @@
                         "parentPanelCardId": "",
                         "break": false,
                         "display": "{B=White,Light Blue}{Data=63185e8e_9997_4a83_b690_984626b6853a}{I:'$$control.edit'} [OutCourt]"
+                    },
+                    "listView": {
+                        "class": ""
                     }
                 },
                 "precalc": {
@@ -1250,9 +1250,6 @@
                     },
                     "specialtype": "None",
                     "specialtypeJSON": "",
-                    "listView": {
-                        "class": ""
-                    },
                     "info": {
                         "level": 0,
                         "isContainerStart": false,
@@ -1275,6 +1272,9 @@
                         "parentPanelCardId": "",
                         "break": false,
                         "display": "{B=White,Light Blue}{Data=ca4da1ca_7aec_40da_a3a0_f3202a55ab5f}{I:'$$control.edit'} [Expense]"
+                    },
+                    "listView": {
+                        "class": ""
                     }
                 },
                 "precalc": {
@@ -1401,9 +1401,6 @@
                     },
                     "specialtype": "None",
                     "specialtypeJSON": "",
-                    "listView": {
-                        "class": ""
-                    },
                     "info": {
                         "level": 0,
                         "isContainerStart": false,
@@ -1426,6 +1423,9 @@
                         "parentPanelCardId": "",
                         "break": false,
                         "display": "{B=White,Light Blue}{Data=d2a959a3_bcef_4aba_850f_ec15cdea1112}{I:'$$control.edit'} [Travel]"
+                    },
+                    "listView": {
+                        "class": ""
                     }
                 },
                 "precalc": {
@@ -1554,9 +1554,6 @@
                     },
                     "specialtype": "None",
                     "specialtypeJSON": "",
-                    "listView": {
-                        "class": ""
-                    },
                     "info": {
                         "level": 0,
                         "isContainerStart": false,
@@ -1579,6 +1576,9 @@
                         "parentPanelCardId": "",
                         "break": false,
                         "display": "{B=White,Light Blue}{Data=72a2b9e2_4929_44fd_b24a_68ace9a79a09}{I:'$$control.edit'} [Rate]"
+                    },
+                    "listView": {
+                        "class": ""
                     }
                 },
                 "precalc": {
@@ -1706,9 +1706,6 @@
                     },
                     "specialtype": "None",
                     "specialtypeJSON": "",
-                    "listView": {
-                        "class": ""
-                    },
                     "info": {
                         "level": 0,
                         "isContainerStart": false,
@@ -1731,6 +1728,9 @@
                         "parentPanelCardId": "",
                         "break": true,
                         "display": "{B=White,Light Blue}{Data=ae1a9630_c077_4021_9f01_cb4a0fb806c3}{I:'$$control.edit'} [CummTotal] �"
+                    },
+                    "listView": {
+                        "class": ""
                     }
                 },
                 "precalc": {
@@ -1852,9 +1852,6 @@
                     },
                     "specialtype": "None",
                     "specialtypeJSON": "",
-                    "listView": {
-                        "class": ""
-                    },
                     "info": {
                         "level": 0,
                         "isContainerStart": false,
@@ -1877,6 +1874,9 @@
                         "parentPanelCardId": "",
                         "break": true,
                         "display": "{B=White,Light Blue}{Data=35eb5e8c_2a39_4862_9e2b_a0b93d364966}{I:'$$control.edit'} [TimeSheetNumber] �"
+                    },
+                    "listView": {
+                        "class": ""
                     }
                 },
                 "precalc": {
@@ -2012,9 +2012,6 @@
                     },
                     "specialtype": "None",
                     "specialtypeJSON": "",
-                    "listView": {
-                        "class": ""
-                    },
                     "info": {
                         "level": 0,
                         "isContainerStart": false,
@@ -2037,6 +2034,9 @@
                         "parentPanelCardId": "",
                         "break": true,
                         "display": "{B=White,Light Blue}{Data=40159a7b_c002_4456_ab48_a0e4baa25ad0}{I:'$$control.edit'} [PanelCode] �"
+                    },
+                    "listView": {
+                        "class": ""
                     }
                 },
                 "precalc": {
@@ -2161,9 +2161,6 @@
                     },
                     "specialtype": "None",
                     "specialtypeJSON": "",
-                    "listView": {
-                        "class": ""
-                    },
                     "info": {
                         "level": 0,
                         "isContainerStart": false,
@@ -2186,6 +2183,9 @@
                         "parentPanelCardId": "",
                         "break": true,
                         "display": "{B=White,Light Blue}{Data=ad1ae028_f619_48d8_8760_c75b311956be}{I:'$$control.edit'} [AttyID2] �"
+                    },
+                    "listView": {
+                        "class": ""
                     }
                 },
                 "precalc": {
@@ -2309,9 +2309,6 @@
                     },
                     "specialtype": "None",
                     "specialtypeJSON": "",
-                    "listView": {
-                        "class": ""
-                    },
                     "info": {
                         "level": 0,
                         "isContainerStart": false,
@@ -2334,6 +2331,9 @@
                         "parentPanelCardId": "",
                         "break": true,
                         "display": "{B=White,Light Blue}{Data=c4f743fc_c2be_432a_9706_2a23076cba34}{I:'$$control.edit'} [Cycle] �"
+                    },
+                    "listView": {
+                        "class": ""
                     }
                 },
                 "precalc": {
@@ -2455,9 +2455,6 @@
                     },
                     "specialtype": "None",
                     "specialtypeJSON": "",
-                    "listView": {
-                        "class": ""
-                    },
                     "info": {
                         "level": 0,
                         "isContainerStart": false,
@@ -2480,6 +2477,9 @@
                         "parentPanelCardId": "",
                         "break": true,
                         "display": "{B=White,Light Blue}{Data=a375917e_4a41_41de_a99a_6ce2067b3742}{I:'$$control.edit'} [InvoiceNumber] �"
+                    },
+                    "listView": {
+                        "class": ""
                     }
                 },
                 "precalc": {
@@ -2605,9 +2605,6 @@
                     },
                     "specialtype": "None",
                     "specialtypeJSON": "",
-                    "listView": {
-                        "class": ""
-                    },
                     "info": {
                         "level": 0,
                         "isContainerStart": false,
@@ -2630,6 +2627,9 @@
                         "parentPanelCardId": "",
                         "break": true,
                         "display": "{B=White,Light Blue}{C=System-ButtonShadow,White}{C=System-ButtonShadow,White}{Data=e9ba76e1_e864_49e0_99f4_de1b0487392b}{I:'$$control.edit'} [timeentrynumber] �"
+                    },
+                    "listView": {
+                        "class": ""
                     }
                 },
                 "precalc": {
@@ -3091,9 +3091,6 @@
                     },
                     "specialtype": "None",
                     "specialtypeJSON": "",
-                    "listView": {
-                        "class": ""
-                    },
                     "info": {
                         "level": 0,
                         "isContainerStart": false,
@@ -3116,6 +3113,9 @@
                         "parentPanelCardId": "",
                         "break": true,
                         "display": "{B=White,Light Blue}{C=System-ButtonShadow,White}{C=System-ButtonShadow,White}{Data=e38d652d_2b3d_4c78_aef3_88f9a02d7b1f}{I:'$$control.edit'} [WebID] �"
+                    },
+                    "listView": {
+                        "class": ""
                     }
                 },
                 "precalc": {
@@ -3238,9 +3238,6 @@
                     },
                     "specialtype": "None",
                     "specialtypeJSON": "",
-                    "listView": {
-                        "class": ""
-                    },
                     "info": {
                         "level": 0,
                         "isContainerStart": false,
@@ -3263,6 +3260,9 @@
                         "parentPanelCardId": "",
                         "break": true,
                         "display": "{B=White,Light Blue}{C=System-ButtonShadow,White}{C=System-ButtonShadow,White}{Data=bc60b199_0cc5_4759_aede_18a58e1b1b23}{I:'$$control.edit'} [Posted] �"
+                    },
+                    "listView": {
+                        "class": ""
                     }
                 },
                 "precalc": {
@@ -3385,9 +3385,6 @@
                     },
                     "specialtype": "None",
                     "specialtypeJSON": "",
-                    "listView": {
-                        "class": ""
-                    },
                     "info": {
                         "level": 0,
                         "isContainerStart": false,
@@ -3410,6 +3407,9 @@
                         "parentPanelCardId": "",
                         "break": true,
                         "display": "{B=White,Light Blue}{C=System-ButtonShadow,White}{C=System-ButtonShadow,White}{Data=40aeaf81_f871_4e33_9425_755b37ca2fe5}{I:'$$control.edit'} [StandByTime] �"
+                    },
+                    "listView": {
+                        "class": ""
                     }
                 },
                 "precalc": {
@@ -3458,7 +3458,7 @@
         "autoSetPreRenderOnForAllUX": true,
         "selected": "0c977e31_79c7_40b8_820d_290a45d315be\n",
         "designPaneIndex": 1,
-        "masterPaneC": "controls",
+        "masterPaneC": "EventsServerSide",
         "serverSideEventIndex": 4,
         "clientSideEventIndex": 1,
         "clientSideEventIndexC": "1",
@@ -3476,7 +3476,7 @@
         "alphaFiveBuildNumber": "12",
         "openedFromTemplate": false,
         "builtWithVersionNumer": 1,
-        "_buildCount": "171",
+        "_buildCount": "172",
         "securityEnabled": false,
         "showHideIsUsed": false,
         "precalc": {
@@ -3545,6 +3545,9 @@
             "hasFormViewControls": false,
             "setScreenHeightJS": "",
             "hasListColumnSelector": false,
+            "hasCharts": false,
+            "hasformbox": false,
+            "hasExpandingmenus": false,
             "actionsheet": {
                 "has": false
             },
@@ -3557,9 +3560,6 @@
                 "controlnamesListDataSource": "{dialog.object}._listsWithDependentTFControls = {}"
             },
             "requiredPlugins": "",
-            "hasCharts": false,
-            "hasformbox": false,
-            "hasExpandingmenus": false,
             "lightweightform": {
                 "has": false
             },
@@ -3652,7 +3652,7 @@
         "sassProcessor": true,
         "debugMode": false,
         "__jsLibraries": "<script type=\"text/javascript\" src=\"javascript/a5.js\"></script>\n<script type=\"text/javascript\" src=\"javascript/a5_url.js\"></script>\n",
-        "A5SaveTimeStamp": "20200709160923778",
+        "A5SaveTimeStamp": "20200712133731436",
         "a_actionJavascript": [
             {
                 "actionGuid": "2fe33859-ff21-49fc-8b12-ab8f1e3df570",
@@ -3675,26 +3675,59 @@
                 "scriptMetaData": "<a_ajs<[1]<display=\"{I:'$$edit.redo'}{F=Tahoma,10}{C=Dark Blue,White}{B=Blue White,Dark Blue}Ajax Callback{T=4}{I:'a5_vertical_line'}Get Investigator Billing Cycle\">\n<action=\"Ajax Callback\">\n<icon=\"$$edit.redo\">\n<isCommentedOut=.F.>\n<comment=\"Get Investigator Billing Cycle\">\n<builder=\"a5ajs_AjaxCallBack(v, dlg_mode, wf)\">\n<metaData=<<%str%\n<flagSubmitData=.T.>\n<part=\"Grid\">\n<GridRowNumber=\"{Grid.RowNumber}\">\n<ajaxCallbackType=\"InternalXbasicFunction\">\n<functionName=\"InvBillingCycleUpdate\">\n<callbackURL=\"\">\n<callbackActionName=\"\">\n<otherData=\"\">\n<computeCurrentRowdata=.F.>\n<submitLocationInfo=.F.>\n<ajaxFailedJavascript=\"\">\n<offlineJavascript=\"\">\n<afterCallbackCompleteJavascript=\"\">\n<locationHighAccuracy=.T.>\n<locationTimeout=15000>\n<locationMaxAge=30000>\n<ajaxcallbacktimeout=\"<Default>\">\n<chunkedResponses<allow=.F.>\n<maxMessages=-1>\n<maxTime=600>\n>\n<submitListData=.F.>\n%str%>\n<javascriptAttribute=\"{dialog.object}.ajaxCallback('','','InvBillingCycleUpdate','','',{chunkedResponses: {allow: false},deviceOfflineFunction: function() {   }});\">\n<Javascriptdeclarations_row=\"\">\n<Javascriptdeclarations_global=\"\">\n<xbasicFunctions=\"\">\n>\n>\n<flagRunSynchronously=.F.>\n<flagWrapInTryCatch=.F.>\n<tryCatchJavascript=\"\">\n"
             }
         ],
-        "Livepreview_permissions": "",
+        "flagOptimizedUXTree": true,
+        "flagReanalyzeContainers": false,
+        "minimumBuildNumber": "",
+        "_display": "",
         "style_color_palette": "",
-        "customTabOrder": "",
         "showPulseEffect": true,
         "flagShowDeleteConfirmation": true,
+        "pusherConfigJSON": "",
+        "pusherApp": false,
+        "__LPhostName": "Internet Explorer",
+        "_style_isInherited": true,
+        "_flagForceRecalcChildren": true,
+        "cachecomponent": false,
+        "_treeErrors": "",
+        "_flagDoTreeview": false,
+        "_move": {
+            "index": 14,
+            "targetIndex": 15,
+            "count": 1
+        },
+        "customTabOrder": "",
+        "_conversiontoOptimizeUXTreeHasRun": true,
         "friendlydatesCustomizationJSON": "",
         "captureJSErrorStackTrace": false,
         "optionalSystemLibraries": "",
-        "minimumBuildNumber": "",
         "useIphoneXStyling": false,
         "iPhoneXStylingJSON": "",
+        "wrapPasswordFieldsInForms": true,
+        "useCSSFlexForContainerAlignment": true,
+        "_analyzecontainersjs": true,
+        "__idinternalCurrentControl": "10d9835c_8c01_4071_bc3b_ea907d840fdf",
+        "__nameCurrentControl": "ReferralNumber",
+        "_repeatingSectionPendingRecalc": "\n",
+        "_crcXbEvents": 4294938541,
+        "_crcJSFunctions": 4294908645,
+        "_crcJSEvents": 43605,
         "__flagHasMacro": false,
         "preRenderOptimization": false,
         "__componentnotfound": false,
+        "_original_Style_name": "Alpha-Blue",
         "__changeAJAXURL": "",
         "__phoneGapInstantUpdate": false,
+        "loadJavascript": {
+            "detailViewImageCapture": true,
+            "controlbars": true,
+            "charts": true,
+            "formbox": true,
+            "pickers": true
+        },
+        "_flagUsesCharts": false,
         "_isPartial": false,
         "__flagCreateAppCache": false,
-        "__idinternalCurrentControl": "10d9835c_8c01_4071_bc3b_ea907d840fdf",
-        "__nameCurrentControl": "ReferralNumber",
+        "Livepreview_permissions": "",
         "serverSideActionsArray": [
             {
                 "name": "Load Primary Keys",
@@ -3704,45 +3737,12 @@
             },
             {
                 "name": "Save Data",
-                "xbasic": "dim flagUseTransactions as l \nflagUseTransactions = .f.\ndim rtc as p\ndim tmpl as p\ntmpl = e.tmpl\n\ndim serverSideEvents as p\n\n\n\ndim geography as p \nwith geography\nDIM geocodeFieldDefinition as C\nDIM locationFieldDefinition as C\n\nend with \n\ndim opx as p\nopx.serverSideEvents = serverSideEvents\nopx.geography = geography\nopx.afterSaveAction = \"Edit record just submitted\"\nopx.listControlsToRefresh = \"\"\n\n\n\n\na5DialogHelper_SaveData(tmpl, e, rtc,flagUseTransactions, opx)\n\ndim jsShowErrors as c = \"\"\ndim jsEnterNewRecord as c = \"\"\ndim jsToFireAfterSaveEvent as c = \"\"\ndim jsShowUpdateCommands as c = \"\"\n\ndim jsConfirmationMessage as c = \"\"\n\n\n\nif rtc.fatalError = .t. then \n\t'must set this flag to prevent the Dialog from clearing the error messages.\n\te.showGlobalError = .t.\n\tdim errorText as c \n\terrorText = rtc.errorText\n\t'errorText = stritran(errorText,crlf(),\"<br>\")\n\t\n\tjsShowErrors = \"{dialog.object}.showGlobalErrors('<Default>','\" + js_escape(errorText) + \"'); \" + crlf()\n\t\n\trtc.javascript.refreshAllControls = \"\"\n\trtc.javascript.setPrimaryKeyinStateObject = \"\"\n\trtc.javascript.prepareDialog = \"\"\n\tjsToFireAfterSaveEvent = \"\"\n\tjsEnterNewRecord = \"\"\n\t\n\t\nend if \n\n\nif rtc.flagRecordWasSaved then \n\t\nelse\n\tjsEnterNewRecord = \"\"\nend if \n\n\n\n\n\n\n\ndim rtc.javascript.refreshAllControls as c = default \"\"\ndim rtc.javascript.prepareDialog as c = default \"\"\n'This flag must be set to .t., else the Javascript that sets the primaryKey in the state object will be overwritten.\ne.rtc.flagUpdatePrimaryKeysInStateObject = .t.\ndim rtc.javascript.setPrimaryKeyinStateObject as c = default \"\"\ndim e.javascript as c = default \"\"\n\ndim rtc.javascript.refreshDependentListControls as c = default \"\"\t\n\nif rtc.flagRecordWasSaved then\n\tjsToFireAfterSaveEvent = jsToFireAfterSaveEvent + <<%longtxt%\n\t\t(function() {; if({dialog.object}._functions._setInkControlsBackground) {{dialog.object}._functions._setInkControlsBackground(); ; };\n })();\n\t%longtxt%\nend if \n\n\n \n\ne.javascript = \trtc.javascript.refreshDependentListControls + \";\" + crlf()+\\\n\t\t\t\te.javascript + \";\" + crlf()  +\\\n\t\t\t\tjsShowUpdateCommands + crlf() +\\\n\t\t\t\tjsShowErrors + crlf()+\\\n                rtc.javascript.refreshAllControls + crlf() +\\\n\t\t\t\trtc.javascript.setPrimaryKeyinStateObject + crlf()+\\\n\t\t\t\trtc.javascript.prepareDialog + crlf() +\\\n\t\t\t\tjsToFireAfterSaveEvent + crlf()+\\\n\t\t\t\tjsEnterNewRecord + crlf()+\\\n\t\t\t\tjsConfirmationMessage\n\n'set the e.javascriptsystem variable so that in case the user sets e.javascript in their own code, that this value does not get lost\ne.javascriptSystem = e.javascript\t\ne.javascript = \"\"\t\t\t\n\ne.setPrimaryKeyinStateObject = rtc.javascript.setPrimaryKeyinStateObject\t\t\t\t\n\t\t\t\t\n",
-                "metadata": "<afterSubmitAction=\"Edit record just submitted\">\n<targetPage=\"\">\n<displayDebuggingInfo=.F.>\n<clientSideAfterSave=\"\">\n<useTransactions=.F.>\n<clientSideArguments=\"\">\n<clientSideAfterSaveSuccessJavascript=\"\">\n<clientSideAfterSaveFailedJavascript=\"\">\n<clientSideAfterSaveSuccessPanelToActivate=\"\">\n<displayFadeOutMessage=.F.>\n<fadeOutMessage=\"Record was saved\">\n<fadeOutMessagePosition=\"\">\n<fadeOutMessageDuration=\"2000\">\n<fadeOutMessageStyle=\"Default\">\n<flagsynchronizeListControls=.F.>\n<listControlsToSynchronize=\"\">\n<globalErrorsPlaceholder=\"<Default>\">\n<debuggingInformationPlaceholder=\"<Default>\">\n<flagStoreLocationInformation=.F.>\n<flagStoreLocationInformationC=\"No\">\n<latField=\"\">\n<lngField=\"\">\n<flagUpdateLocationField=.F.>\n<locationFieldNameForLatLng=\"\">\n<storeLocationWhen=\"InsertAndUpdate\">\n<serverSideEvent<beforeRecordInsert=\"\">\n<afterRecordInsert=\"\">\n<beforeRecordUpdate=\"\">\n<afterRecordUpdate=\"\">\n<beforeRecordDelete=\"\">\n<afterRecordDelete=\"\">\n<afterSectionRowRefresh=\"\">\n<onSQLError=\"\">\n>\n<geography<geocodeFieldDefinition=\"\">\n<locationFieldDefinition=\"\">\n>\n",
+                "xbasic": "dim flagUseTransactions as l \nflagUseTransactions = .f.\ndim rtc as p\ndim tmpl as p\ntmpl = e.tmpl\n\ndim serverSideEvents as p\n\n\n\ndim geography as p \nwith geography\nDIM geocodeFieldDefinition as C\nDIM locationFieldDefinition as C\n\nend with \n\ndim opx as p\nopx.serverSideEvents = serverSideEvents\nopx.geography = geography\nopx.afterSaveAction = \"Edit record just submitted\"\nopx.listControlsToRefresh = \"\"\n\n\n\n\na5DialogHelper_SaveData(tmpl, e, rtc,flagUseTransactions, opx)\n\ndim jsShowErrors as c = \"\"\ndim jsEnterNewRecord as c = \"\"\ndim jsToFireAfterSaveEvent as c = \"\"\ndim jsShowUpdateCommands as c = \"\"\n\ndim jsConfirmationMessage as c = \"\"\n\n\n\nif rtc.fatalError = .t. then \n\t'must set this flag to prevent the Dialog from clearing the error messages.\n\te.showGlobalError = .t.\n\tdim errorText as c \n\terrorText = rtc.errorText\n\t'errorText = stritran(errorText,crlf(),\"<br>\")\n\t\n\tjsShowErrors = \"{dialog.object}.showGlobalErrors('<Default>','\" + js_escape(errorText) + \"'); \" + crlf()\n\t\n\trtc.javascript.refreshAllControls = \"\"\n\trtc.javascript.setPrimaryKeyinStateObject = \"\"\n\trtc.javascript.prepareDialog = \"\"\n\tjsToFireAfterSaveEvent = \"\"\n\tjsEnterNewRecord = \"\"\n\t\n\t\nend if \n\n\nif rtc.flagRecordWasSaved then \n\tjsConfirmationMessage = <<%js%\n{dialog.object}.fadeOutMessage('{dialog.componentname}.V.R1.','Time Entry Saved. ',2000,true);\n%js%\n\nelse\n\tjsEnterNewRecord = \"\"\nend if \n\n\n\n\n\n\n\ndim rtc.javascript.refreshAllControls as c = default \"\"\ndim rtc.javascript.prepareDialog as c = default \"\"\n'This flag must be set to .t., else the Javascript that sets the primaryKey in the state object will be overwritten.\ne.rtc.flagUpdatePrimaryKeysInStateObject = .t.\ndim rtc.javascript.setPrimaryKeyinStateObject as c = default \"\"\ndim e.javascript as c = default \"\"\n\ndim rtc.javascript.refreshDependentListControls as c = default \"\"\t\n\nif rtc.flagRecordWasSaved then\n\tjsToFireAfterSaveEvent = jsToFireAfterSaveEvent + <<%longtxt%\n\t\t(function() {; if({dialog.object}._functions._setInkControlsBackground) {{dialog.object}._functions._setInkControlsBackground(); ; };\n })();\n\t%longtxt%\nend if \n\n\n \n\ne.javascript = \trtc.javascript.refreshDependentListControls + \";\" + crlf()+\\\n\t\t\t\te.javascript + \";\" + crlf()  +\\\n\t\t\t\tjsShowUpdateCommands + crlf() +\\\n\t\t\t\tjsShowErrors + crlf()+\\\n                rtc.javascript.refreshAllControls + crlf() +\\\n\t\t\t\trtc.javascript.setPrimaryKeyinStateObject + crlf()+\\\n\t\t\t\trtc.javascript.prepareDialog + crlf() +\\\n\t\t\t\tjsToFireAfterSaveEvent + crlf()+\\\n\t\t\t\tjsEnterNewRecord + crlf()+\\\n\t\t\t\tjsConfirmationMessage\n\n'set the e.javascriptsystem variable so that in case the user sets e.javascript in their own code, that this value does not get lost\ne.javascriptSystem = e.javascript\t\ne.javascript = \"\"\t\t\t\n\ne.setPrimaryKeyinStateObject = rtc.javascript.setPrimaryKeyinStateObject\t\t\t\t\n\t\t\t\t\n",
+                "metadata": "<afterSubmitAction=\"Edit record just submitted\">\n<targetPage=\"\">\n<displayDebuggingInfo=.F.>\n<clientSideAfterSave=\"\">\n<useTransactions=.F.>\n<clientSideArguments=\"\">\n<clientSideAfterSaveSuccessJavascript=\"\">\n<clientSideAfterSaveFailedJavascript=\"\">\n<clientSideAfterSaveSuccessPanelToActivate=\"\">\n<displayFadeOutMessage=.T.>\n<fadeOutMessage=\"Time Entry Saved. \">\n<fadeOutMessagePosition=\"\">\n<fadeOutMessageDuration=\"2000\">\n<fadeOutMessageStyle=\"Default\">\n<flagsynchronizeListControls=.F.>\n<listControlsToSynchronize=\"\">\n<globalErrorsPlaceholder=\"<Default>\">\n<debuggingInformationPlaceholder=\"<Default>\">\n<flagStoreLocationInformation=.F.>\n<flagStoreLocationInformationC=\"No\">\n<latField=\"\">\n<lngField=\"\">\n<flagUpdateLocationField=.F.>\n<locationFieldNameForLatLng=\"\">\n<storeLocationWhen=\"InsertAndUpdate\">\n<serverSideEvent<beforeRecordInsert=\"\">\n<afterRecordInsert=\"\">\n<beforeRecordUpdate=\"\">\n<afterRecordUpdate=\"\">\n<beforeRecordDelete=\"\">\n<afterRecordDelete=\"\">\n<afterSectionRowRefresh=\"\">\n<onSQLError=\"\">\n>\n<geography<geocodeFieldDefinition=\"\">\n<locationFieldDefinition=\"\">\n>\n",
                 "builder": "saveDataToTables"
             }
         ],
-        "_original_Style_name": "Alpha-Blue",
-        "__LPhostName": "Internet Explorer",
-        "_style_isInherited": true,
-        "flagOptimizedUXTree": true,
-        "flagReanalyzeContainers": false,
-        "_display": "",
-        "_conversiontoOptimizeUXTreeHasRun": true,
         "PreRenderUXInSections": false,
-        "wrapPasswordFieldsInForms": true,
-        "useCSSFlexForContainerAlignment": true,
-        "pusherConfigJSON": "",
-        "pusherApp": false,
-        "_analyzecontainersjs": true,
-        "_flagForceRecalcChildren": true,
-        "_repeatingSectionPendingRecalc": "\n",
-        "cachecomponent": false,
-        "_crcXbEvents": 4294938541,
-        "_crcJSFunctions": 4294908645,
-        "_crcJSEvents": 43605,
-        "_treeErrors": "",
-        "loadJavascript": {
-            "detailViewImageCapture": true,
-            "controlbars": true,
-            "charts": true,
-            "formbox": true,
-            "pickers": true
-        },
-        "_flagUsesCharts": false,
-        "_flagDoTreeview": false,
-        "_move": {
-            "index": 14,
-            "targetIndex": 15,
-            "count": 1
-        },
         "livePreview_permissions_friendly": "",
         "a_UnboundActionJavascript": [
             {
@@ -3847,7 +3847,7 @@
             "output": {
                 "Head": {
                     "JavaScript": "*gzip:H4sIAAAAAAAAC5WMsQ6CQBAFexP/Aa/Hq+gOOjsqf2Cznq84PPGyuyD8vSQUFlaWM5NM0CipWGVrQesMi/mBZ96tq1Ri677Cc3Me1HXB79wdD+HfAU2Sfyanun/x/bIYZOTcp5uwJGi9NSJByRzBdp1GS08QRVW1NcPe4IcSfQAk7ywxxgAAAA==",
-                    "CSS_Link": "*gzip:H4sIAAAAAAAAC81YbVPbOBC+z53pf9CEMoWZmoTkMgcOcEOBtszQuw7Q4+5TR7HlWEWxPLJCoBn++61ebMuOHUK5DzceiLVa7e6zWj2SfJDJB0aQfEjJYUeSe9kNsqxz9PpVLKcMLZA3J+NbKj2JUy+mk5jBn/QCzrjwkZiM8VbvnX62R4XuLCPCywgjgfRRwhMCXdPMk3wWxB4OJOWJlT++fkUjgacELRoHq4CU0s7xMOCJxDQhAi0ixrH0GYnkKMVhSJOJ30vvrd7JzQV+4DOJFnkf+hU6kRmE9Cg05vdeRn/o3jEXIbgEkQqT//DaO7P2Pht9S78J7aOg4ScakjMhuDjhDFlZ0V6ENEsZfvBN0spRl3yulc4hCzUtxzTOcj20chxNGCTSGzMe3I4qTv6iZP6Zh6TUbVA6C6msKtUCAZ3zpNBaZX3NgcseG8I6pUI+rDJ9wgheykLNe2astFpdb1DNUxEKUXNxDTWNFmYFCRKOIihsVTPE30tlVe1TvuCg5pXWnKiGP+asfRhNXeNjHNxOBJ8lob8RRRGOMJoJtvWWTvGEZN03UJzdN8pKd+9+r/smoox1v6abww+nFE94gpl/E1NJNgfHm/1Bfzjc7J/0B/vm/06aTHbwUJt6uz0y5e7vpvco44yGaCPa2xtNsZjQBNZ+6vdhGeZrUr23IDhP0lklQUuGldDYVcLaSCdnSyb6TSZK6rjSrEPC9zMp1XrhKQ6ofPB3hiNIjAQDmKUx3rLywyGQnhl5ntzRjI4ZuYCyRAsn63WONPqajFSVAJuhQP0qupAx0FSRFKQCQ3Mayti+x2b6TYPfEQFm5j6KaRiSZIQKvtP9Fp1pWPyGVnSolClk+VCIyjyKQHOiPYY0JickkYpzq2RqZ1WRqY9nkufTLHSAWqKo28PKhI8CbaSVdh8b/F6A6RavLU5WMvsjavBxacrkCWiuD+16FY72DB4hZ3N6h5oBP6VkIn5Ky/VYbJsrXa7ScnyWe3BJbqiym+TbbE555QPDj4MAkgW7/zWVjPyZaGc1YRQ1SE9phmFxhY5X487WNXJIZ39/v2AZpGhGz19IwB52Th7BTGTqCJNyqmvTTjssQsmnZiByzTxWEXzBCexGLe5tSSjOM84ajDu8iLx+QUHXeHzNU5sa27ApMa3WVLjnm9Vx5WG4oZk1hVyKfkbyqrGjRQ2vt1uaLYQDF/N7LSxh23aJ3AheAv6/BZoHnNeAM9k5UC2poFTrrcSoWyVC1XxunTfU1UtAmfiK6bOpqsyelSlYFriVOMctsKQ5o4RqmiVW3X4uWOtPE3PrsnoJfBt0gd94qsA3okFtuSoyqBaqK1FZddvazUr+qBBPzqLWPE7CNcb1KosLxsCPs7qswFleRlJOScozanImCIPs3ZHRs2bpCY5x2e8np22uzqVeBkcxojTmAqcNkH+Gi2DsFUkxeIeLVJFrHYS72GvA88PZwIXTs8dc9SYRFhSzqiNVHFeB4Iytk/NKmtYF1pzOtRdZ04RWIOh6/h9icInpSRBO8Tdstk0c3chlzdvVyhNNfslAcMtA9pqBKvcMH8FFw0R7Q5OQz9HCfqcwOHFIZ5nJk/MdYqnPtaCuKU0s0uv13Csj2uj3+6Mywn5xEapH2B9uF8ff+jHPj9Vdpfmw5/RViKkqN6egqsxun1VhvtHUzOanCSNeLFUTYCUiv9hrDJ9JMjuXZIqWlJ3agTsy45PLqyW2KAkiBNcwyxtBEIyQPidbnhg6dw2tPSymKDf7gXN99XK1dnvljmCeg67+gnek38HDLewCjIDXw05HLcLDju7PYkJkp/6dD8WCRIcdeO0uvv795fLs8uyP07PLq+t/Ls4ejeEd6Px9PKMsDKAm5Lfd33bV58GDLBAUOE2QKeSURjSZc3EL6zYV5I6SuevpO77DRr2DMhE84e/7sjvAqIcf5RCfgetbFmO47V9p5ZWQ1PPLv/YEIAYQFQAA",
+                    "CSS_Link": "*gzip:H4sIAAAAAAAAC81YbU/cOBC+z5X6H6ylqCA17BJudZAFThRoi0TvKqDH3afKmzgbF28cOV4WuuK/3/gliZNNFij34RTBxuPxzDzj8WM7+7m8ZwTJ+4wc9CS5k/0wz3uHr18lcsrQAnlzMr6h0pM48xI6SRj8SS/kjIsAickYbwze6WdzVOrOciK8nDASygClPCXQNc09yWdh4uFQUp5a+cPrVzQWeErQonWwCkgpbR0NQ55KTFMi0CJmHMuAkViOMhxFNJ0Eg+zO6h1fn+N7PpNoUfShX6ETmUFIj0Jjfufl9IfuHXMRgUsQqTD5D6+7M+/us9F39JvQPgoafaIRORWCi2POkJWV7UVE84zh+8AkrRp1weda6Qyy0NByTOO80EMrx9GUQSK9MePhzajm5C9K5p95RCrdFqXTiMq6UiMQ0DlLS61V1p84cNljS1gnVMj7VaaPGcFLWWh4z42VTqtPG9TwVIZC1FxcQU2jhVlBgkSjGApb1QwJdjNZV/tULDioeaU1J6oRjDnrHkYz1/gYhzcTwWdpFKzFcYxjjGaCbbylUzwhef8NFGf/jbLS373b7b+JKWP9r9n68MMJxROeYhZcJ1SS9Z2jdX/HHw7X/WN/Z8/838rSyRYealNvN0em3IPt7A7lnNEIrcW7u6MpFhOawtrPAh+WYbEm1XsHgrM0m9UStGRYCY1dJWyMdHK2ZMJvM1FRx6VmHRK9n0mp1gvPcEjlfbA1HEFiJBjALEvwhpUfDIH0zMiz9JbmdMzIOZQlWjhZb3Kk0ddkpKoE2AyF6lfRhUyApsqkIBUYmtNIJvY9MdNvGvyWCDAzD1BCo4ikI1Tyne636EzD4je0okOlTCErhkJU5lEEWhDtEaQxPSapVJxbJ1M7q4pMAzyTvJhmoQPUEkXdHlYmAhRqI520+9Di9xxMd3jtcLKS2R9Qi48LUyaPQHN9aNercHRn8BA5m9M71A74MSUT8WNarsdy21zpcpWW47PagytyQ7XdpNhmC8qrHhh+FIaQLNj9r6hk5M9UO2sI47hFekJzDIsrcrwad7aukUM6e3t7JcsgRTN6/iIC9rBz8ghnIldHmIxTXZt22mERSj41A5Fr5qGO4AtOYTfqcG9LQnGecdZi3OFF5PklBV3h8RXPbGpsw6bEtDpT4Z5vVsdVhOGGZtYUcin6Gcmrx44WDbzedmW2FO64mN9rYQXbtivkRvAS8P8t0CLgogacyS6AakkNpVpvFUbdqhCq5nPrvKWuXgLKxFdOn01VbfasTMGywK3EOW6BJc0ZFVTTrLDq9nPBWn+amDuX1Uvg26BL/MZTDb4R7TSWqyKDeqG6EpVVt63drOSPGvEULGrN4zR6wrhBbXHBGPhxVpcVOMvLSKopyXhOTc4EYZC9WzJ61iw9wjEu+/3ktM3VudTL4ShGlMZc4KwF8s9wEYy9JBkG73CRKnOtg3AXewN4cTjbceEM7DFXvUmEBcWs7kgVx2UoOGNPyXktTU8F1p7OJy+ytgmtQdD1/D/E4BLToyCc4m/ZbNs4upXL2rerlSea4pKB4JaB7DUD1e4ZAYKLhon2mqYRn6OF/U5hcOKIznKTJ+c7xFKfa0FdU9pYZDAYuFdGtOb7/qiK0C8vQs0I/eFmefxtHvOCRN1V2g97Tl+NmOpycwqqy+z2WRcWG03DbHGaMOLFUjUBViKKi73G8JmkszNJpmhJ2akduCMzPrm4XGKLiiAicA2zvBaG4Qjpc7LliaFz19Daw3KKCrMfONdXL1dre1DtCObZ7+sveIf6HTzcwC7ACHg96PXUIjzo6f48IUT2mt/5UCJIfNCD1/7i699fLk4vTv84Ob24vPrn/PTBGN6Czt/HM8qiEGpCftv+zVefB/fzUFDgNEGmkFMa03TOxQ2s20yQW0rmrqfv+BYb9R7KRfiIv+/L7gCjHn5YQHwGrm95guG2f6mVV0JSzy//AvecS64QFQAA",
                     "title": "*gzip:H4sIAAAAAAAAC7MpySzJSbULjbDRh7AAiMez8hEAAAA="
                 },
                 "body": {

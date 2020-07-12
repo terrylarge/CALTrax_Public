@@ -33,7 +33,7 @@
             "canAjaxCallback": "",
             "afterAjaxCallback": "",
             "resolved": {
-                "dialogValidate": "function dialogValidate as p (e as p)\n'Data values that were submitted are in e.dataSubmitted (original values are in e.oldDataSubmitted)\n\n'--------------------Repeating Sections ----------------------------------------\n'If your dialog contains repeating sections, data in the repeating sections will be in an array.\n'For example, say that your dialog has a repeating section that includes a field called QTY:\n'e.dataSubmitted.qty[1] - contains data from first repeating section row\n'e.dataSubmitted.qty[2] - contains data from second repeating section row, etc\n'e.dataSubmitted.qty.size() - number of entries in the array.\n\n'In addition, the e object will contain information about the repeating sections\n'e.repeatingSectionNames - a comma delimited list of the name (container ID) or each repeating section\n'e.repeatingSectionInfo - a property array with one entry for each repeating section.\n'The e.repeatingSectionInfo[] array will have these properties for each entry:\n' - .activeRow - the row in the repeating section that had focus when the Dialog was submitted\n' - .deletedRows - a CRLF delimited list of rows that were deleted. e.g. 1 and 3\n' - .rowCount - a count of the number of non-deleted rows\n' - .totalRowCount - a count of all rows in the repeating section including rows that were deleted\n' - .fieldsInRepeating section - a CRLF delimited list of fields in the repeating section\n' - .dirtyRowsInSection - a CRLF delimited list of rows in the repeating section that were edited. (A row that was edited, then deleted will still appear in this list).\n' - .dirtyFieldsInSection - a CRLF delimited list of fields in the repeating section that were edited. for example: PARTNO_A5INSTANCE3 is the 'PARTNO' field in row 3.\n'-------------------------------------------------------------------------------------------\n\n'Your code here can change any of the submitted data before it is validated.\t\n\n\n'Also inside e:\n'e.tmpl = Component definition\n'e.rv = Request variables\n'session = Session variables\n'e.rtc = Runtime calculations - you can use this to store data to be passed to other server side events\n'e.arguments = SQL::Arguments object with values for each of the arguments defined in this component.  To read a value from arguments: e.arguments.find(\"argumentName\").data\n\n'This event can set the value of any of the control in the Browser after it executes.\n'For example:\n'e.control.firstname = \"Fred\"\n'e.control.lastname = \"Jones\"\n'Note: You can also use the 'e._set' syntax here:\n'e._set.firstname.value = \"Fred\"\n'e._set.firstname.style.color = \"red\"\n'e._set.firstname.style.fontSize = \"20\"\n\n'--------------Setting Properties of Fields in Repeating Sections -----------------------\n'If you set the property of a field in a repeating section without explicitly stating what\n'row in the repeating section you are addressing, the field in the row with focus is set.\n'For example, assume that the QTY field is in a repeating section:\n'e._set.qty.value = \"23\" - sets the value of the QTY field in the repeating section row that has focus\n'e._set.qty_A5INSTANCE3.value = \"23\" - sets the value of the QTY field in the 3rd repeating instance row\n\n'----------------------------------------------------------------------------------------\n\n\n'Your code must set these properties\ndialogValidate.hasError = .f.\ndialogValidate.errorText = \"\"\n\n'To edit this action, place insertion point anywhere in the command, then click the 'Action Scripting' button'.\ndim rtc as p\ndim rtc.fieldMap as c ' security variable field map  - list of security values mapped to dialog variables\n\n'syntax for 'rtc.fieldMap' - Security field name = dialog variable name in square brackets.\nrtc.fieldMap = <<%text%\nuserid=[UserName]\npassword=[UserPassword]\nconfirm_password=[UserConfirmPassword]\ngroups=[UserRoles]\nguid=[UserGuid]\n%text%\n\ndim dialogValidate.hasError as l = default .F.\ndim dialogValidate.errorText as c\n\t\na5ws_ValidateUsersWithDialog(e, rtc)\n\ndim jsShowErrors as c\n\nif rtc.flagWebSecurityhasGlobalError = .T. then\n\tdialogValidate.hasError = .T. ' set .t. to show errors\n\tif rtc.flagWebSecurityhasFieldError = .F. ' error is not a field level validation error\n\t\tdialogValidate.errorText = rtc.WebSecurityGlobalErrorText\n\t\t'must set this flag to prevent the Dialog from clearing the error messages.\n\t\te.showGlobalError = .t.\n\t\tjsShowErrors = a5wsHelper_ShowGlobalErrorJS(e.tmpl,e.rtc,rtc.WebSecurityGlobalErrorText )\n\t\tdim e.javascript as c = default \"\"\n\t\te.javascript = \te.javascript + jsShowErrors\n\telse\n\t\t' must set values to show field level errors\n\t\tdialogValidate.errorText = \"No Message\" ' set as 'No Message' to hide global error message\n\t\tdim dialogValidate.fieldErrors[0] as p\n\t\tdialogValidate.fieldErrors.append_arrays(rtc.fieldErrors) 'field errors are returned as array\n\tend if \nend if \n'\tdim errorText as c \n'\terrorText = rtc.WebSecurityGlobalErrorText\n'\terrorText = stritran(errorText,crlf(),\"<br>\")\n'\tjsShowErrors = \";$svs('\"+e.tmpl.alias+\".GLOBALERRORS','\"+js_escape(errorText)+\"'); \" + crlf()+\\\n'\t\"$('\"+e.tmpl.alias+\".GLOBALERRORS').style.display = '';\"\n\nif rtc.WebSecurityUpdateJS <> \"\"\n\tdim e.javascript as c = default \"\"\n\te.javascript = \tremove_blank_lines(e.javascript + rtc.WebSecurityUpdateJS)\nend if \n\n\n\n\n'By setting the above properties, you cause a global error message to show on the Dialog. If you want \n'error messages to appear next to particular fields, you can set properties in this optional array. For example:\n'dim dialogValidate.fieldErrors[0] as p\n'dialogValidate.fieldErrors[].varname = \"FIRSTNAME\"\n'dialogValidate.fieldErrors[..].errorText = \"Error message for the FIRSTNAME field\"\n\n'dialogValidate.fieldErrors[].varname = \"QUANTITY:3\"\n'dialogValidate.fieldErrors[..].errorText = \"Error message for the QUANTITY field in the 3rd row of a Repeating Section\"\n\n'If you have set field level error using the dialogValidate.fieldErrors[] array, you might want to suppress the global error message from appearing.\n'To do this, set dialogValidate.errorText = \"No Message\"\n\n'Optional - Your code can set this property:\n'e.javascript - if you want to send some javascript back to the browser, set this property.\n\n\n'Example validation code:\n'(Notice that all data values in e.dataSubmitted and e.oldDataSubmitted are Character values. You must use convert_type() to convert it to the correct data type)\n'if e.dataSubmitted.lastname = \"Smith\" .and. convert_type(e.datasubmitted.accountType,\"N\") > 2 then \n'\tdialogValidate.hasError = .t.\n'\tdialogValidate.errorText = \"Invalid order\"\n'end if \n\n'Example for a field in a repeating section\n'dim i as n\n'dim count as n\n'count = e.dataSubmitted.qty.size()\n''Loop over each entry in the array of data that was submitted\n'for i = 1 to count \n'\tif convert_type(e.dataSubmitted.qty[i],\"N\") > 10 then \n'\t\tdialogValidate.hasError = .t.\n'\t\tdialogValidate.errorText = dialogValidate.errorText + \"Quantity in row \" + i + \"must be less than 10 <br>\" \n'\tend if \n'next i \n\n'You can set 'state' variables in this event. The value of any state variables will be available in all subsequent ajax callbacks.\n'To set a state variable:\n'e._set.myvar1 = \"value1\"\n'e._set.myvar2 = \"value2\"\n\n'To read the value of a 'state' variable that was previously set:\n'e._state.myvar1\n\n\nend function\n",
+                "dialogValidate": "function dialogValidate as p (e as p)\n'Data values that were submitted are in e.dataSubmitted (original values are in e.oldDataSubmitted)\n\n'--------------------Repeating Sections ----------------------------------------\n'If your dialog contains repeating sections, data in the repeating sections will be in an array.\n'For example, say that your dialog has a repeating section that includes a field called QTY:\n'e.dataSubmitted.qty[1] - contains data from first repeating section row\n'e.dataSubmitted.qty[2] - contains data from second repeating section row, etc\n'e.dataSubmitted.qty.size() - number of entries in the array.\n\n'In addition, the e object will contain information about the repeating sections\n'e.repeatingSectionNames - a comma delimited list of the name (container ID) or each repeating section\n'e.repeatingSectionInfo - a property array with one entry for each repeating section.\n'The e.repeatingSectionInfo[] array will have these properties for each entry:\n' - .activeRow - the row in the repeating section that had focus when the Dialog was submitted\n' - .deletedRows - a CRLF delimited list of rows that were deleted. e.g. 1 and 3\n' - .rowCount - a count of the number of non-deleted rows\n' - .totalRowCount - a count of all rows in the repeating section including rows that were deleted\n' - .fieldsInRepeating section - a CRLF delimited list of fields in the repeating section\n' - .dirtyRowsInSection - a CRLF delimited list of rows in the repeating section that were edited. (A row that was edited, then deleted will still appear in this list).\n' - .dirtyFieldsInSection - a CRLF delimited list of fields in the repeating section that were edited. for example: PARTNO_A5INSTANCE3 is the 'PARTNO' field in row 3.\n'-------------------------------------------------------------------------------------------\n\n'Your code here can change any of the submitted data before it is validated.\t\n\n\n'Also inside e:\n'e.tmpl = Component definition\n'e.rv = Request variables\n'session = Session variables\n'e.rtc = Runtime calculations - you can use this to store data to be passed to other server side events\n'e.arguments = SQL::Arguments object with values for each of the arguments defined in this component.  To read a value from arguments: e.arguments.find(\"argumentName\").data\n\n'This event can set the value of any of the control in the Browser after it executes.\n'For example:\n'e.control.firstname = \"Fred\"\n'e.control.lastname = \"Jones\"\n'Note: You can also use the 'e._set' syntax here:\n'e._set.firstname.value = \"Fred\"\n'e._set.firstname.style.color = \"red\"\n'e._set.firstname.style.fontSize = \"20\"\n\n'--------------Setting Properties of Fields in Repeating Sections -----------------------\n'If you set the property of a field in a repeating section without explicitly stating what\n'row in the repeating section you are addressing, the field in the row with focus is set.\n'For example, assume that the QTY field is in a repeating section:\n'e._set.qty.value = \"23\" - sets the value of the QTY field in the repeating section row that has focus\n'e._set.qty_A5INSTANCE3.value = \"23\" - sets the value of the QTY field in the 3rd repeating instance row\n\n'----------------------------------------------------------------------------------------\n\n\n'Your code must set these properties\ndialogValidate.hasError = .f.\ndialogValidate.errorText = \"\"\n\n'To edit this action, place insertion point anywhere in the command, then click the 'Action Scripting' button'.\ndim rtc as p\ndim rtc.fieldMap as c ' security variable field map  - list of security values mapped to dialog variables\ndim rtc.messageMap as c ' security messages map  - list of response messages in quotes\n\n'syntax for 'rtc.fieldMap' - Security field name = dialog variable name in square brackets.\nrtc.fieldMap = <<%text%\nuserid=[UserName]\npassword=[UserPassword]\nconfirm_password=[UserConfirmPassword]\ngroups=[UserRoles]\nguid=[UserGuid]\n%text%\n\n'syntax for 'rtc.messageMap' - Message Name = Message text in quotes.\nrtc.messageMap = <<%text%\nMsgUserIdRequired=\"User ID is required\"\nMsgUserIdInvalid=\"UserId is not valid\"\nMsgUserIdNotUniqueMsg=\"User ID must be unique\"\nMsgPasswordRequired=\"Password is required\"\nMsgPasswordInvalid=\"Password is not valid\"\nMsgPasswordConfirmNoMatch=\"Confirm Password\"\nMsgPasswordReuseRestrictMessage=\"Invalid Password\"\nMsgUserFileDataMissing=\"Required Data Missing\"\nMsgNotSupported=\"Option is Not Supported\"\n%text%\n\ndim dialogValidate.hasError as l = default .F.\ndim dialogValidate.errorText as c\n\t\na5ws_ValidateUsersWithDialog(e, rtc)\n\ndim jsShowErrors as c\n\nif rtc.flagWebSecurityhasGlobalError = .T. then\n\tdialogValidate.hasError = .T. ' set .t. to show errors\n\tif rtc.flagWebSecurityhasFieldError = .F. ' error is not a field level validation error\n\t\tdialogValidate.errorText = rtc.WebSecurityGlobalErrorText\n\t\t'must set this flag to prevent the Dialog from clearing the error messages.\n\t\te.showGlobalError = .t.\n\t\tjsShowErrors = a5wsHelper_ShowGlobalErrorJS(e.tmpl,e.rtc,rtc.WebSecurityGlobalErrorText )\n\t\tdim e.javascript as c = default \"\"\n\t\te.javascript = \te.javascript + jsShowErrors\n\telse\n\t\t' must set values to show field level errors\n\t\tdialogValidate.errorText = \"No Message\" ' set as 'No Message' to hide global error message\n\t\tdim dialogValidate.fieldErrors[0] as p\n\t\tdialogValidate.fieldErrors.append_arrays(rtc.fieldErrors) 'field errors are returned as array\n\tend if \nend if \n\nif rtc.WebSecurityUpdateJS <> \"\"\n\tdim e.javascript as c = default \"\"\n\te.javascript = \tremove_blank_lines(e.javascript + rtc.WebSecurityUpdateJS)\nend if \n\n\n\n\n'By setting the above properties, you cause a global error message to show on the Dialog. If you want \n'error messages to appear next to particular fields, you can set properties in this optional array. For example:\n'dim dialogValidate.fieldErrors[0] as p\n'dialogValidate.fieldErrors[].varname = \"FIRSTNAME\"\n'dialogValidate.fieldErrors[..].errorText = \"Error message for the FIRSTNAME field\"\n\n'dialogValidate.fieldErrors[].varname = \"QUANTITY:3\"\n'dialogValidate.fieldErrors[..].errorText = \"Error message for the QUANTITY field in the 3rd row of a Repeating Section\"\n\n'If you have set field level error using the dialogValidate.fieldErrors[] array, you might want to suppress the global error message from appearing.\n'To do this, set dialogValidate.errorText = \"No Message\"\n\n'Optional - Your code can set this property:\n'e.javascript - if you want to send some javascript back to the browser, set this property.\n\n\n'Example validation code:\n'(Notice that all data values in e.dataSubmitted and e.oldDataSubmitted are Character values. You must use convert_type() to convert it to the correct data type)\n'if e.dataSubmitted.lastname = \"Smith\" .and. convert_type(e.datasubmitted.accountType,\"N\") > 2 then \n'\tdialogValidate.hasError = .t.\n'\tdialogValidate.errorText = \"Invalid order\"\n'end if \n\n'Example for a field in a repeating section\n'dim i as n\n'dim count as n\n'count = e.dataSubmitted.qty.size()\n''Loop over each entry in the array of data that was submitted\n'for i = 1 to count \n'\tif convert_type(e.dataSubmitted.qty[i],\"N\") > 10 then \n'\t\tdialogValidate.hasError = .t.\n'\t\tdialogValidate.errorText = dialogValidate.errorText + \"Quantity in row \" + i + \"must be less than 10 <br>\" \n'\tend if \n'next i \n\n'You can set 'state' variables in this event. The value of any state variables will be available in all subsequent ajax callbacks.\n'To set a state variable:\n'e._set.myvar1 = \"value1\"\n'e._set.myvar2 = \"value2\"\n\n'To read the value of a 'state' variable that was previously set:\n'e._state.myvar1\n\n\nend function\n",
                 "afterDialogValidate": "function afterDialogValidate as v (e as p)\n\n\ndim rtc.flagRecordWasSaved as l\n'To edit this action, place insertion point anywhere in the command, then click the 'Action Scripting' button'.\ndim flagUseTransactions as l \nflagUseTransactions = .f.\ndim rtc as p\ndim tmpl as p\ntmpl = e.tmpl\n\ndim serverSideEvents as p\n\n\n\ndim geography as p \nwith geography\nDIM geocodeFieldDefinition as C\nDIM locationFieldDefinition as C\n\nend with \n\ndim opx as p\nopx.serverSideEvents = serverSideEvents\nopx.geography = geography\nopx.afterSaveAction = \"Edit record just submitted\"\nopx.listControlsToRefresh = \"\"\n\n\n\n\na5DialogHelper_SaveData(tmpl, e, rtc,flagUseTransactions, opx)\n\ndim jsShowErrors as c = \"\"\ndim jsEnterNewRecord as c = \"\"\ndim jsToFireAfterSaveEvent as c = \"\"\ndim jsShowUpdateCommands as c = \"\"\n\ndim jsConfirmationMessage as c = \"\"\n\n\n\nif rtc.fatalError = .t. then \n\t'must set this flag to prevent the Dialog from clearing the error messages.\n\te.showGlobalError = .t.\n\tdim errorText as c \n\terrorText = rtc.errorText\n\t'errorText = stritran(errorText,crlf(),\"<br>\")\n\t\n\tjsShowErrors = \"{dialog.object}.showGlobalErrors('<Default>','\" + js_escape(errorText) + \"'); \" + crlf()\n\t\n\trtc.javascript.refreshAllControls = \"\"\n\trtc.javascript.setPrimaryKeyinStateObject = \"\"\n\trtc.javascript.prepareDialog = \"\"\n\tjsToFireAfterSaveEvent = \"\"\n\tjsEnterNewRecord = \"\"\n\t\n\t\nend if \n\n\nif rtc.flagRecordWasSaved then \n\tjsConfirmationMessage = <<%js%\n{dialog.object}.fadeOutMessage('{dialog.componentname}.V.R1.PLACEHOLDER_1','The record has been saved',2000,true);\n%js%\n\nelse\n\tjsEnterNewRecord = \"\"\nend if \n\n\n\n\n\n\n\ndim rtc.javascript.refreshAllControls as c = default \"\"\ndim rtc.javascript.prepareDialog as c = default \"\"\n'This flag must be set to .t., else the Javascript that sets the primaryKey in the state object will be overwritten.\ne.rtc.flagUpdatePrimaryKeysInStateObject = .t.\ndim rtc.javascript.setPrimaryKeyinStateObject as c = default \"\"\ndim e.javascript as c = default \"\"\n\ndim rtc.javascript.refreshDependentListControls as c = default \"\"\t\n\nif rtc.flagRecordWasSaved then\n\tjsToFireAfterSaveEvent = jsToFireAfterSaveEvent + <<%longtxt%\n\t\t(function() {; if({dialog.object}._functions._setInkControlsBackground) {{dialog.object}._functions._setInkControlsBackground(); ; };\n })();\n\t%longtxt%\nend if \n\n\n \n\ne.javascript = \trtc.javascript.refreshDependentListControls + \";\" + crlf()+\\\n\t\t\t\te.javascript + \";\" + crlf()  +\\\n\t\t\t\tjsShowUpdateCommands + crlf() +\\\n\t\t\t\tjsShowErrors + crlf()+\\\n                rtc.javascript.refreshAllControls + crlf() +\\\n\t\t\t\trtc.javascript.setPrimaryKeyinStateObject + crlf()+\\\n\t\t\t\trtc.javascript.prepareDialog + crlf() +\\\n\t\t\t\tjsToFireAfterSaveEvent + crlf()+\\\n\t\t\t\tjsEnterNewRecord + crlf()+\\\n\t\t\t\tjsConfirmationMessage\n\n'set the e.javascriptsystem variable so that in case the user sets e.javascript in their own code, that this value does not get lost\ne.javascriptSystem = e.javascript\t\ne.javascript = \"\"\t\t\t\n\ne.setPrimaryKeyinStateObject = rtc.javascript.setPrimaryKeyinStateObject\t\t\t\t\n\t\t\t\t\n\n\nif rtc.flagRecordWasSaved\n\t'To edit this action, place insertion point anywhere in the command, then click the 'Action Scripting' button'.\n\tdim rtc as p\ndim rtc.fieldMap as c ' security variable field map  - list of security values mapped to dialog variables\ndim rtc.messageMap as c ' security messages map  - list of response messages in quotes\n\n'syntax for 'rtc.fieldMap' - Security field name = dialog variable name in square brackets.\nrtc.fieldMap = <<%text%\nuserid=[UserName]\npassword=[UserPassword]\nconfirm_password=[UserConfirmPassword]\ngroups=[UserRoles]\nguid=[UserGuid]\n%text%\n\n'syntax for 'rtc.messageMap' - Message Name = Message text in quotes.\nrtc.messageMap = <<%text%\nMsgUserIdRequired=\"User ID is required\"\nMsgUserIdInvalid=\"UserId is not valid\"\nMsgUserIdNotUniqueMsg=\"User ID must be unique\"\nMsgPasswordRequired=\"Password is required\"\nMsgPasswordInvalid=\"Password is not valid\"\nMsgPasswordConfirmNoMatch=\"Confirm Password\"\nMsgPasswordReuseRestrictMessage=\"Invalid Password\"\nMsgUserFileDataMissing=\"Required Data Missing\"\nMsgNotSupported=\"Option is Not Supported\"\n%text%\n\ndim dialogValidate.hasError as l = default .F.\ndim dialogValidate.errorText as c\n\t\na5ws_SaveUsersWithDialog(e, rtc)\n\ndim jsShowErrors as c\n\nif rtc.flagWebSecurityhasGlobalError = .T. then\n\tdialogValidate.hasError = .T. ' set .t. to show errors\n\tif rtc.flagWebSecurityhasFieldError = .F. ' error is not a field level validation error\n\t\tdialogValidate.errorText = rtc.WebSecurityGlobalErrorText\n\t\t'must set this flag to prevent the Dialog from clearing the error messages.\n\t\te.showGlobalError = .t.\n\t\tjsShowErrors = a5wsHelper_ShowGlobalErrorJS(e.tmpl,e.rtc,rtc.WebSecurityGlobalErrorText )\n\t\tdim e.javascript as c = default \"\"\n\t\te.javascript = \te.javascript + jsShowErrors\n\telse\n\t\t' must set values to show field level errors\n\t\tdialogValidate.errorText = \"No Message\" ' set as 'No Message' to hide global error message\n\t\tdim dialogValidate.fieldErrors[0] as p\n\t\tdialogValidate.fieldErrors.append_arrays(rtc.fieldErrors) 'field errors are returned as array\n\tend if \nend if \n\nif rtc.WebSecurityUpdateJS <> \"\"\n\tdim e.javascript as c = default \"\"\n\te.javascript = \tremove_blank_lines(e.javascript + rtc.WebSecurityUpdateJS)\nend if \n\n\nend if \n\n\n'e.dataSubmitted  - contains all values that were submitted by the Dialog\n'e.oldDataSubmitted - contains the original values in the controls\n\n'--------------------Repeating Sections ----------------------------------------\n'If your dialog contains repeating sections, data in the repeating sections will be in an array.\n'For example, say that your dialog has a repeating section that includes a field called QTY:\n'e.dataSubmitted.qty[1] - contains data from first repeating section row\n'e.dataSubmitted.qty[2] - contains data from second repeating section row, etc\n'e.dataSubmitted.qty.size() - number of entries in the array.\n\n'In addition, the e object will contain information about the repeating sections\n'e.repeatingSectionNames - a comma delimited list of the name (container ID) or each repeating section\n'e.repeatingSectionInfo - a property array with one entry for each repeating section.\n'The e.repeatingSectionInfo[] array will have these properties for each entry:\n' - .activeRow - the row in the repeating section that had focus when the Dialog was submitted\n' - .deletedRows - a CRLF delimited list of rows that were deleted. e.g. 1 and 3\n' - .rowCount - a count of the number of non-deleted rows\n' - .totalRowCount - a count of all rows in the repeating section including rows that were deleted\n' - .fieldsInRepeating section - a CRLF delimited list of fields in the repeating section\n' - .dirtyRowsInSection - a CRLF delimited list of rows in the repeating section that were edited. (A row that was edited, then deleted will still appear in this list).\n' - .dirtyFieldsInSection - a CRLF delimited list of fields in the repeating section that were edited. for example: PARTNO_A5INSTANCE3 is the 'PARTNO' field in row 3.\n\n'-------------------------------------------------------------------------------------------\n\n\n'Also inside e:\n'e.tmpl = Component definition\n'e.rv = Request variables\n'session = Session variables\n'e.rtc = Runtime calculations - you can use this to store data to be passed to other server side events\n'e.arguments = SQL::Arguments object with values for each of the arguments defined in this component.  To read a value from arguments: e.arguments.find(\"argumentName\").data\n\n\n'You can can set these properties:\n'e.url - if you want to redirect to another page, set this property\n'e.javascript - if you want to send some javascript back to the browser, set this property.\n\n'You can set 'state' variables in this event. The value of any state variables will be available in all subsequent ajax callbacks.\n'To set a state variable:\n'e._set.myvar1 = \"value1\"\n'e._set.myvar2 = \"value2\"\n\n'To read the value of a 'state' variable that was previously set:\n'e._state.myvar1\n\n\n\n\nend function\n"
             }
         },
@@ -187,8 +187,8 @@
                     "tableInfo": "USERID=C|F|T|NationalVaryingCharacter|!!|USERID\nACCESSCODE=N|F|T|Integer32|!!|ACCESSCODE\nFIRSTNAME=C|F|T|NationalVaryingCharacter|!!|FIRSTNAME\nLASTNAME=C|F|T|NationalVaryingCharacter|!!|LASTNAME\nUSERTYPE=N|F|T|Integer32|!!|USERTYPE\nPHONE=C|F|T|NationalVaryingCharacter|!!|PHONE\nAVATARURL=C|F|T|NationalVaryingCharacter|!!|AVATARURL\nCOMPANY=C|F|T|NationalVaryingCharacter|!!|COMPANY\nDEPARTMENT=C|F|T|NationalVaryingCharacter|!!|DEPARTMENT\nSECURITYGROUPS=C|F|T|NationalVaryingCharacter|!!|SECURITYGROUPS\n",
                     "UpdateWhereClause": "{USERID}=USERID = :old_USERID\n{ACCESSCODE}=(ACCESSCODE = :old_ACCESSCODE OR ACCESSCODE IS NULL AND :old_ACCESSCODE IS NULL)\n{FIRSTNAME}=(FIRSTNAME = :old_FIRSTNAME OR FIRSTNAME IS NULL AND :old_FIRSTNAME IS NULL)\n{LASTNAME}=(LASTNAME = :old_LASTNAME OR LASTNAME IS NULL AND :old_LASTNAME IS NULL)\n{USERTYPE}=(USERTYPE = :old_USERTYPE OR USERTYPE IS NULL AND :old_USERTYPE IS NULL)\n{PHONE}=(PHONE = :old_PHONE OR PHONE IS NULL AND :old_PHONE IS NULL)\n{AVATARURL}=(AVATARURL = :old_AVATARURL OR AVATARURL IS NULL AND :old_AVATARURL IS NULL)\n{COMPANY}=(COMPANY = :old_COMPANY OR COMPANY IS NULL AND :old_COMPANY IS NULL)\n{DEPARTMENT}=(DEPARTMENT = :old_DEPARTMENT OR DEPARTMENT IS NULL AND :old_DEPARTMENT IS NULL)\n{SECURITYGROUPS}=(SECURITYGROUPS = :old_SECURITYGROUPS OR SECURITYGROUPS IS NULL AND :old_SECURITYGROUPS IS NULL)\n",
                     "readonly": false,
-                    "flagOverwriteExistingPrimaryKeySettings": false,
                     "tableInfoCRC": 4294905992,
+                    "flagOverwriteExistingPrimaryKeySettings": false,
                     "fieldList": "USERID\nACCESSCODE\nFIRSTNAME\nLASTNAME\nUSERTYPE\nPHONE\nAVATARURL\nCOMPANY\nDEPARTMENT\nSECURITYGROUPS\n",
                     "flagExistingPrimaryKeyIsValid": true,
                     "badFields": ""
@@ -199,8 +199,8 @@
         "info": {
             "createdBy": "terry",
             "dateCreated": "2020-7-8",
-            "dateLastEdited": "2020-7-8",
-            "revisionnumber": 11
+            "dateLastEdited": "2020-7-11",
+            "revisionnumber": 13
         },
         "flagShowCommentsInTree": true,
         "treeCommentOffset": "6",
@@ -1501,7 +1501,6 @@
                 "idInternal": "8050947a-b7de-4380-afd9-8db828a0db7f",
                 "parentContainer": 8,
                 "crc": "4294904370",
-                "containerStartIndex": 0,
                 "v": {
                     "controlType": "textbox",
                     "variableName": "AssignedGroup",
@@ -1510,12 +1509,14 @@
                     "watermark": {
                         "text": "<FieldLabel>"
                     },
+                    "precalc": {
+                        "javascriptAbstractSetupCode": ""
+                    },
                     "lookup": {
                         "editCombo": {
                             "openLookupOnFocus": false
                         }
                     },
-                    "textboxSubTheme": "",
                     "textboxAutocorrect": true,
                     "textboxAutoCapitalize": true,
                     "label": "AssignedGroup",
@@ -1541,8 +1542,6 @@
                         },
                         "type": "Mask"
                     },
-                    "getFunction": "",
-                    "setFunction": "",
                     "onChange_ValidationOption": "Client-side only",
                     "dataBinding": {
                         "updateable": true,
@@ -1560,29 +1559,38 @@
                             "inkunits": 1
                         }
                     },
+                    "textboxSubTheme": "",
+                    "getFunction": "",
+                    "setFunction": "",
                     "datePicker": {
+                        "displayTimePicker": false,
+                        "openMethod": "ClickIcon",
+                        "dateFormat": "<Default>",
+                        "iconNumber": 2,
+                        "timePickerOptionsDefined": false,
+                        "display": false,
                         "friendlyDisplay": {
                             "enabled": false,
                             "settingsJSON": ""
                         },
-                        "display": false,
-                        "displayTimePicker": false,
-                        "timePickerOptionsDefined": false,
-                        "openMethod": "ClickIcon",
                         "useComboBoxes": true,
-                        "dateFormat": "<Default>",
                         "lowYear": 1950,
                         "highYear": 2050,
                         "switchYear": 30,
-                        "iconNumber": 2,
                         "lowDate": "",
                         "highDate": "",
                         "disabledDays": "",
                         "disabledDates": ""
                     },
+                    "displayAsSlider": false,
+                    "flags": {
+                        "clientSideDefinition": false
+                    },
                     "specialtype": "None",
                     "specialtypeJSON": "",
-                    "displayAsSlider": false,
+                    "listView": {
+                        "class": ""
+                    },
                     "info": {
                         "level": 1,
                         "isContainerStart": false,
@@ -1605,22 +1613,14 @@
                         "parentPanelCardId": "",
                         "break": true,
                         "display": "{B=White,Light Blue}{C=System-ButtonShadow,White}{C=System-ButtonShadow,White}{I:'vertline'}{Data=8050947a-b7de-4380-afd9-8db828a0db7f}{I:'$$control.edit'} [AssignedGroup] ¶"
-                    },
-                    "listView": {
-                        "class": ""
-                    },
-                    "precalc": {
-                        "javascriptAbstractSetupCode": ""
-                    },
-                    "flags": {
-                        "clientSideDefinition": false
                     }
                 },
                 "precalc": {
                     "ControlHTML": "<span><input\ttype=\"text\" id=\"{grid.componentname}.V.R{grid.rownumber}.ASSIGNEDGROUP\" title=\"\"     class=\"[theme:edit.base.className|class.dialogInput] \" style=\"text-align: right; \"    name=\"V.R{grid.rownumber}.ASSIGNEDGROUP\"    value=\"\"    />\n</span>",
                     "DesignViewHTML": "",
                     "columnInfo": "'ASSIGNEDGROUP': {info: {controlType: 'textbox'}, hiddenVal: false, type: 'input,label', isCalc: false, hlp: '', isArray: false, dataType: 'N'  }\n"
-                }
+                },
+                "containerStartIndex": 0
             },
             {
                 "controlType": "layout_directive_FrameEnd",
@@ -2879,7 +2879,7 @@
                 "parentContainer": 30,
                 "displayOD": "{B=White,Light Blue}{I:'vertLine'}{Data=6d065e10-964a-499c-97fe-dc418fc8e74f}{I:'$$control.button'}[Button]",
                 "displayODtree": "{B=White,Light Blue}{I:'vertLine'}{Data=6d065e10-964a-499c-97fe-dc418fc8e74f}{I:'$$control.button'}[Button: Submit]",
-                "crc": "4294962105",
+                "crc": "4294931961",
                 "v": {
                     "buttonText": "Submit",
                     "Class": "<Default>",
@@ -3212,9 +3212,9 @@
         "keyboardShortcutsJSON": "",
         "preRenderWarningMessageShow": false,
         "autoSetPreRenderOnForAllUX": false,
-        "selected": "8050947a-b7de-4380-afd9-8db828a0db7f\n",
+        "selected": "b36b1a55-28d7-4934-8b40-a30b473f4603\n",
         "designPaneIndex": 1,
-        "masterPaneC": "controls",
+        "masterPaneC": "EventsServerSide",
         "serverSideEventIndex": 4,
         "clientSideEventIndex": 1,
         "clientSideEventIndexC": "1",
@@ -3232,7 +3232,7 @@
         "alphaFiveBuildNumber": "12",
         "openedFromTemplate": false,
         "builtWithVersionNumer": 1,
-        "_buildCount": "13",
+        "_buildCount": "15",
         "securityEnabled": false,
         "showHideIsUsed": true,
         "precalc": {
@@ -3377,7 +3377,7 @@
         "sassProcessor": true,
         "debugMode": false,
         "__jsLibraries": "<script type=\"text/javascript\" src=\"javascript/a5.js\"></script>\n<script type=\"text/javascript\" src=\"javascript/a5_url.js\"></script>\n",
-        "A5SaveTimeStamp": "20200708110032441",
+        "A5SaveTimeStamp": "20200711111852978",
         "a_actionJavascript": [
             {
                 "actionGuid": "0b354214-667b-4bde-8558-4413affb4a70",
@@ -3410,8 +3410,8 @@
         "serverSideActionsArray": [
             {
                 "name": "ValidateSecurity",
-                "xbasic": "dim rtc as p\ndim rtc.fieldMap as c ' security variable field map  - list of security values mapped to dialog variables\n\n'syntax for 'rtc.fieldMap' - Security field name = dialog variable name in square brackets.\nrtc.fieldMap = <<%text%\nuserid=[UserName]\npassword=[UserPassword]\nconfirm_password=[UserConfirmPassword]\ngroups=[UserRoles]\nguid=[UserGuid]\n%text%\n\ndim dialogValidate.hasError as l = default .F.\ndim dialogValidate.errorText as c\n\t\na5ws_ValidateUsersWithDialog(e, rtc)\n\ndim jsShowErrors as c\n\nif rtc.flagWebSecurityhasGlobalError = .T. then\n\tdialogValidate.hasError = .T. ' set .t. to show errors\n\tif rtc.flagWebSecurityhasFieldError = .F. ' error is not a field level validation error\n\t\tdialogValidate.errorText = rtc.WebSecurityGlobalErrorText\n\t\t'must set this flag to prevent the Dialog from clearing the error messages.\n\t\te.showGlobalError = .t.\n\t\tjsShowErrors = a5wsHelper_ShowGlobalErrorJS(e.tmpl,e.rtc,rtc.WebSecurityGlobalErrorText )\n\t\tdim e.javascript as c = default \"\"\n\t\te.javascript = \te.javascript + jsShowErrors\n\telse\n\t\t' must set values to show field level errors\n\t\tdialogValidate.errorText = \"No Message\" ' set as 'No Message' to hide global error message\n\t\tdim dialogValidate.fieldErrors[0] as p\n\t\tdialogValidate.fieldErrors.append_arrays(rtc.fieldErrors) 'field errors are returned as array\n\tend if \nend if \n'\tdim errorText as c \n'\terrorText = rtc.WebSecurityGlobalErrorText\n'\terrorText = stritran(errorText,crlf(),\"<br>\")\n'\tjsShowErrors = \";$svs('\"+e.tmpl.alias+\".GLOBALERRORS','\"+js_escape(errorText)+\"'); \" + crlf()+\\\n'\t\"$('\"+e.tmpl.alias+\".GLOBALERRORS').style.display = '';\"\n\nif rtc.WebSecurityUpdateJS <> \"\"\n\tdim e.javascript as c = default \"\"\n\te.javascript = \tremove_blank_lines(e.javascript + rtc.WebSecurityUpdateJS)\nend if \n",
-                "metadata": "<rtc<FindByField=\"User Name\">\n<FindByValue=\"e.rtc.UserName\">\n>\n<useridVariable=\"[UserName]\">\n<passwordVariable=\"[UserPassword]\">\n<confirm_passwordVariable=\"[UserConfirmPassword]\">\n<groupsVariable=\"[UserRoles]\">\n<rememberMeVariable=\"\">\n<RedirPageVariable=\"\">\n<emailVariable=\"\">\n<SecQuesVariable=\"\">\n<SecAnsVariable=\"\">\n<guidVariable=\"[UserGuid]\">\n<ulinkVariable=\"\">\n",
+                "xbasic": "dim rtc as p\ndim rtc.fieldMap as c ' security variable field map  - list of security values mapped to dialog variables\ndim rtc.messageMap as c ' security messages map  - list of response messages in quotes\n\n'syntax for 'rtc.fieldMap' - Security field name = dialog variable name in square brackets.\nrtc.fieldMap = <<%text%\nuserid=[UserName]\npassword=[UserPassword]\nconfirm_password=[UserConfirmPassword]\ngroups=[UserRoles]\nguid=[UserGuid]\n%text%\n\n'syntax for 'rtc.messageMap' - Message Name = Message text in quotes.\nrtc.messageMap = <<%text%\nMsgUserIdRequired=\"User ID is required\"\nMsgUserIdInvalid=\"UserId is not valid\"\nMsgUserIdNotUniqueMsg=\"User ID must be unique\"\nMsgPasswordRequired=\"Password is required\"\nMsgPasswordInvalid=\"Password is not valid\"\nMsgPasswordConfirmNoMatch=\"Confirm Password\"\nMsgPasswordReuseRestrictMessage=\"Invalid Password\"\nMsgUserFileDataMissing=\"Required Data Missing\"\nMsgNotSupported=\"Option is Not Supported\"\n%text%\n\ndim dialogValidate.hasError as l = default .F.\ndim dialogValidate.errorText as c\n\t\na5ws_ValidateUsersWithDialog(e, rtc)\n\ndim jsShowErrors as c\n\nif rtc.flagWebSecurityhasGlobalError = .T. then\n\tdialogValidate.hasError = .T. ' set .t. to show errors\n\tif rtc.flagWebSecurityhasFieldError = .F. ' error is not a field level validation error\n\t\tdialogValidate.errorText = rtc.WebSecurityGlobalErrorText\n\t\t'must set this flag to prevent the Dialog from clearing the error messages.\n\t\te.showGlobalError = .t.\n\t\tjsShowErrors = a5wsHelper_ShowGlobalErrorJS(e.tmpl,e.rtc,rtc.WebSecurityGlobalErrorText )\n\t\tdim e.javascript as c = default \"\"\n\t\te.javascript = \te.javascript + jsShowErrors\n\telse\n\t\t' must set values to show field level errors\n\t\tdialogValidate.errorText = \"No Message\" ' set as 'No Message' to hide global error message\n\t\tdim dialogValidate.fieldErrors[0] as p\n\t\tdialogValidate.fieldErrors.append_arrays(rtc.fieldErrors) 'field errors are returned as array\n\tend if \nend if \n\nif rtc.WebSecurityUpdateJS <> \"\"\n\tdim e.javascript as c = default \"\"\n\te.javascript = \tremove_blank_lines(e.javascript + rtc.WebSecurityUpdateJS)\nend if \n",
+                "metadata": "<rtc<FindByField=\"User Name\">\n<FindByValue=\"e.rtc.UserName\">\n>\n<useridVariable=\"[UserName]\">\n<passwordVariable=\"[UserPassword]\">\n<confirm_passwordVariable=\"[UserConfirmPassword]\">\n<groupsVariable=\"[UserRoles]\">\n<rememberMeVariable=\"\">\n<RedirPageVariable=\"\">\n<emailVariable=\"\">\n<SecQuesVariable=\"\">\n<SecAnsVariable=\"\">\n<guidVariable=\"[UserGuid]\">\n<ulinkVariable=\"\">\n<MsgCurrentPasswordRequired=\"Current password is required\">\n<MsgLockoutActionMsg=\"Try Again Later\">\n<MsgNotSupported=\"Option is Not Supported\">\n<MsgPasswordConfirmNoMatch=\"Confirm Password\">\n<MsgPasswordInvalid=\"Password is not valid\">\n<MsgPasswordRequired=\"Password is required\">\n<MsgPasswordReuseRestrictMessage=\"Invalid Password\">\n<MsgRecoveryEmailInvalid=\"Not a valid E-mail address\">\n<MsgSecurityAnswerRequired=\"Security Answer is required\">\n<MsgSecurityQuestionAnswerRequired=\"Security Question and Answer are required\">\n<MsgUserFileDataMissing=\"Required Data Missing\">\n<MsgUserIdentFieldMissing=\"User Identifier field missing\">\n<MsgUserIdErrorMsg=\"Not a valid E-mail address\">\n<MsgUserIdInvalid=\"UserId is not valid\">\n<MsgUserIdNotUniqueMsg=\"User ID must be unique\">\n<MsgUserIdRequired=\"User ID is required\">\n<MsgUserNotFound=\"User is not found\">\n",
                 "builder": "ValidateSecurity"
             },
             {
@@ -3433,6 +3433,33 @@
                 "builder": "SaveSecurity"
             }
         ],
+        "__LPhostName": "Internet Explorer",
+        "_style_isInherited": false,
+        "flagOptimizedUXTree": true,
+        "flagReanalyzeContainers": false,
+        "_display": "",
+        "_conversiontoOptimizeUXTreeHasRun": true,
+        "PreRenderUXInSections": false,
+        "wrapPasswordFieldsInForms": true,
+        "useCSSFlexForContainerAlignment": true,
+        "pusherConfigJSON": "",
+        "pusherApp": false,
+        "_analyzecontainersjs": true,
+        "favoriteControls": "",
+        "_repeatingSectionPendingRecalc": "\n",
+        "cachecomponent": false,
+        "_crcXbEvents": 4294904123,
+        "_crcJSFunctions": 43605,
+        "_crcJSEvents": 43605,
+        "_treeErrors": "",
+        "loadJavascript": {
+            "detailViewImageCapture": true,
+            "controlbars": true,
+            "charts": true,
+            "formbox": true,
+            "pickers": true
+        },
+        "_flagUsesCharts": false,
         "securityVars": {
             "useridVariable": "[UserName]",
             "passwordVariable": "[UserPassword]",
@@ -3463,35 +3490,8 @@
             "MsgUserIdRequired": "User ID is required",
             "MsgUserNotFound": "User is not found"
         },
-        "_original_Style_name": "<ProjectStyle>",
-        "__LPhostName": "Internet Explorer",
-        "_style_isInherited": false,
-        "flagOptimizedUXTree": true,
-        "flagReanalyzeContainers": false,
-        "_display": "",
-        "_conversiontoOptimizeUXTreeHasRun": true,
-        "PreRenderUXInSections": false,
-        "wrapPasswordFieldsInForms": true,
-        "useCSSFlexForContainerAlignment": true,
-        "pusherConfigJSON": "",
-        "pusherApp": false,
-        "_analyzecontainersjs": true,
         "_flagForceRecalcChildren": true,
-        "_repeatingSectionPendingRecalc": "\n",
-        "cachecomponent": false,
-        "_crcXbEvents": 4294904123,
-        "_crcJSFunctions": 43605,
-        "_crcJSEvents": 43605,
-        "_treeErrors": "",
-        "loadJavascript": {
-            "detailViewImageCapture": true,
-            "controlbars": true,
-            "charts": true,
-            "formbox": true,
-            "pickers": true
-        },
-        "_flagUsesCharts": false,
-        "favoriteControls": "",
+        "_original_Style_name": "<ProjectStyle>",
         "_flagDoTreeview": false,
         "_move": {
             "index": 12,
@@ -3503,7 +3503,7 @@
             "output": {
                 "Head": {
                     "JavaScript": "*gzip:H4sIAAAAAAAAC5WMsQ6CQBAFexP/Aa/Hq+gOOjsqf2Cznq84PPGyuyD8vSQUFlaWM5NM0CipWGVrQesMi/mBZ96tq1Ri677Cc3Me1HXB79wdD+HfAU2Sfyanun/x/bIYZOTcp5uwJGi9NSJByRzBdp1GS08QRVW1NcPe4IcSfQAk7ywxxgAAAA==",
-                    "CSS_Link": "*gzip:H4sIAAAAAAAAC81YbU/jOBC+zyvtf7AKaEHa0NJeJUiBEwvdWyT2bgXscfdp5SZO48WNI8elsBX//cYvSZw0KbDch1MEjcfjmXnG48d2DjP5wAiSDyk56khyL7tBlnWO376J5YyhJfIWZHJLpSdx6sV0GjP4k17AGRc+EtMJ3u6918/OqNCdZ0R4GWEkkD5KeEKga5Z5ks+D2MOBpDyx8se3b2gk8IygZeNgFZBS2j0ZBjyRmCZEoGXEOJY+I5EcpTgMaTL1e+m91Tu9ucAPfC7RMu9Dv0InMoOQHoUm/N7L6A/dO+EiBJcgUmHyH157Z9beZ6Nv6Teh/S5o+ImGZCwEF6ecISsr2suQZinDD75JWjnqki+00jlkoablmMZZrofWjqMJg0R6E8aD21HFyV+ULD7zkJS6DUrjkMqqUi0Q0DlPCq111p85cNVjQ1hnVMiHdaZPGcErWah5z4yVVqvPG1TzVIRC1FxcQ02jpVlBgoSjCApb1Qzx91NZVfuULzioeaW1IKrhTzhrH0ZT1/gEB7dTwedJ6G9EUYQjjOaCbb+jMzwlWXcTirO7qax09+/3u5sRZaz7Nd0afjyjeMoTzPybmEqyNTjZ6g/6w+FW/7Q/ODD/d9NkuouH2tS7nZEpd38vvUcZZzREG9H+/miGxZQmsPZTvw/LMF+T6r0FwXmSzisJWjGshMauEtZGOjlbMdFvMlFSx5VmHRJ+mEup1gtPcUDlg787HEFiJBjALI3xtpUfDYH0zMjz5I5mdMLIBZQlWjpZr3Ok0ddkpKoE2AwF6lfRhYyBpoqkIBUYWtBQxvY9NtNvGvyOCDCz8FFMw5AkI1Twne636EzD4je0okOlTCHLh0JU5lEEmhPtCaQxOSWJVJxbJVM7q4pMfTyXPJ9moQPUEkXdHlYmfBRoI620+9jg9wJMt3htcbKW2R9Rg49LUyZPQHN9aNfrcLRn8Bg5m9N71Az4KSUT8VNarsdi21zrcp2W47Pcg0tyQ5XdJN9mc8orHxh+EgSQLNj9r6lk5M9EO6sJo6hBekYzDIsrdLwad7aukUM6BwcHBcsgRTN6/kIC9rBz8gjmIlNHmJRTXZt22mERSj4zA5Fr5rGK4AtOYDdqcW9LQnGecdZg3OFF5PULCrrGk2ue2tTYhk2JabWmwj3frI8rD8MNzawp5FL0C5JXjR0ta3i9vdJsIRy4mD9oYQnbtkvkRvAa8P8t0DzgvAacyc6BakkFpVpvJUbdKhGq5kvrvKGuXgPKxFdMn01VZfasTMGywK3EOW6BJc0ZJVTTLLHq9kvBWn+amFuX1Wvg26AL/MZTBb4RDWrLVZFBtVBdicqq29Zu1vJHhXhyFrXmcRI+Y1yvsrhgDPw4q8sKnOVlJOWUpDyjJmeCMMjeHRm9aJae4BiX/X5y2hbqXOplcBQjSmMhcNoA+We4CMZekRSDd7hIFbnWQbiLvQY8P5wNXDg9e8xVbxJhQTGrOlLFcRUIzthzcl5J03OBNafz2YusaUIrEHQ9/w8xuMT0JAin+Bs22yaObuSy5u1q7Ykmv2QguGUge81AlXuGj+CiYaK9oUnIF2hpv1MYnDik88zkyfkOsdLnWlDXlCYW6fV67pURbfT7/VEZYb+4CNUj7A93iuNv/Zjnx+qu0nzYc/oqxFSVm1NQVWa3z6ow32hqZvPThBEvV6oJsBKRX+w1hs8kmZ9LMkMryk7twB2Z8enl1QpblAQRgmuY5Y0gCEZIn5MtTwydu4bWHhZTlJv9yLm+erlae71yRzDPYVd/wTvW7+DhFnYBRsDrUaejFuFRR/dnMSGyU//Oh2JBoqMOvHaXX//+cjm+HP9xNr68uv7nYvxoDO9C52+TOWVhADUhv+0N1NfBwywQFChNkBmklEY0WXBxC8s2FeSOkoXr6Du+w0a9gzIRPOHu+4o3QKhHH+cAX4DqWxZjuOtfaeV1gNTzy7+6fx/oDRUAAA==",
+                    "CSS_Link": "*gzip:H4sIAAAAAAAAC81YbU/jOBC+zyvtf7AKaEHa0NJeJUiBEwvsLRJ7tyrscfdp5SZO48WNI8elsBX//cYvSZw0KbDch1MEjcfjmXnG48d2DjP5wAiSDyk56khyL7tBlnWO376J5YyhJfIWZHJLpSdx6sV0GjP4k17AGRc+EtMJ3u6918/OqNCdZ0R4GWEkkD5KeEKga5Z5ks+D2MOBpDyx8se3b2gk8IygZeNgFZBS2j0ZBjyRmCZEoGXEOJY+I5EcpTgMaTL1e+m91Tu9ucQPfC7RMu9Dv0InMoOQHoUm/N7L6A/dO+EiBJcgUmHyH157Z9beZ6Nv6Teh/S5o+ImG5FwILk45Q1ZWtJchzVKGH3yTtHLUmC+00gVkoablmMZZrofWjqMJg0R6E8aD21HFyV+ULD7zkJS6DUrnIZVVpVogoHORFFrrrD9z4KrHhrDOqJAP60yfMoJXslDznhkrrVafN6jmqQiFqLm4hppGS7OCBAlHERS2qhni76eyqvYpX3BQ80prQVTDn3DWPoymrvEJDm6ngs+T0N+IoghHGM0F235HZ3hKsu4mFGd3U1np7t/vdzcjylj3a7o1/HhG8ZQnmPk3MZVka3Cy1R/0h8Ot/ml/cGD+76bJdBcPtal3OyNT7v5eeo8yzmiINqL9/dEMiylNYO2nfh+WYb4m1XsLgosknVcStGJYCY1dJayNdHK2YqLfZKKkjivNOiT8MJdSrRee4oDKB393OILESDCAWRrjbSs/GgLpmZEXyR3N6ISRSyhLtHSyXudIo6/JSFUJsBkK1K+iCxkDTRVJQSowtKChjO17bKbfNPgdEWBm4aOYhiFJRqjgO91v0ZmGxW9oRYdKmUKWD4WozKMINCfaE0hjckoSqTi3SqZ2VhWZ+ngueT7NQgeoJYq6PaxM+CjQRlpp97HB7yWYbvHa4mQtsz+iBh9jUyZPQHN9aNfrcLRn8Bg5m9N71Az4KSUT8VNarsdi21zrcp2W47Pcg0tyQ5XdJN9mc8orHxh+EgSQLNj9r6lk5M9EO6sJo6hBekYzDIsrdLwad7aukUM6BwcHBcsgRTN6/kIC9rBz8gjmIlNHmJRTXZt22mERSj4zA5Fr5rGK4AtOYDdqcW9LQnGecdZg3OFF5PULCrrGk2ue2tTYhk2JabWmwj3frI8rD8MNzawp5FL0C5JXjR0ta3i9vdJsIRy4mD9oYQnbtkvkRvAa8P8t0DzgvAacyc6BakkFpVpvJUbdKhGq5kvrvKGuXgPKxFdMn01VZfasTMGywK3EOW6BJc0ZJVTTLLHq9kvBWn+amFuX1Wvg26AL/MZTBb4RDWrLVZFBtVBdicqq29Zu1vJHhXhyFrXmcRI+Y1yvsrhgDPw4q8sKnOVlJOWUpDyjJmeCMMjeHRm9aJae4BiX/X5y2hbqXOplcBQjSmMhcNoA+We4CMZekRSDd7hIFbnWQbiLvQY8P5wNXDg9e8xVbxJhQTGrOlLFcRUIzthzcl5J03OBNafz2YusaUIrEHQ9/w8xuMT0JAin+Bs22yaObuSy5u1q7Ykmv2QguGUge81AlXuGj+CiYaK9oUnIF2hpv1MYnDik88zkyfkOsdLnWlDXlCYW6fV67pURbfT7/VEZYb+4CNUj7A93iuNv/Zjnx+qu0nzYc/oqxFSVm1NQVWa3z6ow32hqZvPThBEvV6oJsBKRX+w1hs8kmV9IMkMryk7twB2Z8en4aoUtSoIIwTXM8kYQBCOkz8mWJ4bOXUNrD4spys1+5FxfvVytvV65I5jnsKu/4B3rd/BwC7sAI+D1qNNRi/Coo/uzmBDZqX/nQ7Eg0VEHXrvLr39/GZ+Pz/84Ox9fXf9zef5oDO9C52+TOWVhADUhv+0N1dfBwywQFChNkBmklEY0WXBxC8s2FeSOkoXr6Du+w0a9gzIRPOHu+4o3QKhHH+cAX4DqWxZjuOtfaeV1gNTzy785jzcQDRUAAA==",
                     "title": "*gzip:H4sIAAAAAAAAC7MpySzJSbULjbDRh7AAiMez8hEAAAA="
                 },
                 "body": {

@@ -11,7 +11,7 @@
         "A5ContainerClassPaddingForContainerWidthMode": "4px",
         "JavaScriptFunctionDeclarations": "function low_date() {\nvar d = date()-90;\nreturn d;\n}\n\n\n\n\nfunction high_date() {\n\nvar d = Date();\nreturn d;\n\n}",
         "layoutType": "ContainerWidth",
-        "previewMode": "MobileDevice",
+        "previewMode": "Default",
         "useDragScrolling": "Auto",
         "pageTitle": "UX",
         "waitMsg": {
@@ -166,16 +166,16 @@
                 "code": "<[1]<sectionName=\"<Top Level>\">\n<_aliasesAtThisLevel=<<%str%\nAlphaQryExtTimePoste\n%str%>\n<maxRowsToDisplay=1>\n<cascadingDropdownsInSection=\"\">\n<alias<[1]<aliasName=\"AlphaQryExtTimePoste\">\n<tableInfoForAlias=<<%str%\nPanelNumber=N|F|T|Integer32|!!|PanelNumber\nTimeID=N|F|T|Integer32|!!|TimeID\nDateReferred=T|F|T|DateTime|!!|DateReferred\nCaseNumber=C|F|T|NationalVaryingCharacter|!!|CaseNumber\nDefendant=C|F|T|NationalVaryingCharacter|!!|Defendant\ncharge1=C|F|T|NationalVaryingCharacter|!!|charge1\ncourtNumber=N|F|T|Integer32|!!|courtNumber\nAttyCode=N|F|T|Integer32|!!|AttyCode\nUserName=C|F|T|NationalVaryingCharacter|!!|UserName\nDateOfService=T|F|T|DateTime|!!|DateOfService\nCycle=N|F|T|Integer32|!!|Cycle\nLRSReferralID=N|F|T|Integer32|!!|LRSReferralID\nInCourtTime=N|F|T|Real|!!|InCourtTime\nOutCourtTime=N|F|T|Real|!!|OutCourtTime\nTravel=N|F|T|Currency|!!|Travel\nExpenses=N|F|T|Currency|!!|Expenses\nhourlyRate=N|F|T|Currency|!!|hourlyRate\nNotes=C|F|T|NationalVaryingCharacter|!!|Notes\nInvoiceNumber=N|F|T|Integer32|!!|InvoiceNumber\nTimeSheetNumber=N|F|T|Integer32|!!|TimeSheetNumber\nPosted=L|F|T|Boolean|!!|Posted\nExt1=N|F|T|Currency|!!|Ext1\nFullName=C|F|T|NationalVaryingCharacter|!!|FullName\nAddress1=C|F|T|NationalVaryingCharacter|!!|Address1\nCityState=C|F|T|NationalVaryingCharacter|!!|CityState\nAttyID2=N|F|T|Integer32|!!|AttyID2\n%str%>\n<variablesAndCorrespondingFieldNameForAlias=\"\">\n<variableAndCorrespondingFieldArrayIndex=\"\">\n<indexIntoTableArray=1>\n<parentLinkFields=\"\">\n<parentLinkVariables=\"\">\n<linkFields=\"\">\n<linkFieldsForDownstreamLinks=\"\">\n<tableType=\"SQL\">\n<tableName=\"AlphaQryExtTimePosted\">\n<parent=\"\">\n<readOnly=.F.>\n<sqlInsertSequence=\"\">\n<SQL_SecondPass=\"\">\n<allLinkedFields_onetomany=\"\">\n<allLinkedFields_onetoone=\"\">\n<xbToSetLinkingArguments_oneToMany=\"\">\n<xbToSetLinkingArguments_oneToOne=\"\">\n<xbToSetLinkingArguments_oneToManyFullyQualifiedFieldNames=\"\">\n<primaryKeyFields=\"TimeID\">\n<primaryKeyIsAutoIncrement=.F.>\n<sequenceName=\"\">\n<_isLevelParent=.T.>\n<tableInfo=<<%str%\nPanelNumber=N|F|T|Integer32|!!|PanelNumber\nTimeID=N|F|T|Integer32|!!|TimeID\nDateReferred=T|F|T|DateTime|!!|DateReferred\nCaseNumber=C|F|T|NationalVaryingCharacter|!!|CaseNumber\nDefendant=C|F|T|NationalVaryingCharacter|!!|Defendant\ncharge1=C|F|T|NationalVaryingCharacter|!!|charge1\ncourtNumber=N|F|T|Integer32|!!|courtNumber\nAttyCode=N|F|T|Integer32|!!|AttyCode\nUserName=C|F|T|NationalVaryingCharacter|!!|UserName\nDateOfService=T|F|T|DateTime|!!|DateOfService\nCycle=N|F|T|Integer32|!!|Cycle\nLRSReferralID=N|F|T|Integer32|!!|LRSReferralID\nInCourtTime=N|F|T|Real|!!|InCourtTime\nOutCourtTime=N|F|T|Real|!!|OutCourtTime\nTravel=N|F|T|Currency|!!|Travel\nExpenses=N|F|T|Currency|!!|Expenses\nhourlyRate=N|F|T|Currency|!!|hourlyRate\nNotes=C|F|T|NationalVaryingCharacter|!!|Notes\nInvoiceNumber=N|F|T|Integer32|!!|InvoiceNumber\nTimeSheetNumber=N|F|T|Integer32|!!|TimeSheetNumber\nPosted=L|F|T|Boolean|!!|Posted\nExt1=N|F|T|Currency|!!|Ext1\nFullName=C|F|T|NationalVaryingCharacter|!!|FullName\nAddress1=C|F|T|NationalVaryingCharacter|!!|Address1\nCityState=C|F|T|NationalVaryingCharacter|!!|CityState\nAttyID2=N|F|T|Integer32|!!|AttyID2\n%str%>\n<UpdateWhereClause=<<%str%\n{PanelNumber}=(PanelNumber = :old_PanelNumber OR PanelNumber IS NULL AND :old_PanelNumber IS NULL)\n{TimeID}=TimeID = :old_TimeID\n{DateReferred}=(DateReferred = :old_DateReferred OR DateReferred IS NULL AND :old_DateReferred IS NULL)\n{CaseNumber}=(CaseNumber = :old_CaseNumber OR CaseNumber IS NULL AND :old_CaseNumber IS NULL)\n{Defendant}=(Defendant = :old_Defendant OR Defendant IS NULL AND :old_Defendant IS NULL)\n{charge1}=(charge1 = :old_charge1 OR charge1 IS NULL AND :old_charge1 IS NULL)\n{courtNumber}=(courtNumber = :old_courtNumber OR courtNumber IS NULL AND :old_courtNumber IS NULL)\n{AttyCode}=(AttyCode = :old_AttyCode OR AttyCode IS NULL AND :old_AttyCode IS NULL)\n{UserName}=(UserName = :old_UserName OR UserName IS NULL AND :old_UserName IS NULL)\n{DateOfService}=(DateOfService = :old_DateOfService OR DateOfService IS NULL AND :old_DateOfService IS NULL)\n{Cycle}=(Cycle = :old_Cycle OR Cycle IS NULL AND :old_Cycle IS NULL)\n{LRSReferralID}=(LRSReferralID = :old_LRSReferralID OR LRSReferralID IS NULL AND :old_LRSReferralID IS NULL)\n{InCourtTime}=(InCourtTime = :old_InCourtTime OR InCourtTime IS NULL AND :old_InCourtTime IS NULL)\n{OutCourtTime}=(OutCourtTime = :old_OutCourtTime OR OutCourtTime IS NULL AND :old_OutCourtTime IS NULL)\n{Travel}=(Travel = :old_Travel OR Travel IS NULL AND :old_Travel IS NULL)\n{Expenses}=(Expenses = :old_Expenses OR Expenses IS NULL AND :old_Expenses IS NULL)\n{hourlyRate}=(hourlyRate = :old_hourlyRate OR hourlyRate IS NULL AND :old_hourlyRate IS NULL)\n{Notes}=(Notes = :old_Notes OR Notes IS NULL AND :old_Notes IS NULL)\n{InvoiceNumber}=(InvoiceNumber = :old_InvoiceNumber OR InvoiceNumber IS NULL AND :old_InvoiceNumber IS NULL)\n{TimeSheetNumber}=(TimeSheetNumber = :old_TimeSheetNumber OR TimeSheetNumber IS NULL AND :old_TimeSheetNumber IS NULL)\n{Posted}=Posted = :old_Posted\n{Ext1}=(Ext1 = :old_Ext1 OR Ext1 IS NULL AND :old_Ext1 IS NULL)\n{FullName}=(FullName = :old_FullName OR FullName IS NULL AND :old_FullName IS NULL)\n{Address1}=(Address1 = :old_Address1 OR Address1 IS NULL AND :old_Address1 IS NULL)\n{CityState}=(CityState = :old_CityState OR CityState IS NULL AND :old_CityState IS NULL)\n{AttyID2}=(AttyID2 = :old_AttyID2 OR AttyID2 IS NULL AND :old_AttyID2 IS NULL)\n%str%>\n<primaryKeyFieldTypes=\"N\">\n<primaryKeyValueSource=\"<VariableInSameAlias>\">\n<primaryKeyFieldsNative=<<%str%\nTimeID\n%str%>\n<tableNameNative=\"AlphaQryExtTimePosted\">\n<sql<FieldArgInfo>\n<flagPrimaryKeyIsAutoIncrement=.F.>\n<primaryKey_setArgumentsXbasic=<<%str%\nargs.add(\"PRIMARYKEY_AlphaQryExtTimePoste_1\",convert_type(e.dataSubmitted.,\"N\"))\n%str%>\n<primaryKey_setArgumentsXbasic_Method2=\"\">\n<primaryKey_setArgumentsXbasicMethodused=\"varinsamealias\">\n<refreshRowSQL=\"SELECT TimeID FROM AlphaQryExtTimePosted WHERE TimeID = :PRIMARYKEY_AlphaQryExtTimePoste_1\">\n<xbasicToSetLinkArguments_OneToMany=\"alias::\">\n<primaryKeyWhereClause=\"TimeID = :PRIMARYKEY_AlphaQryExtTimePoste_1\">\n<primaryKeyWhereClauseTable=\"TimeID = :PRIMARYKEY_AlphaQryExtTimePoste_1\">\n<primaryKeyWhereClauseSection=\"AlphaQryExtTimePoste.TimeID = :PRIMARYKEY_AlphaQryExtTimePoste_1\">\n<xbToSetPrimaryKeyArgsAfterRowRefresh=<<%str%\nargs.add(\"PRIMARYKEY_AlphaQryExtTimePoste_1\",rs.data(\"TimeID\"))\n%str%>\n<javascriptToRefreshControls=\"\">\n>\n<isParentOfLevel=.T.>\n<sqlCRUD<sql<insert<sqlInsert_ExcludePrimaryKey=\"INSERT INTO AlphaQryExtTimePosted () VALUES ()\">\n<sqlInsert_IncludePrimaryKey=\"INSERT INTO AlphaQryExtTimePosted () VALUES ()\">\n<sqlInsert_SetArgumentXbasic_ExcludePrimaryKey=\"\">\n<sqlInsert_SetArgumentXbasic_IncludePrimaryKey=\"\">\n<useSequences=.F.>\n<xbasicToCapturePrimaryKeys=<<%str%\nwith a_sections[is].alias[ia]\n\tdim primaryKeyValue[1] as p\nend with \n\na_sections[is].alias[ia].primaryKeyValue[1].value = rs.data(\"TimeID\")\n\na_sections[is].alias[ia].primaryKeyArgsXML = args.xml\n%str%>\n<xbasicToCapturePrimaryKeysByRow=<<%str%\nwith a_sections[is].rows[ir].alias[ia]\n\tdim primaryKeyValue[1] as p\nend with \n\na_sections[is].rows[ir].alias[ia].primaryKeyValue[1].value = rs.data(\"TimeID\")\n\na_sections[is].rows[ir].alias[ia].primaryKeyArgsXML = args.xml\n%str%>\n>\n<updateablefields=\"\">\n>\n>\n>\n>\n<sql<sqlSelect=\"SELECT FIRST 1 AlphaQryExtTimePoste.TimeID AS PRIMARYKEY_AlphaQryExtTimePoste_1 FROM AlphaQryExtTimePosted AlphaQryExtTimePoste\">\n<sqlCount=\"SELECT  Count(*)  FROM AlphaQryExtTimePosted AlphaQryExtTimePoste\">\n<xbasicMap_captureParentSideOfOneToManyLinks=\"\">\n<refreshRowWhereClause=\"AlphaQryExtTimePoste.TimeID= :primaryKey_AlphaQryExtTimePoste_1\">\n<rawDataInSection=\"\">\n>\n<javascriptToRefreshAllControlsInSection=\"\">\n<xBasicToSetOneToManyLinkArguments=\"\">\n>\n",
                 "sectionCount": 1
             },
-            "connectionString": "::Name::aconn",
+            "computeDataBindingEveryTimeComponentIsSaved": true,
             "tableType": "SQL",
-            "computeDataBindingEveryTimeComponentIsSaved": true
+            "connectionString": "::Name::aconn"
         },
         "actionJavascriptDefined": true,
         "info": {
             "createdBy": "terry",
             "dateCreated": "2020-5-5",
-            "dateLastEdited": "2020-7-10",
-            "revisionnumber": 69
+            "dateLastEdited": "2020-7-13",
+            "revisionnumber": 70
         },
         "flagShowCommentsInTree": true,
         "treeCommentOffset": "6",
@@ -364,12 +364,6 @@
                 "lastIndex": 12,
                 "parentContainer": 2,
                 "crc": "4294902697",
-                "precalc": {
-                    "ControlHTML": "'xbasic\n\nv._dirty = .f.\n\n\n",
-                    "DesignViewHTML": ""
-                },
-                "isCollapsed": false,
-                "containerStartIndex": 0,
                 "v": {
                     "container": {
                         "id": "PANELCARD_1"
@@ -441,7 +435,13 @@
                         "break": false,
                         "display": "{C=#104+150+112,White}{B=White,#104+150+112}{F=+B}{I:'vertline'}{I:'vertline'}{Data=a7d47688-2458-4fbe-9bb9-f7c2be04d338}{I:'$$web.panel.card'} [Panel Card: PANELCARD_1]"
                     }
-                }
+                },
+                "precalc": {
+                    "ControlHTML": "'xbasic\n\nv._dirty = .f.\n\n\n",
+                    "DesignViewHTML": ""
+                },
+                "isCollapsed": false,
+                "containerStartIndex": 0
             },
             {
                 "controlType": "layout_directive_ContainerBegin",
@@ -658,9 +658,6 @@
                     },
                     "specialtype": "None",
                     "specialtypeJSON": "",
-                    "listView": {
-                        "class": ""
-                    },
                     "info": {
                         "level": 4,
                         "isContainerStart": false,
@@ -683,6 +680,9 @@
                         "parentPanelCardId": "a7d47688-2458-4fbe-9bb9-f7c2be04d338",
                         "break": true,
                         "display": "{B=White,Light Blue}{I:'vertline'}{I:'vertline'}{I:'vertline'}{I:'vertline'}{Data=50602839-4c55-4ec8-83d8-558ea89a2832}{I:'$$control.edit'} [StartDate1]<<break>>"
+                    },
+                    "listView": {
+                        "class": ""
                     },
                     "precalc": {
                         "javascript_Lookupfields": "if(!{dialog.componentName}_DlgObj.fieldHelpers['STARTDATE1']) {  {dialog.componentName}_DlgObj.fieldHelpers['STARTDATE1'] = new A5.EditDateTime({\n\ttheme: '{dialog.style}',\n\tdateTime: {\n\t\tformat: '<DefaultDateFormat>',\n\t\tdatePicker: {\n\t\t\tdays: {dialog.object}.datePickerDayNames,\n\t\t\tmonths: {dialog.object}.datePickerMonthNames,\n\t\t\tstartDay: {dialog.object}.datePickerFirstDayOfWeek-1,\n\t\t\tcalendar: {\n\t\t\t\tlockColumnWidth: false,\n\t\t\t\tdaysOfWeek: {\n\t\t\t\t\tshow: true\n\t\t\t\t},\n\t\t\t\tweeksOfYear: {\n\t\t\t\t\tshow: false\n\t\t\t\t}\n\t\t\t},\n\t\t\tnavigator: {\n\t\t\t\theader: {\n\t\t\t\t\ttodayButton: {\n\t\t\t\t\t\tshow: true,\n\t\t\t\t\t\thtml: {dialog.object}.datePickerTodayButton,\n\t\t\t\t\t\ttip: ''\n\t\t\t\t\t}\n\t\t\t\t}\n\t\t\t},\n\t\t\tdisabledDates: {\n\t\t\t\tlow: '',\n\t\t\t\thigh: function() {\n\tif(typeof high_date!= 'undefined') return high_date();\n\telse return false;\n }\n,\n\t\t\t\tdays: []\n\t\t\t}\n\t\t},\n\t\tswitchYear: 30\n\t},\n\twindow: {\n\t\tautoGenerateButtons: false,\n\t\tbuttons: {\n\t\t\titems: [\n\t\t\t{\n\t\t\t\thtml: 'OK',\n\t\t\t\taction: 'commit'\n\t\t\t},\n\t\t\t{\n\t\t\t\thtml: 'Cancel',\n\t\t\t\taction: 'close'\n\t\t\t}]\n\t\t}\n\t},\n\tonSelect: function() {$e.execute(this,'change');} ,\n\tmultiple: {\n\t\tallow: false\n\t},\n\tselectionRequired: false\n});}",
@@ -821,9 +821,6 @@
                     },
                     "specialtype": "None",
                     "specialtypeJSON": "",
-                    "listView": {
-                        "class": ""
-                    },
                     "info": {
                         "level": 4,
                         "isContainerStart": false,
@@ -846,6 +843,9 @@
                         "parentPanelCardId": "a7d47688-2458-4fbe-9bb9-f7c2be04d338",
                         "break": false,
                         "display": "{B=White,Light Blue}{I:'vertline'}{I:'vertline'}{I:'vertline'}{I:'vertline'}{Data=c0f5dba2-ea33-4ab2-ac0a-78db2ba7d89b}{I:'$$control.edit'} [EndDate1]"
+                    },
+                    "listView": {
+                        "class": ""
                     }
                 },
                 "precalc": {
@@ -1272,12 +1272,6 @@
                 "lastIndex": 22,
                 "parentContainer": 2,
                 "crc": "4294948889",
-                "precalc": {
-                    "ControlHTML": "'xbasic\n\nv._dirty = .f.\n\n\n",
-                    "DesignViewHTML": ""
-                },
-                "isCollapsed": false,
-                "containerStartIndex": 0,
                 "v": {
                     "container": {
                         "id": "PANELCARD_2"
@@ -1349,7 +1343,13 @@
                         "break": false,
                         "display": "{C=#104+150+112,White}{B=White,#104+150+112}{F=+B}{I:'vertline'}{I:'vertline'}{Data=09534db7-a559-4e76-b6a9-d098b1d54605}{I:'$$web.panel.card'} [Panel Card: PANELCARD_2]"
                     }
-                }
+                },
+                "precalc": {
+                    "ControlHTML": "'xbasic\n\nv._dirty = .f.\n\n\n",
+                    "DesignViewHTML": ""
+                },
+                "isCollapsed": false,
+                "containerStartIndex": 0
             },
             {
                 "controlType": "layout_directive_ContainerBegin",
@@ -1569,9 +1569,6 @@
                     },
                     "specialtype": "None",
                     "specialtypeJSON": "",
-                    "listView": {
-                        "class": ""
-                    },
                     "info": {
                         "level": 4,
                         "isContainerStart": false,
@@ -1594,6 +1591,9 @@
                         "parentPanelCardId": "09534db7-a559-4e76-b6a9-d098b1d54605",
                         "break": true,
                         "display": "{B=White,Light Blue}{I:'vertline'}{I:'vertline'}{I:'vertline'}{I:'vertline'}{Data=c310cc4b_f287_4463_9cae_2629843c8ce5}{I:'$$control.edit'} [StartDate2]<<break>>"
+                    },
+                    "listView": {
+                        "class": ""
                     },
                     "precalc": {
                         "javascript_Lookupfields": "if(!{dialog.componentName}_DlgObj.fieldHelpers['STARTDATE2']) {  {dialog.componentName}_DlgObj.fieldHelpers['STARTDATE2'] = new A5.EditDateTime({\n\ttheme: '{dialog.style}',\n\tdateTime: {\n\t\tformat: '<DefaultDateFormat>',\n\t\tdatePicker: {\n\t\t\tdays: {dialog.object}.datePickerDayNames,\n\t\t\tmonths: {dialog.object}.datePickerMonthNames,\n\t\t\tstartDay: {dialog.object}.datePickerFirstDayOfWeek-1,\n\t\t\tcalendar: {\n\t\t\t\tlockColumnWidth: false,\n\t\t\t\tdaysOfWeek: {\n\t\t\t\t\tshow: true\n\t\t\t\t},\n\t\t\t\tweeksOfYear: {\n\t\t\t\t\tshow: false\n\t\t\t\t}\n\t\t\t},\n\t\t\tnavigator: {\n\t\t\t\theader: {\n\t\t\t\t\ttodayButton: {\n\t\t\t\t\t\tshow: true,\n\t\t\t\t\t\thtml: {dialog.object}.datePickerTodayButton,\n\t\t\t\t\t\ttip: ''\n\t\t\t\t\t}\n\t\t\t\t}\n\t\t\t},\n\t\t\tdisabledDates: {\n\t\t\t\tlow: '',\n\t\t\t\thigh: function() {\n\tif(typeof high_date!= 'undefined') return high_date();\n\telse return false;\n }\n,\n\t\t\t\tdays: [1,2,3,4,5,6]\n\t\t\t}\n\t\t},\n\t\tswitchYear: 30\n\t},\n\twindow: {\n\t\tautoGenerateButtons: false,\n\t\tbuttons: {\n\t\t\titems: [\n\t\t\t{\n\t\t\t\thtml: 'OK',\n\t\t\t\taction: 'commit'\n\t\t\t},\n\t\t\t{\n\t\t\t\thtml: 'Cancel',\n\t\t\t\taction: 'close'\n\t\t\t}]\n\t\t}\n\t},\n\tonSelect: function() {$e.execute(this,'change');} ,\n\tmultiple: {\n\t\tallow: false\n\t},\n\tselectionRequired: false\n});}",
@@ -1733,9 +1733,6 @@
                     },
                     "specialtype": "None",
                     "specialtypeJSON": "",
-                    "listView": {
-                        "class": ""
-                    },
                     "info": {
                         "level": 4,
                         "isContainerStart": false,
@@ -1758,6 +1755,9 @@
                         "parentPanelCardId": "09534db7-a559-4e76-b6a9-d098b1d54605",
                         "break": false,
                         "display": "{B=White,Light Blue}{I:'vertline'}{I:'vertline'}{I:'vertline'}{I:'vertline'}{Data=1b51fe95-2a9c-4672-a3a9-b8cb2f11ea7e}{I:'$$control.edit'} [EndDate2]"
+                    },
+                    "listView": {
+                        "class": ""
                     }
                 },
                 "precalc": {
@@ -2184,12 +2184,6 @@
                 "lastIndex": 32,
                 "parentContainer": 2,
                 "crc": "4294935040",
-                "precalc": {
-                    "ControlHTML": "'xbasic\n\nv._dirty = .f.\n\n\n",
-                    "DesignViewHTML": ""
-                },
-                "isCollapsed": false,
-                "containerStartIndex": 0,
                 "v": {
                     "container": {
                         "id": "PANELCARD_3"
@@ -2261,7 +2255,13 @@
                         "break": false,
                         "display": "{C=#104+150+112,White}{B=White,#104+150+112}{F=+B}{I:'vertline'}{I:'vertline'}{Data=47bc7e69-e3a6-4ee4-9505-9b2539b189cb}{I:'$$web.panel.card'} [Panel Card: PANELCARD_3]"
                     }
-                }
+                },
+                "precalc": {
+                    "ControlHTML": "'xbasic\n\nv._dirty = .f.\n\n\n",
+                    "DesignViewHTML": ""
+                },
+                "isCollapsed": false,
+                "containerStartIndex": 0
             },
             {
                 "controlType": "layout_directive_ContainerBegin",
@@ -2479,9 +2479,6 @@
                     },
                     "specialtype": "None",
                     "specialtypeJSON": "",
-                    "listView": {
-                        "class": ""
-                    },
                     "info": {
                         "level": 4,
                         "isContainerStart": false,
@@ -2504,6 +2501,9 @@
                         "parentPanelCardId": "47bc7e69-e3a6-4ee4-9505-9b2539b189cb",
                         "break": true,
                         "display": "{B=White,Light Blue}{I:'vertline'}{I:'vertline'}{I:'vertline'}{I:'vertline'}{Data=4272a45e-912e-42da-a617-e4ded762b7b4}{I:'$$control.edit'} [StartDate3]<<break>>"
+                    },
+                    "listView": {
+                        "class": ""
                     }
                 },
                 "precalc": {
@@ -2638,9 +2638,6 @@
                     },
                     "specialtype": "None",
                     "specialtypeJSON": "",
-                    "listView": {
-                        "class": ""
-                    },
                     "info": {
                         "level": 4,
                         "isContainerStart": false,
@@ -2663,6 +2660,9 @@
                         "parentPanelCardId": "47bc7e69-e3a6-4ee4-9505-9b2539b189cb",
                         "break": false,
                         "display": "{B=White,Light Blue}{I:'vertline'}{I:'vertline'}{I:'vertline'}{I:'vertline'}{Data=b7b484c5-4d79-401c-9e9b-1787a4b6e163}{I:'$$control.edit'} [EndDate3]"
+                    },
+                    "listView": {
+                        "class": ""
                     }
                 },
                 "precalc": {
@@ -3092,12 +3092,6 @@
                 "lastIndex": 41,
                 "parentContainer": 2,
                 "crc": "4294905065",
-                "precalc": {
-                    "ControlHTML": "'xbasic\n\nv._dirty = .f.\n\n\n",
-                    "DesignViewHTML": ""
-                },
-                "isCollapsed": false,
-                "containerStartIndex": 0,
                 "v": {
                     "container": {
                         "id": "PANELCARD_5"
@@ -3169,7 +3163,13 @@
                         "break": false,
                         "display": "{C=#104+150+112,White}{B=White,#104+150+112}{F=+B}{I:'vertline'}{I:'vertline'}{Data=1edce7b1-ea6d-4294-ab9d-87630b529316}{I:'$$web.panel.card'} [Panel Card: PANELCARD_5]"
                     }
-                }
+                },
+                "precalc": {
+                    "ControlHTML": "'xbasic\n\nv._dirty = .f.\n\n\n",
+                    "DesignViewHTML": ""
+                },
+                "isCollapsed": false,
+                "containerStartIndex": 0
             },
             {
                 "controlType": "layout_directive_ContainerBegin",
@@ -3358,9 +3358,6 @@
                     },
                     "specialtype": "None",
                     "specialtypeJSON": "",
-                    "listView": {
-                        "class": ""
-                    },
                     "info": {
                         "level": 4,
                         "isContainerStart": false,
@@ -3383,6 +3380,9 @@
                         "parentPanelCardId": "1edce7b1-ea6d-4294-ab9d-87630b529316",
                         "break": true,
                         "display": "{B=White,Light Blue}{I:'vertline'}{I:'vertline'}{I:'vertline'}{I:'vertline'}{Data=fdd65134-cb97-4c7d-a755-e2d8f87545e6}{I:'$$control.edit'} [Cycle]<<break>>"
+                    },
+                    "listView": {
+                        "class": ""
                     }
                 },
                 "precalc": {
@@ -3812,12 +3812,6 @@
                 "lastIndex": 50,
                 "parentContainer": 2,
                 "crc": "4294963118",
-                "precalc": {
-                    "ControlHTML": "'xbasic\n\nv._dirty = .f.\n\n\n",
-                    "DesignViewHTML": ""
-                },
-                "isCollapsed": false,
-                "containerStartIndex": 0,
                 "v": {
                     "container": {
                         "id": "REFERRAL_ID"
@@ -3889,7 +3883,13 @@
                         "break": false,
                         "display": "{C=#104+150+112,White}{B=White,#104+150+112}{F=+B}{I:'vertline'}{I:'vertline'}{Data=44c1601d-b5e5-4e0d-ad70-d997220dae09}{I:'$$web.panel.card'} [Panel Card: REFERRAL_ID]"
                     }
-                }
+                },
+                "precalc": {
+                    "ControlHTML": "'xbasic\n\nv._dirty = .f.\n\n\n",
+                    "DesignViewHTML": ""
+                },
+                "isCollapsed": false,
+                "containerStartIndex": 0
             },
             {
                 "controlType": "layout_directive_ContainerBegin",
@@ -4067,9 +4067,6 @@
                     },
                     "specialtype": "None",
                     "specialtypeJSON": "",
-                    "listView": {
-                        "class": ""
-                    },
                     "info": {
                         "level": 4,
                         "isContainerStart": false,
@@ -4092,6 +4089,9 @@
                         "parentPanelCardId": "44c1601d-b5e5-4e0d-ad70-d997220dae09",
                         "break": true,
                         "display": "{B=White,Light Blue}{I:'vertline'}{I:'vertline'}{I:'vertline'}{I:'vertline'}{Data=f58bbd3d-b84d-447d-b184-d77a10f20dd3}{I:'$$control.edit'} [ReferralID]<<break>>"
+                    },
+                    "listView": {
+                        "class": ""
                     }
                 },
                 "precalc": {
@@ -4936,7 +4936,7 @@
         "keyboardShortcutsJSON": "",
         "preRenderWarningMessageShow": true,
         "autoSetPreRenderOnForAllUX": false,
-        "selected": "c0a2ee9f-3d49-4d97-8269-b897a61dae47\n",
+        "selected": "4272a45e-912e-42da-a617-e4ded762b7b4\n",
         "designPaneIndex": 1,
         "masterPaneC": "controls",
         "serverSideEventIndex": 1,
@@ -4956,7 +4956,7 @@
         "alphaFiveBuildNumber": "12",
         "openedFromTemplate": false,
         "builtWithVersionNumer": 1,
-        "_buildCount": "68",
+        "_buildCount": "69",
         "securityEnabled": false,
         "showHideIsUsed": false,
         "precalc": {
@@ -5025,6 +5025,9 @@
             "hasFormViewControls": false,
             "setScreenHeightJS": "",
             "hasListColumnSelector": false,
+            "hasCharts": false,
+            "hasformbox": false,
+            "hasExpandingmenus": false,
             "actionsheet": {
                 "has": false
             },
@@ -5037,9 +5040,6 @@
                 "controlnamesListDataSource": "{dialog.object}._listsWithDependentTFControls = {}"
             },
             "requiredPlugins": "",
-            "hasCharts": false,
-            "hasformbox": false,
-            "hasExpandingmenus": false,
             "lightweightform": {
                 "has": false
             },
@@ -5110,7 +5110,7 @@
         "sassProcessor": true,
         "debugMode": false,
         "__jsLibraries": "<script type=\"text/javascript\" src=\"javascript/a5.js\"></script>\n<script type=\"text/javascript\" src=\"javascript/a5_url.js\"></script>\n",
-        "A5SaveTimeStamp": "20200710102805593",
+        "A5SaveTimeStamp": "20200713061512095",
         "a_actionJavascript": [
             {
                 "actionGuid": "5a44385e-14cf-4f04-bf41-6535f93cbe30       ",
@@ -5173,45 +5173,48 @@
                 "scriptMetaData": "<a_ajs<[1]<display=\"{I:'$$filter.clear'}{F=Tahoma,10}{C=Dark Blue,White}{B=Blue White,Dark Blue}Clear a Search on a Grid Component that is Embedded into a UX component.{T=4}{I:'a5_vertical_line'}Clear Search Criteria\">\n<action=\"Clear a Search on a Grid Component that is Embedded into a UX component.\">\n<icon=\"$$filter.clear\">\n<isCommentedOut=.F.>\n<comment=\"Clear Search Criteria\">\n<builder=\"a5ajs_Dialog_SearchEmbeddedGrid(v,wf,pv,dlg_mode,\\\"clearsearch\\\")\">\n<metaData=<<%str%\n<_transform=.F.>\n<_transformApikey=\"\">\n<_transformfields=\"\">\n<_transformformid=\"\">\n<embeddedComponentName=\"rpt_atty_select_grid\">\n<componentAlias=\"ATTYSELECTGRID\">\n<filterType=\"UserFilter\">\n<reportDataSource=\"\">\n<reportType=\"\">\n<searchSyntax=\"\">\n<flagDebugging=.F.>\n<divId=\"\">\n<keywordSearch=.F.>\n<keywordControl=\"\">\n<keywordSearchFields=\"\">\n<combineMultipleConditionsWith=\"AND\">\n<sortfieldsjson=\"\">\n<fields>\n<flagFieldsDefined=.F.>\n<controlsToClear=\"ReferralID,Cycle,EndDate3,StartDate3,EndDate2,StartDate2,EndDate1,StartDate1\">\n%str%>\n<javascriptAttribute=\"{dialog.object}._functions.action_BUTTON_10_{actionNumber}();\">\n<Javascriptdeclarations_row=\"\">\n<Javascriptdeclarations_global=<<%str%\n{dialog.object}._functions.action_BUTTON_10_{actionNumber} = function() {\nvar _d = {};\n_d['REFERRALID'] = '';\n_d['CYCLE'] = '';\n_d['ENDDATE3'] = '';\n_d['STARTDATE3'] = '';\n_d['ENDDATE2'] = '';\n_d['STARTDATE2'] = '';\n_d['ENDDATE1'] = '';\n_d['STARTDATE1'] = '';\n\n{dialog.object}.populate(_d);\n{dialog.object}.refreshClientSideComputations();\n{dialog.EmbeddedGrid_ATTYSELECTGRID}.showAll();\n};%str%>\n<xbasicFunctions=\"\">\n>\n>\n<flagRunSynchronously=.F.>\n<flagWrapInTryCatch=.F.>\n<tryCatchJavascript=\"\">\n"
             }
         ],
+        "flagOptimizedUXTree": true,
+        "flagReanalyzeContainers": false,
+        "minimumBuildNumber": "",
+        "_display": "",
         "style_color_palette": "",
-        "customTabOrder": "",
         "showPulseEffect": true,
         "flagShowDeleteConfirmation": true,
+        "pusherConfigJSON": "",
+        "pusherApp": false,
+        "__LPhostName": "Internet Explorer",
+        "_style_isInherited": false,
+        "_flagForceRecalcChildren": true,
+        "cachecomponent": false,
+        "_treeErrors": "",
+        "_flagDoTreeview": true,
+        "_move": {
+            "index": 40,
+            "targetIndex": 41,
+            "count": 1
+        },
+        "customTabOrder": "",
+        "_conversiontoOptimizeUXTreeHasRun": true,
         "friendlydatesCustomizationJSON": "",
         "captureJSErrorStackTrace": false,
         "optionalSystemLibraries": "",
-        "minimumBuildNumber": "",
         "useIphoneXStyling": false,
         "iPhoneXStylingJSON": "",
-        "__flagHasMacro": false,
-        "preRenderOptimization": false,
-        "__componentnotfound": false,
-        "__changeAJAXURL": "",
-        "__phoneGapInstantUpdate": false,
-        "_isPartial": false,
-        "__flagCreateAppCache": false,
-        "__idinternalCurrentControl": "c310cc4b_f287_4463_9cae_2629843c8ce5",
-        "__nameCurrentControl": "StartDate2",
-        "_original_Style_name": "<ProjectStyle>",
-        "__LPhostName": "Internet Explorer",
-        "_style_isInherited": false,
-        "flagOptimizedUXTree": true,
-        "flagReanalyzeContainers": false,
-        "_display": "",
-        "_conversiontoOptimizeUXTreeHasRun": true,
-        "PreRenderUXInSections": false,
         "wrapPasswordFieldsInForms": true,
         "useCSSFlexForContainerAlignment": true,
-        "pusherConfigJSON": "",
-        "pusherApp": false,
         "_analyzecontainersjs": true,
-        "_flagForceRecalcChildren": true,
+        "__idinternalCurrentControl": "c310cc4b_f287_4463_9cae_2629843c8ce5",
+        "__nameCurrentControl": "StartDate2",
         "_repeatingSectionPendingRecalc": "\n",
-        "cachecomponent": false,
         "_crcXbEvents": 4294903431,
         "_crcJSFunctions": 4294954582,
         "_crcJSEvents": 43605,
-        "_treeErrors": "",
+        "__flagHasMacro": false,
+        "preRenderOptimization": false,
+        "__componentnotfound": false,
+        "_original_Style_name": "<ProjectStyle>",
+        "__changeAJAXURL": "",
+        "__phoneGapInstantUpdate": false,
         "loadJavascript": {
             "detailViewImageCapture": true,
             "controlbars": true,
@@ -5220,12 +5223,11 @@
             "pickers": true
         },
         "_flagUsesCharts": false,
-        "_flagDoTreeview": true,
-        "_move": {
-            "index": 40,
-            "targetIndex": 41,
-            "count": 1
-        },
+        "_isPartial": false,
+        "__flagCreateAppCache": false,
+        "PreRenderUXInSections": false,
+        "__allowCascadingRecalc": true,
+        "favoriteControls": "",
         "a_UnboundActionJavascript": [
             {
                 "idInternal": "ae8b7620-878d-4005-93bd-5f158935f8d0",
@@ -5250,18 +5252,17 @@
             }
         ],
         "actionJavascriptUnboundLastEdited": "ae8b7620-878d-4005-93bd-5f158935f8d0",
-        "__allowCascadingRecalc": true,
-        "favoriteControls": "",
         "showErrorDetail": true,
         "showJavascriptActions": false,
         "showResponsiveLayoutHelp": false,
         "_forceMobileSimulation": false,
+        "mobileDeviceDefault": "iphone4_v",
         "prerendered": {
             "_styledataVersion": 2,
             "output": {
                 "Head": {
                     "JavaScript": "*gzip:H4sIAAAAAAAAC5WMsQ6CQBAFexP/Aa/Hq+gOOjsqf2Cznq84PPGyuyD8vSQUFlaWM5NM0CipWGVrQesMi/mBZ96tq1Ri677Cc3Me1HXB79wdD+HfAU2Sfyanun/x/bIYZOTcp5uwJGi9NSJByRzBdp1GS08QRVW1NcPe4IcSfQAk7ywxxgAAAA==",
-                    "CSS_Link": "*gzip:H4sIAAAAAAAAC81YbVPbOBC+z53pf9CEMoWZmoRwuQEHuKFAW2boXSehx92njmLLsYpieWSFQDP891u92JYdO0C5DzceiLVa7e6zWj2SfJjJe0aQvE/JUUeSO9kNsqxz/PpVLGcMLZG3IJMbKj2JUy+m05jBn/QCzrjwkZhO8FbvnX62h4XuPCPCywgjgfRRwhMCXbPMk3wexB4OJOWJlT+8fkUjgWcELRsHq4CU0s7JIOCJxDQhAi0jxrH0GYnkMMVhSJOp30vvrN7p9SW+53OJlnkf+hU6kRmE9Cg04XdeRn/o3gkXIbgEkQqT//DaO7P2Pht9S78J7aOg4ScaknMhuDjlDFlZ0V6GNEsZvvdN0spRI77QSheQhZqWYxpnuR5aO44mDBLpTRgPboYVJ39RsvjMQ1LqNiidh1RWlWqBgM5FUmits/7EgaseG8I6o0LerzN9ygheyULNe2astFp92qCapyIUoubiCmoaLc0KEiQcRlDYqmaIv5/KqtqnfMFBzSutBVENf8JZ+zCausYnOLiZCj5PQn8jiiIcYTQXbOstneEpybpvoDi7b5SV7v7dfvdNRBnrfk03Bx/OKJ7yBDP/OqaSbO6dbPb3+oPBZv+0v3dg/u+kyXQHD7Spt9tDU+7+bnqHMs5oiDai/f3hDIspTWDtp34flmG+JtV7C4KLJJ1XErRiWAmNXSWsjXRytmKi32SipI6xZh0Svp9LqdYLT3FA5b2/MxhCYiQYwCyN8ZaVHw2A9MzIi+SWZnTCyCWUJVo6Wa9zpNHXZKSqBNgMBepX0YWMgaaKpCAVGFrQUMb2PTbTbxr8lggws/BRTMOQJENU8J3ut+hMw+I3tKJDpUwhy4dCVOZRBJoT7QmkMTkliVScWyVTO6uKTH08lzyfZqED1BJF3R5WJnwUaCOttPvQ4PcSTLd4bXGyltkfUIOPkSmTR6C5PrTrdTjaM3iMnM3pHWoG/JiSifgxLddjsW2udblOy/FZ7sEluaHKbpJvsznllQ8MPwkCSBbs/ldUMvJnop3VhFHUID2jGYbFFTpejTtb18ghnYODg4JlkKIZPX8hAXvYOXkEc5GpI0zKqa5NO+2wCCWfmYHINfNQRfAFJ7Abtbi3JaE4zzhrMO7wIvL6BQVd4ckVT21qbMOmxLRaU+Geb9bHlYfhhmbWFHIp+hnJq8aOljW83m5pthDuuZjfa2EJ27ZL5EbwEvD/LdA84LwGnMnOgWpJBaVabyVG3SoRquZz67yhrl4CysRXTJ9NVWX2rEzBssCtxDlugSXNGSVU0yyx6vZzwVp/mphbl9VL4NugC/zGUwW+Ee3Vlqsig2qhuhKVVbet3azljwrx5CxqzeMkfMK4XmVxwRj4cVaXFTjLy0jKKUl5Rk3OBGGQvVsyfNYsPcIxLvv95LQt1LnUy+AoRpTGQuC0AfLPcBGMHZMUg3e4SBW51kG4i70GPD+c7blwevaYq94kwoJiVnWkimMcCM7YU3JeSdNTgTWn88mLrGlCKxB0Pf8PMbjE9CgIp/gbNtsmjm7ksubtau2JJr9kILhlIHvNQJV7ho/gomGivaZJyBdoab9TGJw4pPPM5Mn5DrHS51pQ15QmFun1eu6VEW30+/1hGWG/uAjVI+wPtovjb/2Y58fqrtJ82HP6KsRUlZtTUFVmt8+qMN9oambz04QRL1eqCbASkV/sNYbPJJlfSDJDK8pO7cAdmfHpaLzCFiVBhOAaZnkjCIIh0udkyxMD566htQfFFOVmP3Cur16u1m6v3BHMc9jVX/CO9Tt4uIFdgBHwetTpqEV41NH9WUyI7NS/86FYkOioA6/d5de/v4zOR+d/nJ2Pxlf/XJ4/GMM70Pn7ZE5ZGEBNyG+/7auvg4dZIChQmiAzSCmNaLLg4gaWbSrILSUL19F3fIuNegdlInjE3fcVb4BQjz7OAT4D1bcsxnDXH2vldYDU88u/2G/ZKQ0VAAA=",
+                    "CSS_Link": "*gzip:H4sIAAAAAAAAC81YbVPbOBC+z53pf9CEMoWZmoTkcgMOcEOBtszQuw7Q4+5TR7HlWEWxPLJCoBn++61ebMuOHUK5DzceiLVa7e6zWj2SfJDJB0aQfEjJYUeSe9kNsqxz9PpVLKcMLZA3J+NbKj2JUy+mk5jBn/QCzrjwkZiM8VbvnX62R4XuLCPCywgjgfRRwhMCXdPMk3wWxB4OJOWJlT++fkUjgacELRoHq4CU0s7xMOCJxDQhAi0ixrH0GYnkKMVhSJOJ30vvrd7JzQV+4DOJFnkf+hU6kRmE9Cg05vdeRn/o3jEXIbgEkQqT//DaO7P2Pht9S78J7aOg4ScakjMhuDjhDFlZ0V6ENEsZfvBN0spRl3yulc4hCzUtxzTOcj20chxNGCTSGzMe3I4qTv6iZP6Zh6TUbVA6C6msKtUCAZ3zpNBaZX3NgcseG8I6pUI+rDJ9wgheykLNe2astFpdb1DNUxEKUXNxDTWNFmYFCRKOIihsVTPE30tlVe1TvuCg5pXWnKiGP+asfRhNXeNjHNxOBJ8lob8RRRGOMJoJtvWWTvGEZN03UJzdN8pKd+9+r/smoox1v6abww+nFE94gpl/E1NJNgfHm/1Bfzjc7J/0B/vm/06aTHbwUJt6uz0y5e7vpvco44yGaCPa2xtNsZjQBNZ+6vdhGeZrUr23IDhP0lklQUuGldDYVcLaSCdnSyb6TSZK6rjSrEPC9zMp1XrhKQ6ofPB3hiNIjAQDmKUx3rLywyGQnhl5ntzRjI4ZuYCyRAsn63WONPqajFSVAJuhQP0qupAx0FSRFKQCQ3Mayti+x2b6TYPfEQFm5j6KaRiSZIQKvtP9Fp1pWPyGVnSolClk+VCIyjyKQHOiPYY0JickkYpzq2RqZ1WRqY9nkufTLHSAWqKo28PKhI8CbaSVdh8b/F6A6RavLU5WMvsjavBxacrkCWiuD+16FY72DB4hZ3N6h5oBP6VkIn5Ky/VYbJsrXa7ScnyWe3BJbqiym+TbbE555QPDj4MAkgW7/zWVjPyZaGc1YRQ1SE9phmFxhY5X487WNXJIZ39/v2AZpGhGz19IwB52Th7BTGTqCJNyqmvTTjssQsmnZiByzTxWEXzBCexGLe5tSSjOM84ajDu8iLx+QUHXeHzNU5sa27ApMa3WVLjnm9Vx5WG4oZk1hVyKfkbyqrGjRQ2vt1uaLYQDF/N7LSxh23aJ3AheAv6/BZoHnNeAM9k5UC2poFTrrcSoWyVC1XxunTfU1UtAmfiK6bOpqsyelSlYFriVOMctsKQ5o4RqmiVW3X4uWOtPE3PrsnoJfBt0gd94qsA3okFtuSoyqBaqK1FZddvazUr+qBBPzqLWPE7CNcb1KosLxsCPs7qswFleRlJOScozanImCIPs3ZHRs2bpCY5x2e8np22uzqVeBkcxojTmAqcNkH+Gi2DsFUkxeIeLVJFrHYS72GvA88PZwIXTs8dc9SYRFhSzqiNVHFeB4Iytk/NKmtYF1pzOtRdZ04RWIOh6/h9icInpSRBO8Tdstk0c3chlzdvVyhNNfslAcMtA9pqBKvcMH8FFw0R7Q5OQz9HCfqcwOHFIZ5nJk/MdYqnPtaCuKU0s0uv13Csj2uj3+6Mywn5xEapH2B9uF8ff+jHPj9Vdpfmw5/RViKkqN6egqsxun1VhvtHUzOanCSNeLFUTYCUiv9hrDJ9JMjuXZIqWlJ3agTsy45PLqyW2KAkiBNcwyxtBEIyQPidbnhg6dw2tPSymKDf7gXN99XK1dnvljmCeg67+gnek38HDLewCjIDXw05HLcLDju7PYkJkp/6dD8WCRIcdeO0uvv795fLs8uyP07PLq+t/Ls4ejeEd6Px9PKMsDKAm5Lff9tXXwYMsEBQoTZAppJRGNJlzcQvLNhXkjpK56+g7vsNGvYMyETzh7vuSN0CoRx/lAJ+B6lsWY7jrX2nlVYDU88u/ODuS7w0VAAA=",
                     "title": "*gzip:H4sIAAAAAAAAC7MpySzJSbULjbDRh7AAiMez8hEAAAA="
                 },
                 "body": {

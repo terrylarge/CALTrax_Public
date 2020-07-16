@@ -398,4 +398,12 @@
 <action="login">
 <groups="f3fac67fdcd74fdabf40cd2663385180,Administrators,c3fe6b9f49f24540b4dcf0f43571e851,Attorneys,82743a54d30d40b8811e0e994e6cd9bc,Investigators,45b863d66a7441b38cff98c100d6f42a,Office">
 >
+<[101]<page="CaseEntryNew.a5wcmp">
+<action="login">
+<groups="f3fac67fdcd74fdabf40cd2663385180,Administrators,45b863d66a7441b38cff98c100d6f42a,Office">
+>
+<[102]<page="testReferralID.a5wcmp">
+<action="allow">
+<groups="">
+>
 >
